@@ -1,0 +1,678 @@
+
+<h2 class="sr-only">Summer Body 2026 v3 — trainingsapp met dagelijkse tracking, cup recepten, schema, voeding en boodschappen</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.app{max-width:680px;font-family:var(--font-sans)}
+.tabs{display:flex;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.25rem;gap:2px}
+.tb{flex:1;padding:10px 2px;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:var(--font-sans);font-size:11px;font-weight:500;color:var(--color-text-secondary);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.tb.on{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
+.tb i{font-size:16px}
+.sec{display:none}.sec.on{display:block}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:.75rem}
+.card-s{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:.75rem 1rem;margin-bottom:.75rem}
+.t1{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.t2{font-size:13px;color:var(--color-text-secondary)}
+.t3{font-size:12px;color:var(--color-text-secondary)}
+.t4{font-size:11px;color:var(--color-text-tertiary)}
+.nbig{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.bet{display:flex;align-items:center;justify-content:space-between}
+.row{display:flex;align-items:center;gap:8px}
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;gap:3px}
+.tp{background:#E1F5EE;color:#085041;border:0.5px solid #5DCAA5}
+.tl{background:#E6F1FB;color:#0C447C;border:0.5px solid #85B7EB}
+.tg{background:#FAEEDA;color:#633806;border:0.5px solid #EF9F27}
+.tr{background:#EEEDFE;color:#3C3489;border:0.5px solid #AFA9EC}
+.tcup{background:#FBEAF0;color:#72243E;border:0.5px solid #ED93B1}
+.pill{padding:5px 10px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;font-size:12px;font-weight:500;font-family:var(--font-sans);color:var(--color-text-secondary);white-space:nowrap}
+.pill.ap{background:#E1F5EE;border-color:#5DCAA5;color:#085041}
+.pill.ab{background:#E6F1FB;border-color:#85B7EB;color:#0C447C}
+.pill.aa{background:#FAEEDA;border-color:#EF9F27;color:#633806}
+.pill.ac{background:var(--color-background-primary);border-color:var(--color-border-primary);color:var(--color-text-primary)}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:8px;margin-bottom:1.25rem}
+.dbtn{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 4px;cursor:pointer;text-align:center;font-family:var(--font-sans);width:100%}
+.dbtn:hover{border-color:var(--color-border-secondary)}
+.dbtn.off{opacity:.3}
+.dbtn.tdy{border:1.5px solid var(--color-text-primary)}
+.srow{display:flex;gap:6px}
+.sbtn{flex:1;height:40px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);cursor:pointer;font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--color-text-secondary)}
+.sbtn.done{background:#E1F5EE;border-color:#5DCAA5;color:#085041}
+.wctrl{display:flex;align-items:center;gap:10px}
+.wbtn{width:36px;height:36px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);cursor:pointer;font-size:18px;color:var(--color-text-secondary);font-family:var(--font-sans)}
+.wval{flex:1;text-align:center;font-size:18px;font-weight:500;color:var(--color-text-primary)}
+.ptrack{height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden;margin-top:8px}
+.pfill{height:100%;border-radius:3px;transition:width .3s}
+.shbtn{display:flex;align-items:center;gap:10px;padding:10px 0;border:none;border-bottom:0.5px solid var(--color-border-tertiary);background:none;width:100%;cursor:pointer;font-family:var(--font-sans)}
+.shbtn.dn{opacity:.4}
+.cb{width:24px;height:24px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cb.on{background:#E1F5EE;border-color:#5DCAA5;color:#085041}
+.exacc{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:8px;overflow:hidden}
+.exhdr{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;background:none;border:none;width:100%;font-family:var(--font-sans);text-align:left}
+.exhdr:hover{background:var(--color-background-secondary)}
+.exbdy{padding:0 14px 14px;border-top:0.5px solid var(--color-border-tertiary)}
+.tipbox{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px;font-size:12px;color:var(--color-text-secondary);margin:10px 0}
+.mlacc{border-bottom:0.5px solid var(--color-border-tertiary)}
+.mlhdr{display:flex;align-items:center;padding:12px 0;cursor:pointer;background:none;border:none;width:100%;font-family:var(--font-sans);gap:10px;text-align:left}
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
+.mbox{text-align:center;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 4px}
+.stepn{width:22px;height:22px;border-radius:50%;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--color-text-secondary);flex-shrink:0;margin-top:1px}
+.savbtn{width:100%;padding:13px;background:var(--color-background-primary);border:0.5px solid var(--color-border-primary);border-radius:var(--border-radius-lg);cursor:pointer;font-family:var(--font-sans);font-size:13px;font-weight:500;color:var(--color-text-primary);margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:6px}
+.savbtn:hover{background:var(--color-background-secondary)}
+.savbtn.sv{background:#E1F5EE;border-color:#5DCAA5;color:#085041}
+.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem}
+.qstat{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 8px;text-align:center}
+.qstat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
+.qicon{font-size:18px;color:var(--color-text-secondary);margin-bottom:4px}
+.qval{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.qlbl{font-size:10px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.5px}
+.streak-row{display:grid;grid-template-columns:60px repeat(7,1fr);gap:4px;align-items:center;margin-bottom:6px}
+.streak-cell{aspect-ratio:1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500}
+.streak-on{background:#E1F5EE;color:#085041}
+.streak-off{background:var(--color-background-secondary);color:var(--color-text-tertiary)}
+.streak-today{outline:1.5px solid var(--color-text-primary);outline-offset:1px}
+.run-input{width:100%;height:36px;padding:0 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);font-family:var(--font-sans);font-size:13px;color:var(--color-text-primary)}
+.toggle-card{cursor:pointer;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:.75rem;width:100%;text-align:left;font-family:var(--font-sans)}
+.toggle-card.on{background:#E1F5EE;border-color:#5DCAA5}
+.cup-card{background:#FBEAF0;border:0.5px solid #ED93B1;border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:.75rem}
+.cup-section{padding:12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-top:8px}
+</style>
+
+<div class="app">
+  <div class="tabs">
+    <button class="tb on" data-tab="vandaag" onclick="switchTab('vandaag')"><i class="ti ti-home" aria-hidden="true"></i><span>Vandaag</span></button>
+    <button class="tb" data-tab="schema" onclick="switchTab('schema')"><i class="ti ti-calendar" aria-hidden="true"></i><span>Schema</span></button>
+    <button class="tb" data-tab="training" onclick="switchTab('training')"><i class="ti ti-barbell" aria-hidden="true"></i><span>Training</span></button>
+    <button class="tb" data-tab="voeding" onclick="switchTab('voeding')"><i class="ti ti-leaf" aria-hidden="true"></i><span>Voeding</span></button>
+    <button class="tb" data-tab="shop" onclick="switchTab('shop')"><i class="ti ti-shopping-cart" aria-hidden="true"></i><span>Shop</span></button>
+  </div>
+  <div id="vandaag" class="sec on"></div>
+  <div id="schema" class="sec"></div>
+  <div id="training" class="sec"></div>
+  <div id="voeding" class="sec"></div>
+  <div id="shop" class="sec"></div>
+</div>
+
+<script>
+const TD=[
+  {date:'2026-05-08',type:'push',s:1},{date:'2026-05-11',type:'pull',s:2},
+  {date:'2026-05-13',type:'legs',s:3},{date:'2026-05-15',type:'push',s:4},
+  {date:'2026-05-18',type:'pull',s:5},{date:'2026-05-20',type:'legs',s:6},
+  {date:'2026-05-22',type:'push',s:7},{date:'2026-05-25',type:'pull',s:8},
+  {date:'2026-05-27',type:'legs',s:9},{date:'2026-05-29',type:'push',s:10},
+  {date:'2026-06-01',type:'pull',s:11},{date:'2026-06-03',type:'legs',s:12},
+  {date:'2026-06-05',type:'push',s:13},{date:'2026-06-08',type:'pull',s:14},
+  {date:'2026-06-10',type:'legs',s:15},{date:'2026-06-12',type:'push',s:16},
+  {date:'2026-06-15',type:'pull',s:17},{date:'2026-06-17',type:'legs',s:18},
+  {date:'2026-06-19',type:'push',s:19},{date:'2026-06-22',type:'pull',s:20},
+  {date:'2026-06-24',type:'legs',s:21},{date:'2026-06-25',type:'push',s:22},
+]
+const EX={
+  push:[
+    {id:'bench',n:'Bench Press',m:'Borst',w:60,sets:4,reps:8,c:1,u:'kg',tip:'Schouderbladen ingedrukt, voeten op vloer, stang gecontroleerd naar borst'},
+    {id:'incdb',n:'Incline DB Press',m:'Borst (boven)',w:16,sets:3,reps:10,c:1,u:'kg/hand',tip:'Bank op 30-45°, dumbbells langzaam omlaag, stretch voelen'},
+    {id:'cfly',n:'Cable Fly / Pec Deck',m:'Borst',w:25,sets:3,reps:12,c:0,u:'kg',tip:'Lichte buiging elleboog, borstspieren samentrekken en knijpen'},
+    {id:'sohp',n:'Seated DB Shoulder Press',m:'Schouders',w:16,sets:3,reps:10,c:1,u:'kg/hand',tip:'Rug recht, dumbbells vanuit schouderhoogte verticaal persen'},
+    {id:'latr',n:'Lateral Raises',m:'Zijdeltoid',w:8,sets:3,reps:15,c:0,u:'kg/hand',tip:'Lichte buiging elleboog, tot schouderhoogte, langzaam terug'},
+    {id:'tpd',n:'Tricep Pushdown',m:'Triceps',w:22.5,sets:3,reps:12,c:0,u:'kg',tip:'Ellebogen strak langs lichaam, volle extensie, squeeze'},
+    {id:'skull',n:'Skull Crushers',m:'Triceps',w:22.5,sets:3,reps:12,c:0,u:'kg',tip:'EZ-bar, ellebogen omhoog, gecontroleerd omlaag'},
+  ],
+  pull:[
+    {id:'lpd',n:'Lat Pulldown',m:'Rug (breed)',w:62.5,sets:4,reps:8,c:1,u:'kg',tip:'Brede greep, naar borst trekken, schouderbladen samentrekken onderaan'},
+    {id:'scrow',n:'Seated Cable Row',m:'Rug (midden)',w:55,sets:4,reps:10,c:1,u:'kg',tip:'Rechte rug, ellebogen langs lichaam, volle range of motion'},
+    {id:'dbrow',n:'Single-arm DB Row',m:'Rug',w:22,sets:3,reps:12,c:1,u:'kg/hand',tip:'Knie op bank, rug horizontaal, elleboog hoog trekken'},
+    {id:'fpull',n:'Face Pulls',m:'Achterschouders',w:20,sets:3,reps:15,c:0,u:'kg',tip:'Touw naar gezicht, ellebogen hoog, achterschouder squeezen'},
+    {id:'bbcurl',n:'Barbell Curl',m:'Biceps',w:30,sets:3,reps:10,c:0,u:'kg',tip:'Geen slingeren, ellebogen gefixeerd, volle stretch en knijp'},
+    {id:'idcurl',n:'Incline DB Curl',m:'Biceps (long head)',w:10,sets:3,reps:12,c:0,u:'kg/hand',tip:'Bank op 60°, volle stretch onderaan voor maximale activatie'},
+  ],
+  legs:[
+    {id:'squat',n:'Barbell Back Squat',m:'Quads / Glutes',w:70,sets:4,reps:8,c:1,u:'kg',tip:'Schouderbreedte, heupen onder kniehoogte, borst omhoog'},
+    {id:'rdl',n:'Romanian Deadlift',m:'Hamstrings / Glutes',w:62.5,sets:3,reps:10,c:1,u:'kg',tip:'Knieën licht gebogen, stang langs benen, rug recht'},
+    {id:'lpress',n:'Leg Press',m:'Quads',w:100,sets:3,reps:12,c:1,u:'kg',tip:'Voeten schouderbreedte, knieën NIET volledig strekken'},
+    {id:'lcurl',n:'Leg Curl',m:'Hamstrings',w:37.5,sets:3,reps:12,c:0,u:'kg',tip:'Gecontroleerd omlaag, volle range of motion'},
+    {id:'calf',n:'Standing Calf Raise',m:'Kuiten',w:50,sets:4,reps:15,c:0,u:'kg',tip:'Volle stretch onderaan, explosief omhoog, pauze bovenkant'},
+    {id:'plank',n:'Plank',m:'Core',w:45,sets:3,reps:1,c:0,u:'sec',tip:'Lichaam recht als plank, billen niet omhoog, buik aanspannen'},
+  ]
+}
+const TCONF={
+  push:{label:'Push',muscles:'Borst · Schouders · Triceps',cls:'tp',pill:'ap',col:'#5DCAA5'},
+  pull:{label:'Pull',muscles:'Rug · Biceps · Achterschouders',cls:'tl',pill:'ab',col:'#85B7EB'},
+  legs:{label:'Legs',muscles:'Quads · Hamstrings · Kuiten',cls:'tg',pill:'aa',col:'#EF9F27'},
+}
+const MEALS=[
+  {day:'Maandag',tot:{k:2400,p:188,c:253,f:60},m:[
+    {l:'Ontbijt',n:'Havermout powerbow',k:620,p:42,c:75,f:18,
+     ing:['80g havermout','200ml halfvolle melk','1 banaan','150g skyr 0%','20g walnoten','1 tl honing'],
+     steps:['Kook havermout met melk op middelhoog vuur (~3 min).','Giet in kom, laat iets afkoelen.','Lepel skyr erbij of roer door.','Top af met banaan, walnoten en honing.']},
+    {l:'Lunch',n:'Kip wrap',k:580,p:48,c:55,f:14,
+     ing:['150g kipfilet','2 volkoren wraps','50g hummus','½ paprika','½ komkommer','Handvol sla'],
+     steps:['Kruid kip met paprikapoeder, zout, peper.','Bak 5-6 min/kant op middelhoog vuur, laat rusten.','Snijd in reepjes.','Beleg wraps met hummus, groenten en kip.']},
+    {l:'Snack',n:'Kwark + appel + noten',k:310,p:26,c:28,f:10,cup:1,
+     ing:['250g magere kwark (in de cup)','1 appel in blokjes (in deksel)','15g mixed nuts (in deksel)'],
+     steps:['Kwark onderin de cup.','Appel + noten in het bovencompartiment.','Mix vlak voor het eten.']},
+    {l:'Avondeten',n:'Kip-rijst-broccoli',k:890,p:72,c:95,f:18,
+     ing:['200g kipfilet','150g zilvervlies rijst (droog)','250g broccoli','1 el olijfolie','1 teen knoflook'],
+     steps:['Kook rijst 25 min.','Stoom broccoli 8 min.','Bak kip met knoflook in olijfolie 6 min/kant.','Alles samenbrengen.']},
+  ]},
+  {day:'Dinsdag',tot:{k:2400,p:155,c:214,f:92},m:[
+    {l:'Ontbijt',n:'Eieren & avocado toast',k:520,p:36,c:42,f:22,
+     ing:['3 eieren','2 sneetjes volkorenbrood','½ avocado','100g spinazie','1 tl olijfolie'],
+     steps:['Bak spinazie in olijfolie 2 min.','Voeg eieren toe voor roerei, kruid af.','Toast brood.','Serveer met geprakte avocado.']},
+    {l:'Lunch',n:'Tonijn pasta salade',k:600,p:45,c:65,f:14,
+     ing:['150g volkoren pasta','1 blikje tonijn (160g)','½ komkommer, ½ paprika','50g maïs','2 el lichte mayo'],
+     steps:['Kook pasta al dente, spoel af met koud water.','Meng met tonijn, groenten, maïs en mayo.','Koud serveren.']},
+    {l:'Snack',n:'Griekse yoghurt + noten',k:340,p:22,c:22,f:18,cup:1,
+     ing:['200g Griekse yoghurt 2% + ½ banaan geprakt (in cup)','20g mixed nuts (in deksel)','1 tl honing'],
+     steps:['Yoghurt + banaan onderin cup.','Noten in compartiment.','Honing erover bij het eten.']},
+    {l:'Avondeten',n:'Zalm + zoete aardappel',k:940,p:52,c:85,f:38,
+     ing:['200g zalmfilet','300g zoete aardappel','200g sperziebonen','1 el olijfolie','Citroen, dille, knoflook'],
+     steps:['Oven 200°C. Zoete aardappel in blokjes met olie + zout, 25 min.','Zalm met dille + citroen, 12-15 min bakken.','Sperziebonen 5 min blancheren.']},
+  ]},
+  {day:'Woensdag',tot:{k:2400,p:172,c:245,f:72},m:[
+    {l:'Ontbijt',n:'Proteïne pannenkoekjes',k:560,p:38,c:70,f:14,
+     ing:['80g havermout (gemalen)','2 eieren','1 rijpe banaan','100ml melk','½ tl bakpoeder','1 tl kokosolie'],
+     steps:['Blend alle ingrediënten tot glad beslag.','Bak kleine pannenkoekjes in kokosolie, 2-3 min/kant.','Serveer met magere kwark.']},
+    {l:'Lunch',n:'Gehakt wrap',k:640,p:44,c:58,f:22,
+     ing:['150g mager rundergehakt','2 volkoren wraps','50g hummus','½ tomaat','Sla'],
+     steps:['Bak gehakt rul met komijn + paprikapoeder.','Beleg wraps met hummus, sla, tomaat en gehakt.','Oprollen.']},
+    {l:'Snack',n:'Cottage cheese + rijstwafels',k:280,p:28,c:32,f:4,cup:1,
+     ing:['200g hüttenkäse + peper, bieslook (in cup)','4 rijstwafels (apart, eventueel verkruimeld in deksel)'],
+     steps:['Hüttenkäse onderin cup.','Rijstwafels apart of in deksel.','Schep op rijstwafel of mix in cup.']},
+    {l:'Avondeten',n:'Gehaktballen + stamppot',k:920,p:62,c:85,f:32,
+     ing:['200g rundergehakt','300g aardappelen','200g broccoli + paprika','1 ei, 2 el paneermeel','1 el olijfolie'],
+     steps:['Kook aardappelen 20 min, stamp met melk + nootmuskaat.','Meng gehakt met ei, paneermeel, kruiden — vorm balletjes.','Bak gehaktballen 10-12 min.','Roerbak groenten.']},
+  ]},
+  {day:'Donderdag',tot:{k:2400,p:191,c:262,f:56},m:[
+    {l:'Ontbijt',n:'Skyr granola kom',k:540,p:38,c:72,f:10,cup:1,
+     ing:['200g skyr 0% + 1 tl honing (in cup)','40g granola + 10g lijnzaad (in deksel)','1 appel in blokjes (in deksel)'],
+     steps:['Skyr + honing onderin de cup.','Granola, lijnzaad en appel in het deksel-compartiment.','Mengen vlak voor het eten zodat granola knapperig blijft.']},
+    {l:'Lunch',n:'Kipfilet salade',k:520,p:48,c:38,f:18,
+     ing:['150g kipfilet','100g sla mix','50g kerstomaatjes','½ komkommer','½ avocado','2 el olijfolie + citroen'],
+     steps:['Kip kruiden en bakken 10-12 min.','Groenten in kom, dressing erbij.','Kip in plakjes erover.']},
+    {l:'Snack',n:'Proteïne shake + banaan',k:380,p:35,c:42,f:6,
+     ing:['30g proteïnepoeder','300ml halfvolle melk','1 banaan','5g creatine'],
+     steps:['Alles in shaker of blender, 30 sec mengen. Tip: meng creatine altijd door je shake.']},
+    {l:'Avondeten',n:'Kippensoep met rijst ★',k:960,p:70,c:110,f:22,
+     ing:['200g kipfilet','150g rijst (droog)','2 wortels, 2 selderij, 1 ui','1L kippenbouillon','Peterselie'],
+     steps:['Ui, wortel, selderij fruiten. Bouillon + kip erbij, 20 min koken.','Rijst toevoegen, nog 20 min.','Kip eruit, in stukken trekken, terug in soep.','★ Maak dubbele portie! Bewaar helft voor zondag.']},
+  ]},
+  {day:'Vrijdag',tot:{k:2400,p:171,c:260,f:58},m:[
+    {l:'Ontbijt',n:'Havermout met bessen',k:600,p:40,c:80,f:12,
+     ing:['80g havermout','200ml melk','150g magere kwark','100g bessen','15g amandelen'],
+     steps:['Kook havermout met melk.','Afkoelen, kwark doorroeren.','Bessen en amandelen erover.']},
+    {l:'Lunch',n:'Tonijn sandwich',k:560,p:44,c:55,f:14,
+     ing:['1 blikje tonijn (160g)','2 sneetjes volkorenbrood','½ avocado','½ tomaat','Sla, 1 tl mosterd'],
+     steps:['Meng tonijn met mosterd.','Brood besmeren met avocado.','Beleg met tonijn, tomaat en sla.']},
+    {l:'Snack',n:'Yoghurt parfait',k:320,p:25,c:30,f:10,cup:1,
+     ing:['200g Griekse yoghurt + ½ banaan (in cup)','20g granola (in deksel)','1 tl honing'],
+     steps:['Yoghurt + banaan onderin cup.','Granola in compartiment.','Honing erbij voor het eten.']},
+    {l:'Avondeten',n:'Pasta bolognese',k:920,p:62,c:95,f:22,
+     ing:['200g volkoren pasta','200g rundergehakt','1 blikje gepelde tomaten','½ ui, 1 teen knoflook','1 el olijfolie'],
+     steps:['Kook pasta al dente.','Ui + knoflook fruiten. Gehakt bruin bakken.','Tomaten erbij, 15 min sudderen.','Mengen met pasta.']},
+  ]},
+  {day:'Zaterdag',tot:{k:2400,p:179,c:227,f:76},m:[
+    {l:'Ontbijt',n:'Big breakfast',k:680,p:48,c:60,f:26,
+     ing:['3 eieren','100g gekookte bacon','2 sneetjes volkorenbrood','½ avocado','100g kerstomaatjes'],
+     steps:['Bak eieren naar voorkeur.','Bacon bakken of oven 180°C 12 min.','Serveer met avocado toast en tomaatjes.']},
+    {l:'Lunch',n:'Zalm wrap (post-run)',k:560,p:40,c:52,f:20,
+     ing:['150g gerookte zalm','2 volkoren wraps','100g hüttenkäse','½ komkommer','Spinazie','Citroenrasp'],
+     steps:['Wraps besmeren met hüttenkäse.','Zalm, komkommer, spinazie + citroenrasp erover.','Oprollen. Perfect na een ronde hardlopen.']},
+    {l:'Snack',n:'Kwark + rijstwafels + cashews',k:320,p:26,c:30,f:8,cup:1,
+     ing:['250g magere kwark + 1 tl honing (in cup)','15g cashewnoten (in deksel)','4 rijstwafels (apart erbij)'],
+     steps:['Kwark + honing onderin cup.','Cashews in compartiment.','Rijstwafels apart om te dippen of erbij te knabbelen.']},
+    {l:'Avondeten',n:'Kip couscous',k:840,p:65,c:85,f:22,
+     ing:['200g kipfilet','150g couscous (droog)','100g paprika + 100g courgette','1 el olijfolie','Marokkaanse kruiden'],
+     steps:['Couscous bereiden: kokend water + 5 min + losfrikken.','Kip marineren, 10-12 min bakken.','Groenten roerbakken 5 min.','Serveer over couscous.']},
+  ]},
+  {day:'Zondag',tot:{k:2400,p:171,c:269,f:62},m:[
+    {l:'Ontbijt',n:'Smoothie bowl',k:580,p:36,c:82,f:12,
+     ing:['200g skyr','1 bevroren banaan','100g diepvries fruit','100ml melk','20g granola','10g kokosvlokken','½ kiwi'],
+     steps:['Blend skyr, banaan, fruit + melk tot dikke smoothie.','In kom gieten.','Toppen met granola, kokos en kiwi.']},
+    {l:'Lunch',n:'Kippensoep (restjes donderdag)',k:480,p:42,c:50,f:8,
+     ing:['Helft kippensoep van donderdag','2 sneetjes volkorenbrood'],
+     steps:['Soep opwarmen. Serveer met brood. Zero waste!']},
+    {l:'Snack',n:'Proteïne shake + pindakaas',k:420,p:38,c:42,f:12,
+     ing:['30g proteïnepoeder','300ml melk','1 el pindakaas 100%','5g creatine'],
+     steps:['Blenden of goed shaken.']},
+    {l:'Avondeten',n:'Stamppot + gehaktballen',k:960,p:58,c:95,f:36,
+     ing:['200g rundergehakt','400g aardappelen','250g boerenkool','50ml melk, 1 el boter','Jus, nootmuskaat'],
+     steps:['Aardappelen 20 min koken.','Boerenkool 5 min blancheren.','Stamppot maken met melk, boter, nootmuskaat.','Gehaktballen bakken. Jus erbij.']},
+  ]},
+]
+const CUP_RECIPES=[
+  {n:'Skyr berry power',k:340,p:28,c:42,f:6,onder:'200g skyr 0% + 1 tl honing',boven:'30g granola + 50g blauwe bessen',tip:'Beste budget-optie. Bessen kunnen vers of uit de diepvries (ontdooien onderweg).'},
+  {n:'Kwark crunch',k:380,p:32,c:38,f:12,onder:'250g magere kwark + 1 tl honing',boven:'30g muesli + 20g walnoten',tip:'Hoogste eiwit per cup (32g). Walnoten geven je omega-3 én extra crunch.'},
+  {n:'Hüttenkäse fresh',k:280,p:26,c:30,f:4,onder:'200g hüttenkäse + snufje peper',boven:'4 rijstwafels (gebroken) + 50g aardbeien',tip:'Lichtste optie, hartig met fruit. Top als post-workout snack op trainingsdagen.'},
+  {n:'Skyr proteïne plus',k:420,p:40,c:35,f:10,onder:'200g skyr + 15g proteïnepoeder (vanille) doorroeren',boven:'25g havermout + 1 banaan in plakjes',tip:'Bom van 40g eiwit. Mix de proteïne goed door de skyr de avond ervoor.'},
+]
+const SHOP={
+  'Vlees & Vis':[
+    {id:'kip',n:'AH Kipfilet vers',q:'2×1 kg',p:'€8,99/kg'},
+    {id:'gehakt',n:'AH Rundergehakt mager',q:'2×500g',p:'€4,49/500g'},
+    {id:'zalm',n:'AH Zalmfilet',q:'1×4-pak',p:'€7,99'},
+    {id:'tonijn',n:'AH Tonijn in water (blik)',q:'4×160g',p:'€1,49/blik'},
+    {id:'grooktz',n:'AH Gerookte Zalm',q:'1×100g',p:'€3,49'},
+    {id:'bacon',n:'AH Gekookte Bacon',q:'1×150g',p:'€2,49'},
+  ],
+  'Zuivel & Eieren':[
+    {id:'eieren',n:'AH Eieren L',q:'1×12 stuks',p:'€3,49'},
+    {id:'skyr',n:'AH Skyr 0%',q:'2×500g',p:'€2,99/stuk'},
+    {id:'kwark',n:'AH Magere Kwark',q:'2×500g',p:'€1,59/stuk'},
+    {id:'yoghurt',n:'AH Griekse Yoghurt 2%',q:'2×500g',p:'€1,79/stuk'},
+    {id:'hkase',n:'AH Hüttenkäse',q:'2×250g',p:'€1,29/stuk'},
+    {id:'melk',n:'AH Halfvolle Melk',q:'2×1L',p:'€1,09/L'},
+    {id:'parm',n:'AH Parmigiano geraspt',q:'1×60g',p:'€1,49'},
+  ],
+  'Groenten':[
+    {id:'broc',n:'AH Broccoli',q:'2 stuks',p:'€1,19/stuk'},
+    {id:'spin',n:'AH Verse Spinazie',q:'1×300g',p:'€1,99'},
+    {id:'paprika',n:'AH Paprika mix',q:'5 stuks',p:'€0,79/stuk'},
+    {id:'komk',n:'AH Komkommer',q:'2 stuks',p:'€0,79/stuk'},
+    {id:'tomaat',n:'AH Kerstomaatjes',q:'1×250g',p:'€1,79'},
+    {id:'sla',n:'AH Sla Mix',q:'1×100g',p:'€1,49'},
+    {id:'avoc',n:'AH Avocado',q:'4 stuks',p:'€1,29/stuk'},
+    {id:'aard',n:'AH Vastkokende Aardappelen',q:'1×1 kg',p:'€1,49'},
+    {id:'zoetaard',n:'AH Zoete Aardappel',q:'2 stuks',p:'€0,99/stuk'},
+    {id:'courgette',n:'AH Courgette',q:'1 stuk',p:'€0,99'},
+    {id:'sperzie',n:'AH Sperziebonen',q:'1×300g',p:'€1,59'},
+    {id:'boerk',n:'AH Boerenkool gesneden',q:'1×300g',p:'€1,29'},
+    {id:'wortel',n:'AH Wortels',q:'1×500g',p:'€0,89'},
+    {id:'seld',n:'AH Bleekselderij',q:'1 stuk',p:'€0,99'},
+  ],
+  'Fruit':[
+    {id:'banaan',n:'AH Bananen',q:'1 tros (~6 stuks)',p:'€1,49'},
+    {id:'appel',n:'AH Appels',q:'1×6 stuks',p:'€2,49'},
+    {id:'aardbei',n:'AH Aardbeien (vers, voor cups)',q:'1×400g',p:'€2,99'},
+    {id:'bessen',n:'AH Diepvries Bessen Mix (cup-vriendelijk)',q:'1×450g',p:'€2,49'},
+    {id:'mango',n:'AH Diepvries Mango',q:'1×450g',p:'€2,99'},
+    {id:'kiwi',n:'AH Kiwi',q:'1×4 stuks',p:'€1,59'},
+  ],
+  'Koolhydraten & Granen':[
+    {id:'haver',n:'AH Havermout',q:'1×500g',p:'€1,19'},
+    {id:'rijst',n:'AH Zilvervlies Rijst',q:'1×1 kg',p:'€2,19'},
+    {id:'pasta',n:'AH Volkoren Pasta',q:'2×500g',p:'€1,39/stuk'},
+    {id:'brood',n:'AH Volkorenbrood',q:'1 brood',p:'€2,29'},
+    {id:'wraps',n:'AH Volkoren Wraps',q:'2×6 stuks',p:'€1,99/pak'},
+    {id:'couscous',n:'AH Couscous',q:'1×500g',p:'€1,19'},
+    {id:'rwafels',n:'AH Rijstwafels naturel',q:'1×100g',p:'€0,89'},
+    {id:'granola',n:'AH Biologische Granola (cup-topping)',q:'1×375g',p:'€2,99'},
+    {id:'muesli',n:'AH Muesli (cup-topping)',q:'1×500g',p:'€2,49'},
+  ],
+  'Noten, Smeersels & Overig':[
+    {id:'nuts',n:'AH Mixed Nuts ongezouten',q:'1×200g',p:'€2,99'},
+    {id:'amand',n:'AH Amandelen',q:'1×150g',p:'€2,49'},
+    {id:'walnut',n:'AH Walnoten (cup-topping)',q:'1×150g',p:'€3,49'},
+    {id:'cashew',n:'AH Cashewnoten',q:'1×150g',p:'€2,99'},
+    {id:'lijnz',n:'AH Lijnzaad',q:'1×250g',p:'€1,29'},
+    {id:'hummus',n:'AH Hummus naturel',q:'2×200g',p:'€1,69/bakje'},
+    {id:'pindak',n:'AH Pindakaas 100%',q:'1×350g',p:'€2,29'},
+    {id:'kokos',n:'AH Kokosvlokken',q:'1×150g',p:'€1,29'},
+    {id:'honing',n:'AH Vloeibare Honing',q:'1×350g',p:'€2,49'},
+    {id:'olie',n:'AH Olijfolie extra vergine',q:'1×500ml',p:'€4,99'},
+    {id:'tblik',n:'AH Gepelde Tomaten (blik)',q:'2×400g',p:'€0,79/blik'},
+    {id:'bouillon',n:'AH Kippenbouillon blokjes',q:'1×6 stuks',p:'€0,69'},
+    {id:'mais',n:'AH Maïs blik',q:'1×285g',p:'€0,79'},
+    {id:'mayo',n:'AH Lichte Mayonaise',q:'1×250ml',p:'€1,49'},
+    {id:'paneerm',n:'AH Paneermeel',q:'1×200g',p:'€0,99'},
+    {id:'jus',n:'AH Juspoeder',q:'1 zakje',p:'€0,79'},
+    {id:'bakpdr',n:'AH Bakpoeder',q:'1×100g',p:'€0,79'},
+  ],
+  'Supplementen (online)':[
+    {id:'protpdr',n:'Whey/Caseïne Proteïne (Vanilla)',q:'1×1 kg',p:'~€20-25'},
+    {id:'creat',n:'Creatine Monohydraat (microniseerd)',q:'1×500g',p:'~€15-20'},
+    {id:'vitd',n:'Vitamine D3 (winter optie)',q:'1 potje',p:'~€8-12'},
+  ],
+}
+
+let avail={},weights={},logs={},shopCk={},daily={}
+let selDate=null,vDay=0,sLog={},expEx=null,ssSaved=false,expMeal=null,expCup=null
+const TODAY=(()=>{try{return new Date().toISOString().split('T')[0]}catch{return '2026-05-07'}})()
+
+function gw(id){if(weights[id]!==undefined)return weights[id];for(const k of Object.keys(EX)){const e=EX[k].find(e=>e.id===id);if(e)return e.w}return 0}
+function nxtW(cur,done,target,compound){if(done>=target)return Math.round((cur+(compound?2.5:1.25))*4)/4;if(done>=Math.ceil(target*.75))return cur;return Math.round((cur*.95)*4)/4}
+function isAv(d){return avail[d]!==false}
+function isTrainDay(d){return!!TD.find(td=>td.date===d&&isAv(td.date))}
+function waterTarget(d){return isTrainDay(d)?3500:3000}
+function getDay(d){return daily[d]||{water:0,sleep:0,creat:false,runKm:0,runMin:0}}
+
+// Defensive storage with timeout & localStorage fallback
+function timeoutPromise(ms){return new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms))}
+async function sget(key){
+  try{
+    if(window.storage&&typeof window.storage.get==='function'){
+      const r=await Promise.race([window.storage.get('sb_'+key),timeoutPromise(800)])
+      if(r&&r.value)return JSON.parse(r.value)
+    }
+  }catch{}
+  try{const v=localStorage.getItem('sb_'+key);return v?JSON.parse(v):null}catch{return null}
+}
+async function sset(key,val){
+  const json=JSON.stringify(val)
+  try{
+    if(window.storage&&typeof window.storage.set==='function'){
+      await Promise.race([window.storage.set('sb_'+key,json),timeoutPromise(800)])
+      return
+    }
+  }catch{}
+  try{localStorage.setItem('sb_'+key,json)}catch{}
+}
+async function loadAll(){
+  try{
+    const[a,w,l,s,d]=await Promise.all([sget('avail'),sget('weights'),sget('logs'),sget('shop'),sget('daily')])
+    if(a)avail=a;if(w)weights=w;if(l)logs=l;if(s)shopCk=s;if(d)daily=d
+  }catch{}
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab))
+  document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on',s.id===tab))
+  if(tab==='vandaag')safe(rVandaag)
+  if(tab==='schema')safe(rSchema)
+  if(tab==='training')safe(rTraining)
+  if(tab==='voeding')safe(rVoeding)
+  if(tab==='shop')safe(rShop)
+}
+function safe(fn){try{fn()}catch(e){console.error(e)}}
+
+function dn(d){return['Zo','Ma','Di','Wo','Do','Vr','Za'][new Date(d).getDay()]}
+function dnL(d){return['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'][new Date(d).getDay()]}
+function dnum(d){return new Date(d).getDate()}
+function fdate(str){const d=new Date(str);const mn=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];return`${dnL(str)} ${d.getDate()} ${mn[d.getMonth()]}`}
+
+function rVandaag(){
+  const el=document.getElementById('vandaag')
+  const t=TODAY,d=getDay(t),wt=waterTarget(t),wpct=Math.min(100,Math.round(d.water/wt*100))
+  const td=TD.find(x=>x.date===t&&isAv(x.date))
+  const dow=new Date(t).getDay()
+  const isWeekend=dow===0||dow===6
+  
+  let tdyCard=''
+  if(td){const cfg=TCONF[td.type]
+    tdyCard=`<button class="card" style="border-left:2px solid ${cfg.col};border-top-left-radius:0;border-bottom-left-radius:0;cursor:pointer;width:100%;text-align:left;font-family:var(--font-sans)" onclick="goToTraining('${t}')">
+      <div class="bet">
+        <div>
+          <span class="tag ${cfg.cls}" style="margin-bottom:4px;display:inline-block">${cfg.label} day · sessie #${td.s}</span>
+          <div class="t1">Vandaag is een trainingsdag</div>
+          <div class="t4">${cfg.muscles}</div>
+        </div>
+        <i class="ti ti-arrow-right" style="font-size:18px;color:var(--color-text-secondary)" aria-hidden="true"></i>
+      </div></button>`
+  }else{
+    tdyCard=`<div class="card" style="border-left:2px solid #AFA9EC;border-top-left-radius:0;border-bottom-left-radius:0">
+      <span class="tag tr" style="margin-bottom:4px;display:inline-block">Rustdag</span>
+      <div class="t1">Vandaag geen krachttraining</div>
+      <div class="t4">${isWeekend?'Perfect voor een rondje hardlopen — 30-45 min rustig tempo':'Focus op herstel: water, slaap en eiwit'}</div>
+    </div>`
+  }
+  const qs=`<div class="qstat-grid">
+    <div class="qstat"><i class="ti ti-droplet qicon" style="color:#185FA5" aria-hidden="true"></i><div class="qval">${(d.water/1000).toFixed(1)}L</div><div class="qlbl">Water</div></div>
+    <div class="qstat"><i class="ti ti-zzz qicon" style="color:#534AB7" aria-hidden="true"></i><div class="qval">${d.sleep||'—'}${d.sleep?'h':''}</div><div class="qlbl">Slaap</div></div>
+    <div class="qstat"><i class="ti ti-pill qicon" style="color:#1D9E75" aria-hidden="true"></i><div class="qval">${d.creat?'<i class="ti ti-check" aria-hidden="true"></i>':'—'}</div><div class="qlbl">Creatine</div></div>
+    <div class="qstat"><i class="ti ti-run qicon" style="color:#D85A30" aria-hidden="true"></i><div class="qval">${d.runKm?d.runKm+'km':'—'}</div><div class="qlbl">Run</div></div>
+  </div>`
+  const water=`<div class="card">
+    <div class="bet" style="margin-bottom:10px">
+      <div><div class="t1"><i class="ti ti-droplet" style="color:#185FA5" aria-hidden="true"></i> Water</div><div class="t4">Doel: ${wt/1000}L (${isTrainDay(t)?'trainingsdag':'rustdag'}) · creatine vraagt extra hydratatie</div></div>
+      <div class="t3" style="font-weight:500;color:${wpct>=100?'#1D9E75':'var(--color-text-primary)'}">${wpct}%</div>
+    </div>
+    <div class="wctrl">
+      <button class="wbtn" onclick="adjW(-250)">−</button>
+      <div class="wval">${(d.water/1000).toFixed(2)}L <span class="t4">/ ${wt/1000}L</span></div>
+      <button class="wbtn" onclick="adjW(250)">+</button>
+    </div>
+    <div class="ptrack"><div class="pfill" style="width:${wpct}%;background:#378ADD"></div></div>
+    <p class="t4" style="margin-top:8px">+250ml per tap · 14 glazen op trainingsdag, 12 op rustdag</p>
+  </div>`
+  const sleepH=d.sleep||0,sleepGood=sleepH>=7&&sleepH<=9
+  const sleep=`<div class="card">
+    <div class="bet" style="margin-bottom:10px">
+      <div><div class="t1"><i class="ti ti-zzz" style="color:#534AB7" aria-hidden="true"></i> Slaap (vannacht)</div><div class="t4">Doel: 7-8 uur · grootste hefboom voor herstel</div></div>
+      <div class="t3" style="font-weight:500;color:${sleepGood?'#1D9E75':'var(--color-text-secondary)'}">${sleepGood?'<i class="ti ti-check" aria-hidden="true"></i> goed':sleepH>0?'kort':'—'}</div>
+    </div>
+    <div class="wctrl">
+      <button class="wbtn" onclick="adjS(-0.5)">−</button>
+      <div class="wval">${sleepH}<span class="t4"> uur</span></div>
+      <button class="wbtn" onclick="adjS(0.5)">+</button>
+    </div>
+  </div>`
+  const creat=`<button class="toggle-card${d.creat?' on':''}" onclick="tgCreat()">
+    <div class="bet">
+      <div><div class="t1"><i class="ti ti-pill" style="color:#1D9E75" aria-hidden="true"></i> Creatine 5g vandaag</div><div class="t4">Door je shake of glas water · tijdstip maakt niet uit, consistentie wel</div></div>
+      <div class="cb${d.creat?' on':''}">${d.creat?'<i class="ti ti-check" aria-hidden="true"></i>':''}</div>
+    </div>
+  </button>`
+  const runDone=d.runKm>0||d.runMin>0
+  const run=`<div class="card">
+    <div class="bet" style="margin-bottom:10px">
+      <div><div class="t1"><i class="ti ti-run" style="color:#D85A30" aria-hidden="true"></i> Hardlopen</div><div class="t4">${isWeekend?'Weekend — ideaal voor een rustige run':'Optioneel — bij voorkeur weekend'} · 30-45 min · conversational tempo</div></div>
+      ${runDone?`<span class="tag" style="background:#FAECE7;color:#993C1D;border:0.5px solid #F0997B"><i class="ti ti-check" aria-hidden="true"></i> ${d.runKm}km</span>`:''}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+      <div><div class="t4" style="margin-bottom:4px">Afstand (km)</div><input class="run-input" type="number" min="0" step="0.1" value="${d.runKm||''}" placeholder="0" onchange="updR('runKm',this.value)" /></div>
+      <div><div class="t4" style="margin-bottom:4px">Tijd (min)</div><input class="run-input" type="number" min="0" step="1" value="${d.runMin||''}" placeholder="0" onchange="updR('runMin',this.value)" /></div>
+    </div>
+    ${d.runKm>0&&d.runMin>0?`<p class="t4" style="margin-top:10px">Tempo: ${(d.runMin/d.runKm).toFixed(2)} min/km · ~${Math.round(d.runKm*70)} kcal · eet ~200 kcal extra na de run</p>`:''}
+  </div>`
+  const last7=[]
+  const tD=new Date(t)
+  for(let i=6;i>=0;i--){const dt=new Date(tD);dt.setDate(tD.getDate()-i);const ds=dt.toISOString().split('T')[0],dd=getDay(ds),wT=waterTarget(ds);last7.push({date:ds,day:dn(ds),water:dd.water>=wT*.85,sleep:dd.sleep>=7,creat:dd.creat,run:dd.runKm>0||dd.runMin>0})}
+  function streakRow(label,key,icon,color){return`<div class="streak-row">
+    <div class="t3" style="display:flex;align-items:center;gap:4px"><i class="ti ${icon}" style="color:${color};font-size:13px" aria-hidden="true"></i> ${label}</div>
+    ${last7.map(d=>`<div class="streak-cell ${d[key]?'streak-on':'streak-off'}${d.date===TODAY?' streak-today':''}" title="${d.day}">${d[key]?'✓':''}</div>`).join('')}
+  </div>`}
+  const streaks=`<div class="card">
+    <div class="t1" style="margin-bottom:12px">Laatste 7 dagen</div>
+    <div class="streak-row" style="margin-bottom:8px"><div></div>${last7.map(d=>`<div class="t4" style="text-align:center">${d.day}</div>`).join('')}</div>
+    ${streakRow('Water','water','ti-droplet','#185FA5')}
+    ${streakRow('Slaap','sleep','ti-zzz','#534AB7')}
+    ${streakRow('Creatine','creat','ti-pill','#1D9E75')}
+    ${streakRow('Run','run','ti-run','#D85A30')}
+  </div>`
+  el.innerHTML=`
+    <div class="card-s" style="margin-bottom:1.25rem">
+      <div class="t4" style="text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">${dnL(t).toLowerCase()}</div>
+      <div style="font-size:18px;font-weight:500;color:var(--color-text-primary)">${fdate(t)}</div>
+    </div>
+    ${tdyCard}${qs}${water}${sleep}${creat}${run}${streaks}`
+}
+
+async function adjW(delta){const t=TODAY;daily[t]=daily[t]||{water:0,sleep:0,creat:false,runKm:0,runMin:0};daily[t].water=Math.max(0,(daily[t].water||0)+delta);await sset('daily',daily);safe(rVandaag)}
+async function adjS(delta){const t=TODAY;daily[t]=daily[t]||{water:0,sleep:0,creat:false,runKm:0,runMin:0};daily[t].sleep=Math.max(0,Math.min(12,Math.round(((daily[t].sleep||0)+delta)*2)/2));await sset('daily',daily);safe(rVandaag)}
+async function tgCreat(){const t=TODAY;daily[t]=daily[t]||{water:0,sleep:0,creat:false,runKm:0,runMin:0};daily[t].creat=!daily[t].creat;await sset('daily',daily);safe(rVandaag)}
+async function updR(field,val){const t=TODAY;daily[t]=daily[t]||{water:0,sleep:0,creat:false,runKm:0,runMin:0};daily[t][field]=parseFloat(val)||0;await sset('daily',daily);safe(rVandaag)}
+function goToTraining(d){selDate=d;sLog={};expEx=null;ssSaved=false;switchTab('training')}
+
+function rSchema(){
+  const el=document.getElementById('schema')
+  const cnt={push:0,pull:0,legs:0}
+  TD.forEach(d=>{if(isAv(d.date))cnt[d.type]++})
+  const may=TD.filter(d=>d.date.startsWith('2026-05'))
+  const jun=TD.filter(d=>d.date.startsWith('2026-06'))
+  function mth(days,nm){return`<p style="font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">${nm}</p>
+    <div class="dgrid">${days.map(d=>{const cfg=TCONF[d.type],av=isAv(d.date),isT=d.date===TODAY,hl=logs[d.date]&&Object.keys(logs[d.date]).length>0
+      return`<button class="dbtn${av?'':' off'}${isT?' tdy':''}" onclick="tgAv('${d.date}')">
+        <span class="t4">${dn(d.date)}</span><br>
+        <span style="font-size:17px;font-weight:500;color:var(--color-text-primary)">${dnum(d.date)}</span><br>
+        <span class="tag ${cfg.cls}" style="margin-top:2px;display:inline-block;font-size:10px">${cfg.label}</span>
+        ${hl?'<br><span style="font-size:9px;color:#1D9E75">✓ klaar</span>':''}
+        ${!av?'<br><span style="font-size:9px;color:var(--color-text-tertiary)">vrij</span>':''}
+      </button>`}).join('')}</div>`}
+  el.innerHTML=`
+    <div class="statgrid">
+      ${['push','pull','legs'].map(t=>{const cfg=TCONF[t]
+        return`<div class="card" style="padding:.75rem 1rem;border-left:2px solid ${cfg.col};border-top-left-radius:0;border-bottom-left-radius:0"><div class="nbig">${cnt[t]}×</div><div class="t4">${cfg.label} sessies</div></div>`}).join('')}
+    </div>
+    <p class="t4" style="margin-bottom:1rem"><i class="ti ti-touch" aria-hidden="true"></i> Tik op een dag om vrij te plannen of te herstellen</p>
+    ${mth(may,'Mei 2026')}${mth(jun,'Juni 2026')}
+    <div class="card-s">
+      <p class="t3" style="font-weight:500;margin-bottom:8px">Profiel & doelen</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px">
+        ${[['Gewicht','92 kg'],['Lengte','191 cm'],['Doel','Recompositie'],['Kcal/dag','~2.400'],['Eiwit/dag','~185 g'],['Water/dag','3-3,5L'],['Slaap','7-8 uur'],['Creatine','5g/dag'],['Hardlopen','1×/wknd'],['Periode','7 weken']].map(([k,v])=>`<p class="t3">${k}: <strong>${v}</strong></p>`).join('')}
+      </div>
+    </div>`
+}
+async function tgAv(date){if(avail[date]===false)delete avail[date];else avail[date]=false;await sset('avail',avail);safe(rSchema)}
+
+function rTraining(){
+  const el=document.getElementById('training')
+  const avDays=TD.filter(d=>isAv(d.date))
+  if(!selDate)selDate=avDays.find(d=>d.date>=TODAY)?.date||avDays[0]?.date
+  const day=TD.find(d=>d.date===selDate)
+  const pillsH=`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem">
+    ${avDays.map(d=>{const cfg=TCONF[d.type],ia=d.date===selDate,hl=logs[d.date]&&Object.keys(logs[d.date]).length>0
+      return`<button class="pill${ia?' '+cfg.pill:''}" onclick="selD('${d.date}')">${dnum(d.date)}/${new Date(d.date).getMonth()+1}${hl?'✓':''}</button>`}).join('')}
+  </div>`
+  if(!day){el.innerHTML=pillsH+'<p class="t2">Selecteer een trainingssessie hierboven.</p>';return}
+  const cfg=TCONF[day.type],exs=EX[day.type]
+  if(!sLog._date||sLog._date!==selDate){sLog={_date:selDate};exs.forEach(ex=>{sLog[ex.id]=logs[selDate]?.[ex.id]||{sets:Array(ex.sets).fill(false),weight:gw(ex.id)}})}
+  const exH=exs.map((ex,i)=>{const lg=sLog[ex.id],dnC=lg.sets.filter(Boolean).length,allD=dnC===ex.sets,isE=expEx===ex.id
+    const wshow=ex.u==='sec'?lg.weight+'s':lg.weight+' '+(ex.u==='kg/hand'?'kg/h':'kg')
+    return`<div class="exacc">
+      <button class="exhdr" onclick="tgEx('${ex.id}')">
+        <div style="width:28px;height:28px;border-radius:50%;background:${allD?'#E1F5EE':'var(--color-background-secondary)'};border:0.5px solid ${allD?'#5DCAA5':'var(--color-border-secondary)'};display:flex;align-items:center;justify-content:center;font-size:12px;color:${allD?'#085041':'var(--color-text-secondary)'};flex-shrink:0">${allD?'<i class="ti ti-check" aria-hidden="true"></i>':i+1}</div>
+        <div style="flex:1"><div class="t1">${ex.n}</div><div class="t4">${ex.m}</div></div>
+        <div style="text-align:right;margin-right:8px"><div class="t3" style="font-weight:500">${ex.sets}×${ex.reps}${ex.u==='sec'?'s':' reps'} @ ${wshow}</div><div class="t4">${dnC}/${ex.sets} sets</div></div>
+        <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i>
+      </button>
+      ${isE?`<div class="exbdy">
+        <div class="tipbox"><i class="ti ti-bulb" aria-hidden="true"></i> ${ex.tip}</div>
+        ${ex.u!=='sec'?`<p class="t4" style="margin-bottom:6px">Gewicht</p>
+        <div class="wctrl" style="margin-bottom:12px">
+          <button class="wbtn" onclick="adjEW('${ex.id}',${ex.c?-2.5:-1.25})">−</button>
+          <div class="wval">${lg.weight} <span class="t4">${ex.u==='kg/hand'?'kg/hand':'kg'}</span></div>
+          <button class="wbtn" onclick="adjEW('${ex.id}',${ex.c?2.5:1.25})">+</button>
+        </div>`:''}
+        <p class="t4" style="margin-bottom:6px">Sets afvinken (${ex.reps}${ex.u==='sec'?'s':' reps'} per set)</p>
+        <div class="srow">${lg.sets.map((done,si)=>`<button class="sbtn${done?' done':''}" onclick="tgSet('${ex.id}',${si})">${done?'<i class="ti ti-check" aria-hidden="true"></i>':si+1}</button>`).join('')}</div>
+      </div>`:''}
+    </div>`}).join('')
+  let nwH=''
+  if(ssSaved){nwH=`<div class="card" style="margin-top:1rem">
+    <p class="t3" style="font-weight:500;margin-bottom:10px"><i class="ti ti-trending-up" style="color:#1D9E75" aria-hidden="true"></i> Volgende sessie — nieuwe gewichten</p>
+    ${exs.map(ex=>{const lg=sLog[ex.id],done=lg.sets.filter(Boolean).length,cur=lg.weight,nxt=nxtW(cur,done,ex.sets,ex.c),diff=Math.round((nxt-cur)*4)/4
+      return`<div class="bet" style="padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)">
+        <span class="t3">${ex.n}</span>
+        <span style="font-size:12px">${cur}→<strong style="color:${diff>0?'#1D9E75':diff<0?'#D85A30':'var(--color-text-primary)'}">${nxt}${ex.u==='sec'?'s':'kg'}</strong>${diff>0?` <span style="font-size:10px;color:#1D9E75">(+${diff})</span>`:diff<0?` <span style="font-size:10px;color:#D85A30">(${diff})</span>`:''}</span>
+      </div>`}).join('')}</div>`}
+  el.innerHTML=pillsH+`
+    <div class="card" style="margin-bottom:1rem;border-left:2px solid ${cfg.col};border-top-left-radius:0;border-bottom-left-radius:0">
+      <div class="bet">
+        <div><span class="tag ${cfg.cls}" style="margin-bottom:4px;display:inline-block">${cfg.label} day</span><div class="t2">${fdate(selDate)}</div><div class="t4">${cfg.muscles}</div></div>
+        <div style="text-align:right"><div class="t4">Sessie</div><div class="nbig">#${day.s}</div></div>
+      </div>
+    </div>
+    ${exH}
+    <button class="savbtn${ssSaved?' sv':''}" onclick="saveSess()">
+      <i class="ti ti-${ssSaved?'check':'device-floppy'}" aria-hidden="true"></i>
+      ${ssSaved?'Sessie opgeslagen':'Sessie opslaan + gewichten aanpassen'}
+    </button>${nwH}`
+}
+function selD(d){selDate=d;sLog={};expEx=null;ssSaved=false;safe(rTraining)}
+function tgEx(id){expEx=expEx===id?null:id;safe(rTraining)}
+function tgSet(id,si){sLog[id].sets[si]=!sLog[id].sets[si];safe(rTraining)}
+function adjEW(id,delta){sLog[id].weight=Math.max(0,Math.round((sLog[id].weight+delta)*4)/4);safe(rTraining)}
+async function saveSess(){
+  const day=TD.find(d=>d.date===selDate);if(!day)return
+  const exs=EX[day.type],nL={...logs,[selDate]:{...(logs[selDate]||{})}},nW={...weights}
+  for(const[id,lg]of Object.entries(sLog)){if(id==='_date')continue;const ex=exs.find(e=>e.id===id);if(!ex)continue;nL[selDate][id]=lg;nW[id]=nxtW(lg.weight,lg.sets.filter(Boolean).length,ex.sets,ex.c)}
+  logs=nL;weights=nW;ssSaved=true
+  await Promise.all([sset('logs',logs),sset('weights',weights)])
+  safe(rTraining)
+}
+
+function rVoeding(){
+  const el=document.getElementById('voeding')
+  const day=MEALS[vDay]
+  const mc=[{l:'Kcal',v:day.tot.k,c:'#1D9E75'},{l:'Eiwit',v:day.tot.p+'g',c:'#185FA5'},{l:'Koolh',v:day.tot.c+'g',c:'#854F0B'},{l:'Vet',v:day.tot.f+'g',c:'#993556'}]
+  const mlH=day.m.map((ml,mi)=>{const key=`${vDay}-${mi}`,isE=expMeal===key
+    const cupBadge=ml.cup?`<span class="tag tcup" style="margin-left:6px"><i class="ti ti-cup" aria-hidden="true"></i> Cup</span>`:''
+    return`<div class="mlacc">
+      <button class="mlhdr" onclick="tgMl('${key}')">
+        <div style="flex:1"><div class="t4" style="margin-bottom:2px">${ml.l}</div><div class="t1">${ml.n}${cupBadge}</div></div>
+        <div style="text-align:right;margin-right:8px"><div class="t3" style="font-weight:500">${ml.k} kcal</div><div class="t4">${ml.p}g eiwit</div></div>
+        <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i>
+      </button>
+      ${isE?`<div style="padding:0 0 14px">
+        <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+          <span style="background:#E6F1FB;border:0.5px solid #85B7EB;color:#0C447C;padding:2px 8px;border-radius:4px;font-size:11px">E: ${ml.p}g</span>
+          <span style="background:#FAEEDA;border:0.5px solid #EF9F27;color:#633806;padding:2px 8px;border-radius:4px;font-size:11px">K: ${ml.c}g</span>
+          <span style="background:#FBEAF0;border:0.5px solid #ED93B1;color:#72243E;padding:2px 8px;border-radius:4px;font-size:11px">V: ${ml.f}g</span>
+        </div>
+        <p class="t4" style="font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Ingrediënten</p>
+        ${ml.ing.map(i=>`<div style="font-size:12px;color:var(--color-text-secondary);padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary)"><span class="t4">·</span> ${i}</div>`).join('')}
+        <p class="t4" style="font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px">Bereiding</p>
+        ${ml.steps.map((s,si)=>`<div style="display:flex;gap:8px;padding:6px 0;font-size:12px;color:var(--color-text-secondary)"><div class="stepn">${si+1}</div><span style="flex:1">${s}</span></div>`).join('')}
+      </div>`:''}
+    </div>`}).join('')
+  
+  const cupH=CUP_RECIPES.map((r,i)=>{const isE=expCup===i
+    return`<div class="mlacc" style="border-color:#ED93B1">
+      <button class="mlhdr" onclick="tgCup(${i})">
+        <div style="flex:1"><div class="t4" style="margin-bottom:2px"><i class="ti ti-cup" style="color:#993556" aria-hidden="true"></i> Cup recept</div><div class="t1">${r.n}</div></div>
+        <div style="text-align:right;margin-right:8px"><div class="t3" style="font-weight:500">${r.k} kcal</div><div class="t4">${r.p}g eiwit</div></div>
+        <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:14px;color:var(--color-text-tertiary)" aria-hidden="true"></i>
+      </button>
+      ${isE?`<div style="padding:0 0 14px">
+        <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+          <span style="background:#E6F1FB;border:0.5px solid #85B7EB;color:#0C447C;padding:2px 8px;border-radius:4px;font-size:11px">E: ${r.p}g</span>
+          <span style="background:#FAEEDA;border:0.5px solid #EF9F27;color:#633806;padding:2px 8px;border-radius:4px;font-size:11px">K: ${r.c}g</span>
+          <span style="background:#FBEAF0;border:0.5px solid #ED93B1;color:#72243E;padding:2px 8px;border-radius:4px;font-size:11px">V: ${r.f}g</span>
+        </div>
+        <div class="cup-section"><div class="t4" style="font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Onderin de cup</div><div class="t3">${r.onder}</div></div>
+        <div class="cup-section"><div class="t4" style="font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">In het deksel-compartiment</div><div class="t3">${r.boven}</div></div>
+        <div class="tipbox" style="margin-top:10px"><i class="ti ti-bulb" aria-hidden="true"></i> ${r.tip}</div>
+      </div>`:''}
+    </div>`}).join('')
+  
+  el.innerHTML=`
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem">${MEALS.map((m,i)=>`<button class="pill${vDay===i?' ac':''}" onclick="svDay(${i})">${m.day.slice(0,2)}</button>`).join('')}</div>
+    <div class="mgrid">${mc.map(m=>`<div class="mbox"><div style="font-size:18px;font-weight:500;color:${m.c}">${m.v}</div><div class="t4">${m.l}</div></div>`).join('')}</div>
+    <div class="card" style="padding:0 1.25rem">${mlH}</div>
+    <div class="cup-card">
+      <div class="bet" style="margin-bottom:8px">
+        <div class="t1"><i class="ti ti-cup" style="color:#993556" aria-hidden="true"></i> Cup recepten · onderweg</div>
+        <span class="tag tcup">4 opties</span>
+      </div>
+      <p class="t3" style="margin-bottom:4px">Voor je cup met apart deksel-compartiment. Werkwijze: <strong>zuivel onderin</strong>, <strong>droge topping in het deksel</strong>. Mix vlak voor het eten zodat granola/noten knapperig blijven en bessen vers.</p>
+      <p class="t4">Tip: gebruik deze als snack-vervanger op werk-of-gym-dagen. Maandag-, dinsdag-, woensdag- en zaterdag-snack zijn al cup-vriendelijk gemaakt (zie 'Cup'-badge), donderdag-ontbijt en vrijdag-snack ook.</p>
+    </div>
+    <div class="card" style="padding:0 1.25rem">${cupH}</div>
+    <div class="card-s">
+      <p class="t3"><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>Tips:</strong> Donderdag dubbele kippensoep — helft voor zondag (zero waste). Creatine 5g door je shake op donderdag/zondag, of dagelijks in glas water.</p>
+    </div>`
+}
+function svDay(i){vDay=i;expMeal=null;safe(rVoeding)}
+function tgMl(k){expMeal=expMeal===k?null:k;safe(rVoeding)}
+function tgCup(i){expCup=expCup===i?null:i;safe(rVoeding)}
+
+function rShop(){
+  const el=document.getElementById('shop')
+  const all=Object.values(SHOP).flat()
+  const ck=all.filter(i=>shopCk[i.id]).length
+  const pct=Math.round(ck/all.length*100)
+  const catH=Object.entries(SHOP).map(([cat,items])=>{const cd=items.filter(i=>shopCk[i.id]).length
+    return`<div style="margin-bottom:1.25rem">
+      <div class="bet" style="margin-bottom:8px"><p style="font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px">${cat}</p><p class="t4">${cd}/${items.length}</p></div>
+      <div class="card" style="padding:0 1.25rem">
+        ${items.map(item=>`<button class="shbtn${shopCk[item.id]?' dn':''}" onclick="tgSh('${item.id}')">
+          <div class="cb${shopCk[item.id]?' on':''}" style="width:20px;height:20px;border-radius:4px">${shopCk[item.id]?'<i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i>':''}</div>
+          <div style="flex:1;text-align:left"><div class="t3" style="${shopCk[item.id]?'text-decoration:line-through':''}">${item.n}</div><div class="t4">${item.q}</div></div>
+          <div class="t4" style="white-space:nowrap">${item.p}</div>
+        </button>`).join('')}
+      </div>
+    </div>`}).join('')
+  el.innerHTML=`
+    <div class="card">
+      <div class="bet" style="margin-bottom:6px"><p class="t3" style="font-weight:500">Boodschappen</p><p class="t3" style="color:#1D9E75;font-weight:500">${ck}/${all.length} items</p></div>
+      <div class="ptrack"><div class="pfill" style="width:${pct}%;background:#1D9E75"></div></div>
+      <p class="t4" style="margin-top:8px">Voeding (week, AH): ~€85-100 (incl. cup-toppings) · Supplementen 1× aankoop: ~€35-55 voor 1-2 maanden</p>
+    </div>
+    ${catH}`
+}
+async function tgSh(id){shopCk[id]=!shopCk[id];await sset('shop',shopCk);safe(rShop)}
+
+// Bulletproof init: render immediately, load data in background
+function init(){
+  safe(rVandaag)
+  ;(async()=>{try{await Promise.race([loadAll(),timeoutPromise(1500)])}catch{}safe(rVandaag)})()
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init()
+</script>
