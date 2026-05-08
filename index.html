@@ -9,6 +9,7 @@
   <title>Summer Body 2026</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <style>
     :root {
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -30,6 +31,12 @@
       --tabbar-h: 68px;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --safe-top: env(safe-area-inset-top, 0px);
+      --migraine: #DC2626;
+      --migraine-soft: #FEE2E2;
+      --migraine-border: #FCA5A5;
+      --caffeine: #92400E;
+      --caffeine-soft: #FEF3C7;
+      --caffeine-border: #FCD34D;
     }
 
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -159,6 +166,8 @@
     .tlw{background:#FBE7DF;color:#7B2D14;border:1px solid #F08A6B}
     .tr{background:#EEEDFE;color:#3C3489;border:1px solid #AFA9EC}
     .tcup{background:#FBEAF0;color:#72243E;border:1px solid #ED93B1}
+    .tmig{background:var(--migraine-soft);color:#7F1D1D;border:1px solid var(--migraine-border)}
+    .tcaf{background:var(--caffeine-soft);color:#78350F;border:1px solid var(--caffeine-border)}
 
     .pill{
       padding:9px 15px; border-radius:22px; border:1px solid var(--border); background:var(--bg-card); cursor:pointer;
@@ -264,6 +273,268 @@
 
     .sec-header { font-size:11px; color:var(--text-3); text-transform:uppercase; letter-spacing:.7px; font-weight:600; margin: 8px 4px 12px; }
 
+    /* === MIGRAINE TRACKER STYLES === */
+    .panic-btn {
+      width: 100%;
+      padding: 22px 20px;
+      background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+      border: none;
+      border-radius: var(--radius-lg);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      transition: all .15s ease;
+      letter-spacing: -0.01em;
+    }
+    .panic-btn:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3); }
+    .panic-btn i { font-size: 24px; }
+    .panic-btn.active {
+      background: linear-gradient(135deg, #991B1B 0%, #7F1D1D 100%);
+    }
+
+    .active-migraine-card {
+      background: var(--migraine-soft);
+      border: 2px solid var(--migraine-border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.3); }
+      50% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+    }
+
+    .med-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .med-tile {
+      padding: 18px 8px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      text-align: center;
+      transition: all .15s ease;
+      box-shadow: var(--shadow-sm);
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .med-tile:active { transform: scale(0.95); background: var(--bg-soft); }
+    .med-tile i { font-size: 28px; margin-bottom: 4px; }
+    .med-tile-name { font-size: 13px; font-weight: 600; color: var(--text-1); }
+    .med-tile-unit { font-size: 11px; color: var(--text-3); font-weight: 500; }
+    .med-tile-count { font-size: 18px; font-weight: 700; color: var(--text-1); margin-top: 2px; }
+    .med-tile.parac { border-color: #FCA5A5; }
+    .med-tile.parac i { color: #DC2626; }
+    .med-tile.napro { border-color: #93C5FD; }
+    .med-tile.napro i { color: #2563EB; }
+    .med-tile.suma { border-color: #C4B5FD; }
+    .med-tile.suma i { color: #7C3AED; }
+
+    .caffeine-control {
+      display: grid;
+      grid-template-columns: 50px 1fr 50px;
+      gap: 10px;
+      align-items: center;
+    }
+    .caf-bean {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: var(--caffeine);
+      border-radius: 50%;
+      margin: 0 1px;
+    }
+
+    .med-log-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .med-log-row:last-child { border-bottom: none; }
+    .med-log-time-input {
+      width: 80px;
+      height: 36px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      background: var(--bg-soft);
+    }
+    .med-log-del {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .med-log-del:active { background: var(--bg-soft); }
+
+    .time-input-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .time-input-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .5px; font-weight: 600; margin-bottom: 6px; }
+    .time-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-soft);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      color: var(--text-1);
+    }
+    .time-input:focus { outline: none; border-color: var(--text-2); background: var(--bg-card); }
+
+    /* === INSIGHTS / TIMELINE === */
+    .timeline-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 8px 4px;
+    }
+    .timeline-nav-btn {
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-card);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; color: var(--text-1);
+    }
+    .timeline-nav-btn:active { background: var(--bg-soft); }
+    .timeline-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .timeline-nav-label { flex: 1; text-align: center; font-size: 14px; font-weight: 600; color: var(--text-1); }
+
+    .timeline-day {
+      border-bottom: 1px solid var(--border-soft);
+      padding: 10px 0;
+    }
+    .timeline-day:last-child { border-bottom: none; }
+    .timeline-day-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .timeline-day-label { font-size: 13px; font-weight: 600; color: var(--text-1); }
+    .timeline-day-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+    .timeline-track {
+      position: relative;
+      height: 28px;
+      background: var(--bg-soft);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .timeline-hours {
+      display: grid;
+      grid-template-columns: repeat(24, 1fr);
+      height: 100%;
+      gap: 0;
+    }
+    .timeline-hour { border-right: 1px solid rgba(0,0,0,0.03); position: relative; }
+    .timeline-hour:nth-child(6n) { border-right-color: rgba(0,0,0,0.08); }
+    .timeline-marker {
+      position: absolute;
+      top: 0; bottom: 0;
+      border-radius: 3px;
+      pointer-events: none;
+    }
+    .tl-mig { background: rgba(220, 38, 38, 0.7); border: 1px solid #DC2626; z-index: 3; }
+    .tl-sleep { background: rgba(83, 74, 183, 0.18); border-top: 2px solid #534AB7; border-bottom: 2px solid #534AB7; }
+    .tl-caf { background: #92400E; width: 4px !important; border-radius: 2px; z-index: 2; top: 4px; bottom: 4px; }
+    .tl-train { background: rgba(180, 122, 224, 0.25); border-top: 2px solid #B47AE0; border-bottom: 2px solid #B47AE0; }
+
+    .timeline-legend {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin: 10px 4px 16px;
+      font-size: 11px; color: var(--text-2);
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-swatch { width: 14px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    .insight-card {
+      padding: 14px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .insight-card.warn { background: #FFF7ED; border-color: #FDBA74; }
+    .insight-card.alert { background: var(--migraine-soft); border-color: var(--migraine-border); }
+    .insight-card.good { background: #ECFDF5; border-color: #6EE7B7; }
+    .insight-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+    .insight-card.warn .insight-icon { background: #FED7AA; color: #9A3412; }
+    .insight-card.alert .insight-icon { background: #FCA5A5; color: #7F1D1D; }
+    .insight-card.good .insight-icon { background: #A7F3D0; color: #065F46; }
+    .insight-card .insight-icon { background: var(--bg-soft); color: var(--text-2); }
+
+    .export-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--text-1);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all .15s ease;
+      min-height: 56px;
+    }
+    .export-btn:active { transform: scale(0.98); background: var(--bg-soft); }
+
+    .past-mig-row {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .past-mig-row:last-child { border-bottom: none; }
+
     @media (hover: hover) {
       .pill:hover { border-color: #cdd1d8; }
       .dbtn:hover { border-color: #cdd1d8; box-shadow: var(--shadow-sm); }
@@ -282,14 +553,14 @@
   <div id="schema" class="sec"></div>
   <div id="training" class="sec"></div>
   <div id="voeding" class="sec"></div>
-  <div id="shop" class="sec"></div>
+  <div id="insights" class="sec"></div>
 
   <div class="tabs">
     <button class="tb on" data-tab="vandaag" onclick="switchTab('vandaag')"><i class="ti ti-home"></i><span>Vandaag</span></button>
     <button class="tb" data-tab="schema" onclick="switchTab('schema')"><i class="ti ti-calendar"></i><span>Schema</span></button>
     <button class="tb" data-tab="training" onclick="switchTab('training')"><i class="ti ti-barbell"></i><span>Training</span></button>
     <button class="tb" data-tab="voeding" onclick="switchTab('voeding')"><i class="ti ti-leaf"></i><span>Voeding</span></button>
-    <button class="tb" data-tab="shop" onclick="switchTab('shop')"><i class="ti ti-shopping-cart"></i><span>Shop</span></button>
+    <button class="tb" data-tab="insights" onclick="switchTab('insights')"><i class="ti ti-chart-line"></i><span>Inzicht</span></button>
   </div>
 </div>
 
@@ -387,13 +658,25 @@
   let db, auth, currentUserId = null;
   const appId = typeof __app_id !== 'undefined' ? __app_id : 'summer-body-app';
   let isFirebaseReady = false;
-  let isAppLoaded = false; // Prevents white screen & shows loader
+  let isAppLoaded = false;
 
-  let avail={}, weights={}, logs={}, shopCk={}, daily={};
+  // === DATA STATE ===
+  // avail: per-datum trainingsbeschikbaarheid
+  // weights: per-oefening huidig gewicht
+  // logs: training-logs per datum
+  // shopCk: shopping-list checkboxes
+  // daily: per-datum lifestyle data (water, slaap, creatine, run, cafeïne)
+  //        nieuw: bedTime / wakeTime ipv enkel uren
+  //        nieuw: caffeine_units (aantal eenheden)
+  // migraines: array van migraine-incidenten met startTime, endTime, medicationLog[], severity, notes
+  let avail={}, weights={}, logs={}, shopCk={}, daily={}, migraines=[];
   let selDate=null, vDay=0, sLog={}, expEx=null, ssSaved=false, expMeal=null, expCup=null;
+  let voedingSubTab = 'meals'; // 'meals' or 'shop'
+  let timelineWeekOffset = 0; // 0 = current week, -1 = vorige week, etc.
+  let showLegacyMigraines = false;
+
   const TODAY = (()=>{ try { return new Date().toISOString().split('T')[0]; } catch { return '2026-05-08'; } })();
 
-  // Initialize UI immediately to showing loader
   rerenderActive('vandaag');
 
   if (useFirebase) {
@@ -421,7 +704,6 @@
 
       } catch (e) { 
         console.error('auth error', e); 
-        // Fallback als er een network error is
         isAppLoaded = true;
         rerenderActive('vandaag');
       }
@@ -449,22 +731,31 @@
 
   async function loadCloud() {
     try {
-      const [a,w,l,s,d] = await Promise.all([
-        cloudGet('avail'), cloudGet('weights'), cloudGet('logs'), cloudGet('shop'), cloudGet('daily')
+      const [a,w,l,s,d,m] = await Promise.all([
+        cloudGet('avail'), cloudGet('weights'), cloudGet('logs'), cloudGet('shop'), cloudGet('daily'), cloudGet('migraines')
       ]);
-      // Forceer altijd een object, voorkomt crashes (white screen bug)
       avail = a || {};
       weights = w || {};
       logs = l || {};
       shopCk = s || {};
       daily = d || {};
+      migraines = m || [];
+
+      // Migratie: oude sleep-format (number) → nieuwe (bedTime/wakeTime)
+      // We laten de oude `sleep` numerieke waarde staan voor compat,
+      // maar gebruiken bedTime/wakeTime indien beschikbaar.
+      Object.keys(daily).forEach(date => {
+        const d = daily[date];
+        if (typeof d === 'object' && d !== null) {
+          if (d.caffeine_units === undefined) d.caffeine_units = 0;
+          if (d.bedTime === undefined) d.bedTime = '';
+          if (d.wakeTime === undefined) d.wakeTime = '';
+        }
+      });
     } catch(e) { console.error(e); }
   }
 
-  // General save function (auto-syncs to cloud in background)
   function sset(key, val) {
-    // We roepen cloudSet aan maar wachten er niet altijd verplicht op.
-    // Hierdoor blijft de UI bliksemsnel reageren.
     cloudSet(key, val);
   }
 
@@ -481,15 +772,58 @@
     if (tab==='schema') safe(rSchema);
     if (tab==='training') safe(rTraining);
     if (tab==='voeding') safe(rVoeding);
-    if (tab==='shop') safe(rShop);
+    if (tab==='insights') safe(rInsights);
   }
 
   function gw(id){if(weights[id]!==undefined)return weights[id];for(const k of Object.keys(EX)){const e=EX[k].find(e=>e.id===id);if(e)return e.w}return 0}
   function nxtW(cur,done,target,compound){if(done>=target)return Math.round((cur+(compound?2.5:1.25))*4)/4;if(done>=Math.ceil(target*.75))return cur;return Math.round((cur*.95)*4)/4}
   function isAv(d){return avail[d]!==false}
   function isTrainDay(d){return!!TD.find(td=>td.date===d&&isAv(td.date))}
+  function getTrainType(d){const td=TD.find(t=>t.date===d&&isAv(t.date));return td?td.type:null}
   function waterTarget(d){return isTrainDay(d)?3500:3000}
-  function getDay(d){return daily[d]||{water:0,sleep:0,creat:false,runKm:0,runMin:0}}
+  function getDay(d){
+    return daily[d]||{water:0,sleep:0,creat:false,runKm:0,runMin:0,caffeine_units:0,bedTime:'',wakeTime:''};
+  }
+
+  // Slaap berekening: bedTime is van VORIGE avond, wakeTime is van DEZE ochtend
+  // We slaan beide op in `daily[date]` waarbij `date` = de wakkere dag
+  function calcSleepHours(bedTime, wakeTime) {
+    if (!bedTime || !wakeTime) return 0;
+    const [bh, bm] = bedTime.split(':').map(Number);
+    const [wh, wm] = wakeTime.split(':').map(Number);
+    if (isNaN(bh) || isNaN(wh)) return 0;
+    let bedMinutes = bh * 60 + bm;
+    let wakeMinutes = wh * 60 + wm;
+    // Als bedTime na 18:00 is, geldt het als de avond ervoor → wake is volgende dag
+    if (bedMinutes >= 18 * 60) {
+      wakeMinutes += 24 * 60;
+    } else if (wakeMinutes < bedMinutes) {
+      // Bv bed 01:00, wake 08:00
+      wakeMinutes += 24 * 60;
+    }
+    const diff = wakeMinutes - bedMinutes;
+    return Math.round((diff / 60) * 10) / 10;
+  }
+
+  function bedtimeMinutesFromNoon(bedTime) {
+    // Voor variantie analyse: bereken minuten t.o.v. middernacht (negatief = voor 00:00)
+    if (!bedTime) return null;
+    const [bh, bm] = bedTime.split(':').map(Number);
+    if (isNaN(bh)) return null;
+    let mins = bh * 60 + bm;
+    // Bedtijden tussen 18:00 en 23:59 → negatieve minuten ten opzichte van 00:00
+    if (mins >= 18 * 60) mins = mins - 24 * 60;
+    return mins; // bv 23:30 → -30, 00:30 → 30
+  }
+
+  function nowHHMM() {
+    const d = new Date();
+    return d.toTimeString().slice(0, 5);
+  }
+
+  function nowISO() {
+    return new Date().toISOString();
+  }
 
   function switchTab(tab){
     document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab))
@@ -503,7 +837,34 @@
   function dnL(d){return['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'][new Date(d).getDay()]}
   function dnum(d){return new Date(d).getDate()}
   function fdate(str){const d=new Date(str);const mn=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];return`${dnL(str)} ${d.getDate()} ${mn[d.getMonth()]}`}
+  function fdateShort(str){const d=new Date(str);const mn=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];return`${d.getDate()} ${mn[d.getMonth()]}`}
 
+  function fmtTime(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      return d.toTimeString().slice(0, 5);
+    } catch { return '—'; }
+  }
+  function fmtDateTime(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      return `${fdateShort(d.toISOString().split('T')[0])} ${d.toTimeString().slice(0,5)}`;
+    } catch { return '—'; }
+  }
+
+  // Active migraine = laatste die nog niet endTime heeft
+  function getActiveMigraine() {
+    for (let i = migraines.length - 1; i >= 0; i--) {
+      if (!migraines[i].endTime) return { idx: i, ...migraines[i] };
+    }
+    return null;
+  }
+
+  // ============================================================
+  // TAB 1: VANDAAG
+  // ============================================================
   function rVandaag(){
     const el=document.getElementById('vandaag')
     if(!isAppLoaded) return;
@@ -512,6 +873,61 @@
     const td=TD.find(x=>x.date===t&&isAv(x.date))
     const dow=new Date(t).getDay()
     const isWeekend=dow===0||dow===6
+
+    const activeMig = getActiveMigraine();
+    const sleepH = calcSleepHours(d.bedTime, d.wakeTime);
+    const sleepGood = sleepH >= 7 && sleepH <= 9;
+
+    // PANIC BUTTON of ACTIEVE MIGRAINE
+    let migBlock = '';
+    if (activeMig) {
+      const startStr = fmtDateTime(activeMig.startTime);
+      const dur = Math.floor((Date.now() - new Date(activeMig.startTime).getTime()) / 60000);
+      const durStr = dur < 60 ? `${dur} min` : `${Math.floor(dur/60)}u ${dur%60}m`;
+      const medCount = (activeMig.medicationLog || []).reduce((acc, m) => {
+        acc[m.type] = (acc[m.type] || 0) + 1;
+        return acc;
+      }, {});
+      const medSummary = Object.entries(medCount).map(([t,c])=>`${c}× ${t}`).join(' · ') || 'nog geen medicatie';
+      migBlock = `<div class="active-migraine-card">
+        <div class="bet" style="margin-bottom:10px">
+          <div style="min-width:0">
+            <span class="tag tmig" style="margin-bottom:6px;display:inline-block"><i class="ti ti-alert-triangle"></i> Migraine actief</span>
+            <div class="t1" style="color:#7F1D1D">Sinds ${startStr}</div>
+            <div class="t3" style="color:#991B1B;margin-top:2px">Duur: ${durStr} · ${medSummary}</div>
+          </div>
+        </div>
+        <div class="med-grid" style="margin-top:14px">
+          <button class="med-tile parac" onclick="addMed('paracetamol')">
+            <i class="ti ti-pill"></i>
+            <div class="med-tile-name">Paracetamol</div>
+            <div class="med-tile-unit">per pil</div>
+            <div class="med-tile-count">+${medCount.paracetamol||0}</div>
+          </button>
+          <button class="med-tile napro" onclick="addMed('naproxen')">
+            <i class="ti ti-pill"></i>
+            <div class="med-tile-name">Naproxen</div>
+            <div class="med-tile-unit">per pil</div>
+            <div class="med-tile-count">+${medCount.naproxen||0}</div>
+          </button>
+          <button class="med-tile suma" onclick="addMed('sumatriptan')">
+            <i class="ti ti-spray"></i>
+            <div class="med-tile-name">Sumatriptan</div>
+            <div class="med-tile-unit">per spray</div>
+            <div class="med-tile-count">+${medCount.sumatriptan||0}</div>
+          </button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button class="export-btn" onclick="viewMigraineDetail()" style="border-color:#7F1D1D;color:#7F1D1D;font-size:13px;padding:12px;min-height:44px"><i class="ti ti-edit"></i> Aanpassen</button>
+          <button class="export-btn" onclick="endMigraine()" style="border-color:#065F46;background:#ECFDF5;color:#065F46;font-size:13px;padding:12px;min-height:44px"><i class="ti ti-check"></i> Beëindig aanval</button>
+        </div>
+      </div>`;
+    } else {
+      migBlock = `<button class="panic-btn" onclick="startMigraine()">
+        <i class="ti ti-alert-triangle"></i>
+        Migraine begint nu
+      </button>`;
+    }
 
     let tdyCard=''
     if(td){const cfg=TCONF[td.type]
@@ -535,8 +951,8 @@
     }
     const qs=`<div class="qstat-grid">
       <div class="qstat"><i class="ti ti-droplet-filled qicon" style="color:#185FA5"></i><div class="qval">${(d.water/1000).toFixed(1)}L</div><div class="qlbl">Water</div></div>
-      <div class="qstat"><i class="ti ti-moon-filled qicon" style="color:#534AB7"></i><div class="qval">${d.sleep||'—'}${d.sleep?'h':''}</div><div class="qlbl">Slaap</div></div>
-      <div class="qstat"><i class="ti ti-pill qicon" style="color:#1D9E75"></i><div class="qval">${d.creat?'<i class="ti ti-check"></i>':'—'}</div><div class="qlbl">Creatine</div></div>
+      <div class="qstat"><i class="ti ti-moon-filled qicon" style="color:#534AB7"></i><div class="qval">${sleepH?sleepH+'h':'—'}</div><div class="qlbl">Slaap</div></div>
+      <div class="qstat"><i class="ti ti-coffee qicon" style="color:#92400E"></i><div class="qval">${d.caffeine_units||0}×</div><div class="qlbl">Cafeïne</div></div>
       <div class="qstat"><i class="ti ti-run qicon" style="color:#D85A30"></i><div class="qval">${d.runKm?d.runKm+'km':'—'}</div><div class="qlbl">Run</div></div>
     </div>`
     const water=`<div class="card">
@@ -552,18 +968,41 @@
       <div class="ptrack"><div class="pfill" style="width:${wpct}%;background:#378ADD"></div></div>
       <p class="t4" style="margin-top:12px">+250ml per tap · creatine vraagt extra hydratatie</p>
     </div>`
-    const sleepH=d.sleep||0,sleepGood=sleepH>=7&&sleepH<=9
+
+    // SLAAP - bedTime / wakeTime input
     const sleep=`<div class="card">
       <div class="bet" style="margin-bottom:14px">
-        <div><div class="t1"><i class="ti ti-moon" style="color:#534AB7"></i> Slaap</div><div class="t4" style="margin-top:2px">Doel: 7-8 uur</div></div>
-        <div class="t3" style="font-weight:600;color:${sleepGood?'#1D9E75':'var(--text-2)'}">${sleepGood?'<i class="ti ti-check"></i> goed':sleepH>0?'kort':'—'}</div>
+        <div><div class="t1"><i class="ti ti-moon" style="color:#534AB7"></i> Slaap</div><div class="t4" style="margin-top:2px">Bedtijd & wakkertijd voor ritme-tracking</div></div>
+        <div class="t3" style="font-weight:600;color:${sleepGood?'#1D9E75':sleepH>0?'#D85A30':'var(--text-2)'}">${sleepH?sleepH+' uur':'—'}</div>
+      </div>
+      <div class="time-input-group">
+        <div>
+          <div class="time-input-label">Bedtijd (gisteravond)</div>
+          <input class="time-input" type="time" value="${d.bedTime||''}" onchange="updSleep('bedTime',this.value)" />
+        </div>
+        <div>
+          <div class="time-input-label">Wakkertijd</div>
+          <input class="time-input" type="time" value="${d.wakeTime||''}" onchange="updSleep('wakeTime',this.value)" />
+        </div>
+      </div>
+      ${sleepH>0?`<p class="t4" style="margin-top:10px">${sleepGood?'<i class="ti ti-check" style="color:#1D9E75"></i> Goed ritme':sleepH<7?'<i class="ti ti-alert-circle" style="color:#D85A30"></i> Te kort - migraine-trigger':'<i class="ti ti-alert-circle" style="color:#D85A30"></i> Erg lang - kan ritme verstoren'}</p>`:''}
+    </div>`
+
+    // CAFEÏNE TRACKER
+    const cafUnits = d.caffeine_units || 0;
+    const caffeine = `<div class="card">
+      <div class="bet" style="margin-bottom:14px">
+        <div><div class="t1"><i class="ti ti-coffee" style="color:#92400E"></i> Cafeïne</div><div class="t4" style="margin-top:2px">1 eenheid = 1 koffie / thee / cola</div></div>
+        ${cafUnits>=4?'<span class="tag tcaf"><i class="ti ti-alert-circle"></i> hoog</span>':''}
       </div>
       <div class="wctrl">
-        <button class="wbtn" onclick="adjS(-0.5)" aria-label="-30 min">−</button>
-        <div class="wval">${sleepH}<span class="t4"> uur</span></div>
-        <button class="wbtn" onclick="adjS(0.5)" aria-label="+30 min">+</button>
+        <button class="wbtn" onclick="adjCaf(-1)" aria-label="-1">−</button>
+        <div class="wval">${cafUnits} <span class="t4">eenheden</span></div>
+        <button class="wbtn" onclick="adjCaf(1)" aria-label="+1">+</button>
       </div>
+      ${cafUnits>0?`<div style="margin-top:14px;text-align:center">${'<span class="caf-bean"></span>'.repeat(Math.min(cafUnits,8))}${cafUnits>8?` <span class="t4" style="margin-left:6px">+${cafUnits-8}</span>`:''}</div>`:''}
     </div>`
+
     const creat=`<button class="toggle-card${d.creat?' on':''}" onclick="tgCreat()">
       <div class="bet">
         <div><div class="t1"><i class="ti ti-pill" style="color:#1D9E75"></i> Creatine 5g vandaag</div><div class="t4" style="margin-top:2px">Door je shake of glas water</div></div>
@@ -584,11 +1023,26 @@
     </div>`
     const last7=[]
     const tD=new Date(t)
-    for(let i=6;i>=0;i--){const dt=new Date(tD);dt.setDate(tD.getDate()-i);const ds=dt.toISOString().split('T')[0],dd=getDay(ds),wT=waterTarget(ds);last7.push({date:ds,day:dn(ds),water:dd.water>=wT*.85,sleep:dd.sleep>=7,creat:dd.creat,run:dd.runKm>0||dd.runMin>0})}
+    for(let i=6;i>=0;i--){
+      const dt=new Date(tD);
+      dt.setDate(tD.getDate()-i);
+      const ds=dt.toISOString().split('T')[0],
+            dd=getDay(ds),
+            wT=waterTarget(ds),
+            sH=calcSleepHours(dd.bedTime, dd.wakeTime),
+            hadMig=migraines.some(m=>m.startTime && m.startTime.startsWith(ds));
+      last7.push({date:ds,day:dn(ds),water:dd.water>=wT*.85,sleep:sH>=7,creat:dd.creat,run:dd.runKm>0||dd.runMin>0,migraine:hadMig})
+    }
     function streakRow(label,key,icon,color){return`<div class="streak-row">
       <div class="t3" style="display:flex;align-items:center;gap:6px;font-weight:500"><i class="ti ${icon}" style="color:${color};font-size:15px"></i> ${label}</div>
       ${last7.map(d=>`<div class="streak-cell ${d[key]?'streak-on':'streak-off'}${d.date===TODAY?' streak-today':''}" title="${d.day}">${d[key]?'✓':''}</div>`).join('')}
     </div>`}
+    function migraineStreakRow() {
+      return `<div class="streak-row">
+        <div class="t3" style="display:flex;align-items:center;gap:6px;font-weight:500"><i class="ti ti-alert-triangle" style="color:var(--migraine);font-size:15px"></i> Migraine</div>
+        ${last7.map(d=>`<div class="streak-cell ${d.migraine?'':'streak-off'}${d.date===TODAY?' streak-today':''}" style="${d.migraine?'background:var(--migraine-soft);color:#7F1D1D':''}" title="${d.day}">${d.migraine?'✗':''}</div>`).join('')}
+      </div>`;
+    }
     const streaks=`<div class="card">
       <div class="t1" style="margin-bottom:14px">Laatste 7 dagen</div>
       <div class="streak-row" style="margin-bottom:8px"><div></div>${last7.map(d=>`<div class="t4" style="text-align:center;font-weight:600">${d.day}</div>`).join('')}</div>
@@ -596,6 +1050,7 @@
       ${streakRow('Slaap','sleep','ti-moon','#534AB7')}
       ${streakRow('Creatine','creat','ti-pill','#1D9E75')}
       ${streakRow('Run','run','ti-run','#D85A30')}
+      ${migraineStreakRow()}
     </div>`
     el.innerHTML=`
       <div class="top-strip">
@@ -603,7 +1058,8 @@
         <div class="top-strip-title">${fdate(t)}</div>
       </div>
       <div style="padding-top:16px">
-        ${tdyCard}${qs}${water}${sleep}${creat}${run}${streaks}
+        ${migBlock}
+        ${tdyCard}${qs}${water}${sleep}${caffeine}${creat}${run}${streaks}
       </div>`
     setupScrollDetection(el);
   }
@@ -618,38 +1074,215 @@
     onScroll();
   }
 
-  // We updaten lokaal en roepen safe(rVandaag) aan voor INSTANT feedback.
-  // sset() handelt op de achtergrond de cloud synchronisatie af.
+  function ensureDay(t) {
+    if (!daily[t]) {
+      daily[t] = {water:0,sleep:0,creat:false,runKm:0,runMin:0,caffeine_units:0,bedTime:'',wakeTime:''};
+    } else {
+      if (daily[t].caffeine_units === undefined) daily[t].caffeine_units = 0;
+      if (daily[t].bedTime === undefined) daily[t].bedTime = '';
+      if (daily[t].wakeTime === undefined) daily[t].wakeTime = '';
+    }
+  }
+
   function adjW(delta){
     const t=TODAY;
-    daily[t]=daily[t]||{water:0,sleep:0,creat:false,runKm:0,runMin:0};
+    ensureDay(t);
     daily[t].water=Math.max(0,(daily[t].water||0)+delta);
     safe(rVandaag);
     sset('daily',daily);
   }
-  function adjS(delta){
+  function updSleep(field, val) {
     const t=TODAY;
-    daily[t]=daily[t]||{water:0,sleep:0,creat:false,runKm:0,runMin:0};
-    daily[t].sleep=Math.max(0,Math.min(12,Math.round(((daily[t].sleep||0)+delta)*2)/2));
+    ensureDay(t);
+    daily[t][field] = val;
+    // backwards compat: ook numerieke `sleep` updaten
+    daily[t].sleep = calcSleepHours(daily[t].bedTime, daily[t].wakeTime);
+    safe(rVandaag);
+    sset('daily',daily);
+  }
+  function adjCaf(delta) {
+    const t=TODAY;
+    ensureDay(t);
+    daily[t].caffeine_units = Math.max(0, (daily[t].caffeine_units||0) + delta);
     safe(rVandaag);
     sset('daily',daily);
   }
   function tgCreat(){
     const t=TODAY;
-    daily[t]=daily[t]||{water:0,sleep:0,creat:false,runKm:0,runMin:0};
+    ensureDay(t);
     daily[t].creat=!daily[t].creat;
     safe(rVandaag);
     sset('daily',daily);
   }
   function updR(field,val){
     const t=TODAY;
-    daily[t]=daily[t]||{water:0,sleep:0,creat:false,runKm:0,runMin:0};
+    ensureDay(t);
     daily[t][field]=parseFloat(val)||0;
     safe(rVandaag);
     sset('daily',daily);
   }
+
+  // ============================================================
+  // MIGRAINE FUNCTIES
+  // ============================================================
+  function startMigraine() {
+    const newMig = {
+      id: 'mig_' + Date.now(),
+      startTime: nowISO(),
+      endTime: null,
+      medicationLog: [],
+      severity: null,
+      notes: ''
+    };
+    migraines.push(newMig);
+    safe(rVandaag);
+    sset('migraines', migraines);
+  }
+
+  function addMed(type) {
+    const active = getActiveMigraine();
+    if (!active) return;
+    migraines[active.idx].medicationLog = migraines[active.idx].medicationLog || [];
+    migraines[active.idx].medicationLog.push({
+      type,
+      time: nowISO()
+    });
+    safe(rVandaag);
+    sset('migraines', migraines);
+  }
+
+  function endMigraine() {
+    const active = getActiveMigraine();
+    if (!active) return;
+    migraines[active.idx].endTime = nowISO();
+    safe(rVandaag);
+    sset('migraines', migraines);
+  }
+
+  function viewMigraineDetail() {
+    const active = getActiveMigraine();
+    if (!active) return;
+    showMigraineEditor(active.idx);
+  }
+
+  // Modal-stijl editor (we openen 'm in een overlay binnen vandaag)
+  function showMigraineEditor(idx) {
+    const m = migraines[idx];
+    if (!m) return;
+    const startLocal = m.startTime ? new Date(m.startTime).toISOString().slice(0,16) : '';
+    const endLocal = m.endTime ? new Date(m.endTime).toISOString().slice(0,16) : '';
+    const overlay = document.createElement('div');
+    overlay.id = 'mig-editor-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:50;display:flex;align-items:flex-end;justify-content:center;padding:0;';
+    overlay.onclick = (e) => { if(e.target === overlay) closeEditor(); };
+    overlay.innerHTML = `
+      <div style="background:var(--bg-card);width:100%;max-width:680px;border-radius:18px 18px 0 0;padding:24px 18px calc(var(--safe-bottom) + 24px);max-height:85vh;overflow-y:auto;animation:slideUp .25s ease">
+        <div style="width:40px;height:5px;background:var(--border);border-radius:3px;margin:0 auto 18px"></div>
+        <div class="bet" style="margin-bottom:18px">
+          <div class="t1">Migraine bewerken</div>
+          <button onclick="closeEditor()" style="border:none;background:none;font-size:22px;color:var(--text-3);cursor:pointer;padding:4px 8px">×</button>
+        </div>
+        <div style="margin-bottom:14px">
+          <div class="time-input-label">Starttijd</div>
+          <input type="datetime-local" id="mig-start" value="${startLocal}" class="time-input" />
+        </div>
+        <div style="margin-bottom:14px">
+          <div class="time-input-label">Eindtijd (leeg = nog actief)</div>
+          <input type="datetime-local" id="mig-end" value="${endLocal}" class="time-input" />
+        </div>
+        <div style="margin-bottom:14px">
+          <div class="time-input-label">Ernst (1-10, optioneel)</div>
+          <input type="number" min="1" max="10" id="mig-sev" value="${m.severity||''}" class="time-input" placeholder="bv 6" />
+        </div>
+        <div style="margin-bottom:18px">
+          <div class="time-input-label">Notities</div>
+          <textarea id="mig-notes" class="time-input" style="height:auto;padding:12px 14px;min-height:70px;font-family:var(--font-sans);resize:vertical">${m.notes||''}</textarea>
+        </div>
+        <div class="time-input-label">Medicatie ingenomen (${(m.medicationLog||[]).length})</div>
+        <div id="mig-meds" style="border:1px solid var(--border);border-radius:10px;padding:4px 12px;margin-bottom:14px;background:var(--bg-soft)">
+          ${(m.medicationLog||[]).length === 0 ? '<div class="t4" style="padding:14px 0;text-align:center">Nog geen medicatie geregistreerd</div>' : 
+            (m.medicationLog||[]).map((med,i) => `
+              <div class="med-log-row">
+                <div style="flex:1;min-width:0">
+                  <div class="t3" style="font-weight:600;text-transform:capitalize">${med.type}</div>
+                  <div class="t4">${fmtDateTime(med.time)}</div>
+                </div>
+                <input type="datetime-local" class="med-log-time-input" value="${new Date(med.time).toISOString().slice(0,16)}" onchange="updateMedTime(${idx},${i},this.value)" />
+                <button class="med-log-del" onclick="delMed(${idx},${i})"><i class="ti ti-trash"></i></button>
+              </div>`).join('')}
+        </div>
+        <div class="med-grid" style="margin-bottom:18px">
+          <button class="med-tile parac" onclick="addMedTo(${idx},'paracetamol')"><i class="ti ti-pill"></i><div class="med-tile-name">Paracetamol</div><div class="med-tile-unit">+ pil</div></button>
+          <button class="med-tile napro" onclick="addMedTo(${idx},'naproxen')"><i class="ti ti-pill"></i><div class="med-tile-name">Naproxen</div><div class="med-tile-unit">+ pil</div></button>
+          <button class="med-tile suma" onclick="addMedTo(${idx},'sumatriptan')"><i class="ti ti-spray"></i><div class="med-tile-name">Sumatriptan</div><div class="med-tile-unit">+ spray</div></button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <button class="export-btn" onclick="deleteMigraine(${idx})" style="border-color:#DC2626;color:#DC2626"><i class="ti ti-trash"></i> Verwijder</button>
+          <button class="savbtn" style="margin-top:0" onclick="saveMigraineEdits(${idx})"><i class="ti ti-check"></i> Opslaan</button>
+        </div>
+      </div>
+      <style>@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}</style>
+    `;
+    document.body.appendChild(overlay);
+  }
+
+  function closeEditor() {
+    const ov = document.getElementById('mig-editor-overlay');
+    if (ov) ov.remove();
+  }
+
+  function saveMigraineEdits(idx) {
+    const m = migraines[idx];
+    if (!m) return;
+    const start = document.getElementById('mig-start').value;
+    const end = document.getElementById('mig-end').value;
+    const sev = document.getElementById('mig-sev').value;
+    const notes = document.getElementById('mig-notes').value;
+    if (start) m.startTime = new Date(start).toISOString();
+    m.endTime = end ? new Date(end).toISOString() : null;
+    m.severity = sev ? parseInt(sev) : null;
+    m.notes = notes || '';
+    closeEditor();
+    safe(rVandaag);
+    safe(rInsights);
+    sset('migraines', migraines);
+  }
+
+  function deleteMigraine(idx) {
+    if (!confirm('Migraine verwijderen?')) return;
+    migraines.splice(idx, 1);
+    closeEditor();
+    safe(rVandaag);
+    safe(rInsights);
+    sset('migraines', migraines);
+  }
+
+  function addMedTo(idx, type) {
+    migraines[idx].medicationLog = migraines[idx].medicationLog || [];
+    migraines[idx].medicationLog.push({ type, time: nowISO() });
+    closeEditor();
+    setTimeout(()=>showMigraineEditor(idx), 50);
+    sset('migraines', migraines);
+  }
+
+  function updateMedTime(migIdx, medIdx, val) {
+    if (!val) return;
+    migraines[migIdx].medicationLog[medIdx].time = new Date(val).toISOString();
+    sset('migraines', migraines);
+  }
+
+  function delMed(migIdx, medIdx) {
+    migraines[migIdx].medicationLog.splice(medIdx, 1);
+    closeEditor();
+    setTimeout(()=>showMigraineEditor(migIdx), 50);
+    sset('migraines', migraines);
+  }
+
   function goToTraining(d){selDate=d;sLog={};expEx=null;ssSaved=false;switchTab('training')}
 
+  // ============================================================
+  // TAB 2: SCHEMA (ongewijzigd)
+  // ============================================================
   function rSchema(){
     const el=document.getElementById('schema')
     if(!isAppLoaded) return;
@@ -700,6 +1333,9 @@
     sset('avail',avail);
   }
 
+  // ============================================================
+  // TAB 3: TRAINING (ongewijzigd)
+  // ============================================================
   function rTraining(){
     const el=document.getElementById('training')
     if(!isAppLoaded) return;
@@ -783,10 +1419,13 @@
     const exs=EX[day.type],nL={...logs,[selDate]:{...(logs[selDate]||{})}},nW={...weights}
     for(const[id,lg]of Object.entries(sLog)){if(id==='_date')continue;const ex=exs.find(e=>e.id===id);if(!ex)continue;nL[selDate][id]=lg;nW[id]=nxtW(lg.weight,lg.sets.filter(Boolean).length,ex.sets,ex.c)}
     logs=nL;weights=nW;ssSaved=true
-    safe(rTraining) // direct feedback 
+    safe(rTraining)
     await Promise.all([cloudSet('logs',logs), cloudSet('weights',weights)])
   }
 
+  // ============================================================
+  // VOEDING + SHOP DATA
+  // ============================================================
   const MEALS=[
     {day:'Maandag',tot:{k:2400,p:188,c:253,f:60},m:[
       {l:'Ontbijt',n:'Havermout powerbow',k:620,p:42,c:75,f:18,
@@ -893,72 +1532,6 @@
     {n:'Hüttenkäse fresh',k:280,p:26,c:30,f:4,onder:'200g hüttenkäse + snufje peper',boven:'4 rijstwafels (gebroken) + 50g aardbeien',tip:'Lichtste optie, hartig met fruit. Top als post-workout snack op trainingsdagen.'},
     {n:'Skyr proteïne plus',k:420,p:40,c:35,f:10,onder:'200g skyr + 15g proteïnepoeder (vanille) doorroeren',boven:'25g havermout + 1 banaan in plakjes',tip:'Bom van 40g eiwit. Mix de proteïne goed door de skyr de avond ervoor.'},
   ]
-
-  function rVoeding(){
-    const el=document.getElementById('voeding')
-    if(!isAppLoaded) return;
-    
-    const day=MEALS[vDay]
-    const mc=[{l:'Kcal',v:day.tot.k,c:'#1D9E75'},{l:'Eiwit',v:day.tot.p+'g',c:'#185FA5'},{l:'Koolh',v:day.tot.c+'g',c:'#854F0B'},{l:'Vet',v:day.tot.f+'g',c:'#993556'}]
-    const mlH=day.m.map((ml,mi)=>{const key=`${vDay}-${mi}`,isE=expMeal===key
-      const cupBadge=ml.cup?`<span class="tag tcup" style="margin-left:8px"><i class="ti ti-cup"></i> Cup</span>`:''
-      return`<div class="mlacc">
-        <button class="mlhdr" onclick="tgMl('${key}')">
-          <div style="flex:1;min-width:0"><div class="h-eyebrow" style="margin-bottom:4px">${ml.l}</div><div class="t1">${ml.n}${cupBadge}</div></div>
-          <div style="text-align:right;margin-right:10px;flex-shrink:0"><div class="t3" style="font-weight:600">${ml.k} kcal</div><div class="t4" style="margin-top:2px">${ml.p}g eiwit</div></div>
-          <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:18px;color:var(--text-3);flex-shrink:0"></i>
-        </button>
-        ${isE?`<div style="padding:0 0 18px">
-          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-            <span class="macro-tag macro-e">E: ${ml.p}g</span>
-            <span class="macro-tag macro-c">K: ${ml.c}g</span>
-            <span class="macro-tag macro-v">V: ${ml.f}g</span>
-          </div>
-          <p class="h-eyebrow" style="margin-bottom:8px">Ingrediënten</p>
-          ${ml.ing.map(i=>`<div style="font-size:13.5px;color:var(--text-2);padding:8px 0;border-bottom:1px solid var(--border-soft)"><span class="t4" style="margin-right:4px">·</span> ${i}</div>`).join('')}
-          <p class="h-eyebrow" style="margin:18px 0 8px">Bereiding</p>
-          ${ml.steps.map((s,si)=>`<div style="display:flex;gap:12px;padding:10px 0;font-size:13.5px;color:var(--text-2);line-height:1.5"><div class="stepn">${si+1}</div><span style="flex:1">${s}</span></div>`).join('')}
-        </div>`:''}
-      </div>`}).join('')
-
-    const cupH=CUP_RECIPES.map((r,i)=>{const isE=expCup===i
-      return`<div class="mlacc">
-        <button class="mlhdr" onclick="tgCup(${i})">
-          <div style="flex:1;min-width:0"><div class="h-eyebrow" style="margin-bottom:4px"><i class="ti ti-cup" style="color:#993556"></i> Cup recept</div><div class="t1">${r.n}</div></div>
-          <div style="text-align:right;margin-right:10px;flex-shrink:0"><div class="t3" style="font-weight:600">${r.k} kcal</div><div class="t4" style="margin-top:2px">${r.p}g eiwit</div></div>
-          <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:18px;color:var(--text-3);flex-shrink:0"></i>
-        </button>
-        ${isE?`<div style="padding:0 0 18px">
-          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-            <span class="macro-tag macro-e">E: ${r.p}g</span>
-            <span class="macro-tag macro-c">K: ${r.c}g</span>
-            <span class="macro-tag macro-v">V: ${r.f}g</span>
-          </div>
-          <div class="cup-section"><div class="h-eyebrow" style="margin-bottom:6px">Onderin de cup</div><div class="t3" style="font-size:13.5px">${r.onder}</div></div>
-          <div class="cup-section"><div class="h-eyebrow" style="margin-bottom:6px">In het deksel-compartiment</div><div class="t3" style="font-size:13.5px">${r.boven}</div></div>
-          <div class="tipbox" style="margin-top:12px"><i class="ti ti-bulb"></i><span>${r.tip}</span></div>
-        </div>`:''}
-      </div>`}).join('')
-
-    el.innerHTML=`
-      <p class="sec-header" style="margin-top:8px">Maaltijden per dag</p>
-      <div class="pill-row">${MEALS.map((m,i)=>`<button class="pill${vDay===i?' ac':''}" onclick="svDay(${i})">${m.day.slice(0,2)}</button>`).join('')}</div>
-      <div class="mgrid">${mc.map(m=>`<div class="mbox"><div style="font-size:20px;font-weight:600;color:${m.c}">${m.v}</div><div class="t4" style="margin-top:2px">${m.l}</div></div>`).join('')}</div>
-      <div class="card" style="padding:0 18px">${mlH}</div>
-      <div class="cup-card" style="margin-top:8px">
-        <div class="bet" style="margin-bottom:10px">
-          <div class="t1"><i class="ti ti-cup" style="color:#993556"></i> Cup recepten</div>
-          <span class="tag tcup">4 opties</span>
-        </div>
-        <p class="t3" style="margin-bottom:8px;line-height:1.5">Voor je cup met apart deksel-compartiment. Werkwijze: <strong>zuivel onderin</strong>, <strong>droge topping in het deksel</strong>. Mix vlak voor het eten.</p>
-        <p class="t4" style="line-height:1.4">Tip: gebruik deze als snack-vervanger op werk-dagen.</p>
-      </div>
-      <div class="card" style="padding:0 18px">${cupH}</div>`
-  }
-  function svDay(i){vDay=i;expMeal=null;safe(rVoeding);window.scrollTo({top:0,behavior:'instant'})}
-  function tgMl(k){expMeal=expMeal===k?null:k;safe(rVoeding)}
-  function tgCup(i){expCup=expCup===i?null:i;safe(rVoeding)}
-
   const SHOP={
     'Vlees & Vis':[
       {id:'kip',n:'AH Kipfilet vers',q:'2×1 kg',p:'€8,99/kg'},
@@ -1038,10 +1611,89 @@
     ],
   }
 
-  function rShop(){
-    const el=document.getElementById('shop')
+  // ============================================================
+  // TAB 4: VOEDING (incl Shop sub-tab)
+  // ============================================================
+  function rVoeding(){
+    const el=document.getElementById('voeding')
     if(!isAppLoaded) return;
-    
+
+    const subTabs = `<div class="pill-row" style="margin-bottom:14px">
+      <button class="pill ${voedingSubTab==='meals'?'ac':''}" onclick="setVoedingSub('meals')"><i class="ti ti-leaf"></i> Maaltijden</button>
+      <button class="pill ${voedingSubTab==='shop'?'ac':''}" onclick="setVoedingSub('shop')"><i class="ti ti-shopping-cart"></i> Boodschappen</button>
+    </div>`;
+
+    if (voedingSubTab === 'shop') {
+      el.innerHTML = `<p class="sec-header" style="margin-top:8px">Voeding & Boodschappen</p>${subTabs}` + renderShopContent();
+      return;
+    }
+
+    // MEALS
+    const day=MEALS[vDay]
+    const mc=[{l:'Kcal',v:day.tot.k,c:'#1D9E75'},{l:'Eiwit',v:day.tot.p+'g',c:'#185FA5'},{l:'Koolh',v:day.tot.c+'g',c:'#854F0B'},{l:'Vet',v:day.tot.f+'g',c:'#993556'}]
+    const mlH=day.m.map((ml,mi)=>{const key=`${vDay}-${mi}`,isE=expMeal===key
+      const cupBadge=ml.cup?`<span class="tag tcup" style="margin-left:8px"><i class="ti ti-cup"></i> Cup</span>`:''
+      return`<div class="mlacc">
+        <button class="mlhdr" onclick="tgMl('${key}')">
+          <div style="flex:1;min-width:0"><div class="h-eyebrow" style="margin-bottom:4px">${ml.l}</div><div class="t1">${ml.n}${cupBadge}</div></div>
+          <div style="text-align:right;margin-right:10px;flex-shrink:0"><div class="t3" style="font-weight:600">${ml.k} kcal</div><div class="t4" style="margin-top:2px">${ml.p}g eiwit</div></div>
+          <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:18px;color:var(--text-3);flex-shrink:0"></i>
+        </button>
+        ${isE?`<div style="padding:0 0 18px">
+          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+            <span class="macro-tag macro-e">E: ${ml.p}g</span>
+            <span class="macro-tag macro-c">K: ${ml.c}g</span>
+            <span class="macro-tag macro-v">V: ${ml.f}g</span>
+          </div>
+          <p class="h-eyebrow" style="margin-bottom:8px">Ingrediënten</p>
+          ${ml.ing.map(i=>`<div style="font-size:13.5px;color:var(--text-2);padding:8px 0;border-bottom:1px solid var(--border-soft)"><span class="t4" style="margin-right:4px">·</span> ${i}</div>`).join('')}
+          <p class="h-eyebrow" style="margin:18px 0 8px">Bereiding</p>
+          ${ml.steps.map((s,si)=>`<div style="display:flex;gap:12px;padding:10px 0;font-size:13.5px;color:var(--text-2);line-height:1.5"><div class="stepn">${si+1}</div><span style="flex:1">${s}</span></div>`).join('')}
+        </div>`:''}
+      </div>`}).join('')
+
+    const cupH=CUP_RECIPES.map((r,i)=>{const isE=expCup===i
+      return`<div class="mlacc">
+        <button class="mlhdr" onclick="tgCup(${i})">
+          <div style="flex:1;min-width:0"><div class="h-eyebrow" style="margin-bottom:4px"><i class="ti ti-cup" style="color:#993556"></i> Cup recept</div><div class="t1">${r.n}</div></div>
+          <div style="text-align:right;margin-right:10px;flex-shrink:0"><div class="t3" style="font-weight:600">${r.k} kcal</div><div class="t4" style="margin-top:2px">${r.p}g eiwit</div></div>
+          <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:18px;color:var(--text-3);flex-shrink:0"></i>
+        </button>
+        ${isE?`<div style="padding:0 0 18px">
+          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+            <span class="macro-tag macro-e">E: ${r.p}g</span>
+            <span class="macro-tag macro-c">K: ${r.c}g</span>
+            <span class="macro-tag macro-v">V: ${r.f}g</span>
+          </div>
+          <div class="cup-section"><div class="h-eyebrow" style="margin-bottom:6px">Onderin de cup</div><div class="t3" style="font-size:13.5px">${r.onder}</div></div>
+          <div class="cup-section"><div class="h-eyebrow" style="margin-bottom:6px">In het deksel-compartiment</div><div class="t3" style="font-size:13.5px">${r.boven}</div></div>
+          <div class="tipbox" style="margin-top:12px"><i class="ti ti-bulb"></i><span>${r.tip}</span></div>
+        </div>`:''}
+      </div>`}).join('')
+
+    el.innerHTML=`
+      <p class="sec-header" style="margin-top:8px">Voeding & Boodschappen</p>
+      ${subTabs}
+      <div class="pill-row">${MEALS.map((m,i)=>`<button class="pill${vDay===i?' ac':''}" onclick="svDay(${i})">${m.day.slice(0,2)}</button>`).join('')}</div>
+      <div class="mgrid">${mc.map(m=>`<div class="mbox"><div style="font-size:20px;font-weight:600;color:${m.c}">${m.v}</div><div class="t4" style="margin-top:2px">${m.l}</div></div>`).join('')}</div>
+      <div class="card" style="padding:0 18px">${mlH}</div>
+      <div class="cup-card" style="margin-top:8px">
+        <div class="bet" style="margin-bottom:10px">
+          <div class="t1"><i class="ti ti-cup" style="color:#993556"></i> Cup recepten</div>
+          <span class="tag tcup">4 opties</span>
+        </div>
+        <p class="t3" style="margin-bottom:8px;line-height:1.5">Voor je cup met apart deksel-compartiment. Werkwijze: <strong>zuivel onderin</strong>, <strong>droge topping in het deksel</strong>. Mix vlak voor het eten.</p>
+        <p class="t4" style="line-height:1.4">Tip: gebruik deze als snack-vervanger op werk-dagen.</p>
+      </div>
+      <div class="card" style="padding:0 18px">${cupH}</div>`
+  }
+  function svDay(i){vDay=i;expMeal=null;safe(rVoeding);window.scrollTo({top:0,behavior:'instant'})}
+  function tgMl(k){expMeal=expMeal===k?null:k;safe(rVoeding)}
+  function tgCup(i){expCup=expCup===i?null:i;safe(rVoeding)}
+  function setVoedingSub(s){voedingSubTab=s;safe(rVoeding);window.scrollTo({top:0,behavior:'instant'})}
+
+  // SHOP CONTENT (sub-tab)
+  function renderShopContent() {
     const all=Object.values(SHOP).flat()
     const ck=all.filter(i=>shopCk[i.id]).length
     const pct=Math.round(ck/all.length*100)
@@ -1056,25 +1708,521 @@
           </button>`).join('')}
         </div>
       </div>`}).join('')
-    el.innerHTML=`
-      <p class="sec-header" style="margin-top:8px">Boodschappenlijst</p>
+    return `
       <div class="card">
         <div class="bet" style="margin-bottom:10px"><p class="t1">Voortgang</p><p class="t3" style="color:#1D9E75;font-weight:600">${ck}/${all.length} items</p></div>
         <div class="ptrack"><div class="pfill" style="width:${pct}%;background:#1D9E75"></div></div>
         <p class="t4" style="margin-top:14px;line-height:1.5">Voeding (week, AH): ~€85-100 (incl. cup-toppings)<br>Supplementen 1× aankoop: ~€35-55 voor 1-2 maanden</p>
       </div>
-      ${catH}`
+      ${catH}`;
   }
   function tgSh(id){
     shopCk[id]=!shopCk[id];
-    safe(rShop);
+    safe(rVoeding);
     sset('shop',shopCk);
   }
 
-  // Attach functions to window for inline onclick handlers
+  // ============================================================
+  // TAB 5: INSIGHTS (Timeline + Correlatie + Export)
+  // ============================================================
+  function getWeekDates(offset) {
+    // offset 0 = huidige week (ma t/m zo); -1 = vorige; etc.
+    const today = new Date(TODAY);
+    const dow = today.getDay(); // 0 = zo, 1 = ma
+    const monShift = dow === 0 ? -6 : 1 - dow;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + monShift + offset * 7);
+    const dates = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      dates.push(d.toISOString().split('T')[0]);
+    }
+    return dates;
+  }
+
+  function renderTimelineDay(date) {
+    const d = getDay(date);
+    const trainType = getTrainType(date);
+    const dayMigraines = migraines.filter(m => m.startTime && m.startTime.startsWith(date));
+
+    // Slaap-blok: bedTime is GISTERAVOND, dus het slaap-blok loopt deels over deze dag heen
+    // Voor visualisatie: toon op DEZE dag het deel van vorige nacht (00:00 - wakeTime)
+    // En aan het einde van de dag: bedTime - 24:00 (alleen als bedTime > 18:00 en geldt voor volgende nacht)
+    let sleepBlocks = [];
+    if (d.bedTime && d.wakeTime) {
+      const [wh, wm] = d.wakeTime.split(':').map(Number);
+      const [bh, bm] = d.bedTime.split(':').map(Number);
+      const wakeMinutes = wh * 60 + wm;
+      const bedMinutes = bh * 60 + bm;
+      // Slaapdeel van de nacht ervoor: 0 → wakeTime
+      if (!isNaN(wakeMinutes) && wakeMinutes > 0) {
+        sleepBlocks.push({ startMin: 0, endMin: wakeMinutes });
+      }
+      // Bedtijd van vanavond: bedTime → 24:00
+      if (!isNaN(bedMinutes) && bedMinutes >= 18 * 60) {
+        sleepBlocks.push({ startMin: bedMinutes, endMin: 24 * 60 });
+      }
+    }
+
+    // Cafeïne: we hebben alleen TOTAAL per dag, geen tijdstempels.
+    // Visualiseer als evenredig verspreid over wakkere uren (8:00-22:00)
+    // OF: als losse markers op vaste momenten (8, 11, 14, 17 uur etc) - eerste 'caffeine_units' tonen
+    const cafTimes = [8 * 60, 11 * 60, 14 * 60, 17 * 60, 20 * 60, 9 * 60 + 30, 13 * 60, 15 * 60 + 30];
+
+    const dayLabel = `${dn(date)} ${dnum(date)}`;
+    const tags = [];
+    if (trainType) {
+      const cfg = TCONF[trainType];
+      tags.push(`<span class="tag ${cfg.cls}">${cfg.label}</span>`);
+    }
+    if (dayMigraines.length > 0) {
+      tags.push(`<span class="tag tmig"><i class="ti ti-alert-triangle"></i> ${dayMigraines.length}× migraine</span>`);
+    }
+    if ((d.caffeine_units||0) >= 4) {
+      tags.push(`<span class="tag tcaf"><i class="ti ti-coffee"></i> ${d.caffeine_units}×</span>`);
+    }
+
+    // Bouw markers
+    let markers = '';
+
+    // Sleep blocks (achtergrond)
+    sleepBlocks.forEach(b => {
+      const left = (b.startMin / (24*60)) * 100;
+      const w = ((b.endMin - b.startMin) / (24*60)) * 100;
+      markers += `<div class="timeline-marker tl-sleep" style="left:${left}%;width:${w}%" title="Slaap"></div>`;
+    });
+
+    // Train block (kruistraining tijdvenster onbekend, neem 17:00-18:30 als default)
+    if (trainType) {
+      const startMin = 17 * 60;
+      const endMin = 18 * 60 + 30;
+      const left = (startMin / (24*60)) * 100;
+      const w = ((endMin - startMin) / (24*60)) * 100;
+      markers += `<div class="timeline-marker tl-train" style="left:${left}%;width:${w}%" title="${TCONF[trainType].label}"></div>`;
+    }
+
+    // Caffeine markers (visueel verspreid)
+    const cafCount = Math.min(d.caffeine_units||0, cafTimes.length);
+    for (let i = 0; i < cafCount; i++) {
+      const left = (cafTimes[i] / (24*60)) * 100;
+      markers += `<div class="timeline-marker tl-caf" style="left:${left}%;width:4px" title="Cafeïne"></div>`;
+    }
+
+    // Migraine markers (rood blok, voorgrond)
+    dayMigraines.forEach(m => {
+      const start = new Date(m.startTime);
+      const end = m.endTime ? new Date(m.endTime) : new Date(date + 'T23:59:59');
+      const startMin = start.getHours() * 60 + start.getMinutes();
+      // Als end op andere dag is, capen op einde van deze dag
+      let endMin;
+      if (m.endTime && m.endTime.startsWith(date)) {
+        endMin = end.getHours() * 60 + end.getMinutes();
+      } else if (m.endTime) {
+        endMin = 24 * 60; // doorloopt naar volgende dag
+      } else {
+        endMin = 24 * 60;
+      }
+      const left = (startMin / (24*60)) * 100;
+      const w = Math.max(2, ((endMin - startMin) / (24*60)) * 100);
+      const idx = migraines.indexOf(m);
+      markers += `<div class="timeline-marker tl-mig" style="left:${left}%;width:${w}%;cursor:pointer;pointer-events:auto" title="Migraine - klik voor details" onclick="showMigraineEditor(${idx})"></div>`;
+    });
+
+    return `<div class="timeline-day">
+      <div class="timeline-day-header">
+        <div class="timeline-day-label">${dayLabel}</div>
+        <div class="timeline-day-tags">${tags.join(' ')}</div>
+      </div>
+      <div class="timeline-track">
+        <div class="timeline-hours">${'<div class="timeline-hour"></div>'.repeat(24)}</div>
+        ${markers}
+      </div>
+    </div>`;
+  }
+
+  // Verschuivingsanalyse: 24-48u voor migraine
+  function analyzeMigraineTriggers() {
+    const insights = [];
+    const recentMigraines = migraines
+      .filter(m => m.startTime)
+      .sort((a,b) => new Date(b.startTime) - new Date(a.startTime))
+      .slice(0, 5); // Laatste 5 aanvallen
+
+    if (recentMigraines.length === 0) {
+      insights.push({
+        type: 'good',
+        icon: 'ti-shield-check',
+        title: 'Geen aanvallen geregistreerd',
+        text: 'Begin met loggen om patronen te ontdekken. Druk op de panic button bij een aanval.'
+      });
+      return insights;
+    }
+
+    // Algemene stats per type trigger
+    let waterDrops = 0, sleepShifts = 0, highCaffeine = 0, heavyTraining = 0;
+    let analyzed = 0;
+
+    recentMigraines.forEach(mig => {
+      const migDate = new Date(mig.startTime);
+      const day0 = mig.startTime.split('T')[0];
+      const day1 = new Date(migDate.getTime() - 24*3600*1000).toISOString().split('T')[0];
+      const day2 = new Date(migDate.getTime() - 48*3600*1000).toISOString().split('T')[0];
+
+      const d0 = getDay(day0);
+      const d1 = getDay(day1);
+      const d2 = getDay(day2);
+
+      // Water drop: dag voor (d1) significant lager dan d2?
+      if (d1.water > 0 && d2.water > 0 && d1.water < d2.water * 0.7) {
+        waterDrops++;
+      }
+
+      // Bedtijd-shift: meer dan 90 min verschuiving tussen d2 en d1?
+      const bed1 = bedtimeMinutesFromNoon(d1.bedTime);
+      const bed2 = bedtimeMinutesFromNoon(d2.bedTime);
+      if (bed1 !== null && bed2 !== null && Math.abs(bed1 - bed2) > 90) {
+        sleepShifts++;
+      }
+
+      // Hoge cafeïne (≥5 op d1 of d2)
+      if ((d1.caffeine_units||0) >= 5 || (d2.caffeine_units||0) >= 5) {
+        highCaffeine++;
+      }
+
+      // Zware trainingsdag (lower of legs) op d1
+      const t1 = getTrainType(day1);
+      if (t1 === 'lower' || t1 === 'legs' || t1 === 'pull') {
+        heavyTraining++;
+      }
+
+      analyzed++;
+    });
+
+    if (analyzed === 0) return insights;
+
+    // Bouw insights
+    if (waterDrops / analyzed >= 0.4) {
+      insights.push({
+        type: 'alert',
+        icon: 'ti-droplet-off',
+        title: 'Patroon: water-daling',
+        text: `${waterDrops}/${analyzed} aanvallen gingen vooraf aan een dag met ≥30% minder water dan de dag ervoor. Dehydratie lijkt een trigger.`
+      });
+    }
+    if (sleepShifts / analyzed >= 0.4) {
+      insights.push({
+        type: 'alert',
+        icon: 'ti-clock-hour-9',
+        title: 'Patroon: ritme-verschuiving',
+        text: `${sleepShifts}/${analyzed} aanvallen werden voorafgegaan door een bedtijd-verschuiving van >90 minuten. Probeer een vast bedritme.`
+      });
+    }
+    if (highCaffeine / analyzed >= 0.4) {
+      insights.push({
+        type: 'warn',
+        icon: 'ti-coffee',
+        title: 'Patroon: hoge cafeïne',
+        text: `${highCaffeine}/${analyzed} aanvallen kwamen na dagen met ≥5 cafeïne-eenheden. Overweeg afbouw of consistente dosering.`
+      });
+    }
+    if (heavyTraining / analyzed >= 0.4) {
+      insights.push({
+        type: 'warn',
+        icon: 'ti-barbell',
+        title: 'Patroon: intensieve training',
+        text: `${heavyTraining}/${analyzed} aanvallen kwamen 24u na een Lower/Legs/Pull dag. Mogelijk inflammatoire respons of ontwatering.`
+      });
+    }
+
+    if (insights.length === 0) {
+      insights.push({
+        type: 'good',
+        icon: 'ti-search',
+        title: 'Geen duidelijk patroon (nog)',
+        text: `${recentMigraines.length} aanvallen geanalyseerd. Geen sterke 24-48u trigger gedetecteerd. Blijf data verzamelen voor scherpere inzichten.`
+      });
+    }
+
+    return insights;
+  }
+
+  function rInsights() {
+    const el = document.getElementById('insights');
+    if (!isAppLoaded) return;
+
+    const weekDates = getWeekDates(timelineWeekOffset);
+    const weekStart = fdateShort(weekDates[0]);
+    const weekEnd = fdateShort(weekDates[6]);
+    const weekLabel = timelineWeekOffset === 0 ? 'Deze week' : timelineWeekOffset === -1 ? 'Vorige week' : `${weekStart} – ${weekEnd}`;
+    const canGoForward = timelineWeekOffset < 0;
+
+    // Stats: aanvallen totaal, deze week, gemiddelde duur, medicatie-totalen
+    const completedMigraines = migraines.filter(m => m.startTime && m.endTime);
+    const thisWeekMigs = migraines.filter(m => m.startTime && weekDates.includes(m.startTime.split('T')[0]));
+    const totalMeds = migraines.reduce((acc, m) => {
+      (m.medicationLog||[]).forEach(med => {
+        acc[med.type] = (acc[med.type]||0) + 1;
+      });
+      return acc;
+    }, {});
+    const avgDur = completedMigraines.length > 0 ?
+      Math.round(completedMigraines.reduce((s,m) => s + (new Date(m.endTime) - new Date(m.startTime)), 0) / completedMigraines.length / 60000) : 0;
+    const avgDurStr = avgDur < 60 ? `${avgDur}m` : `${Math.floor(avgDur/60)}u${avgDur%60}m`;
+
+    const stats = `<div class="qstat-grid">
+      <div class="qstat"><i class="ti ti-alert-triangle qicon" style="color:var(--migraine)"></i><div class="qval">${migraines.length}</div><div class="qlbl">Totaal</div></div>
+      <div class="qstat"><i class="ti ti-calendar-week qicon" style="color:var(--text-2)"></i><div class="qval">${thisWeekMigs.length}</div><div class="qlbl">Deze week</div></div>
+      <div class="qstat"><i class="ti ti-clock qicon" style="color:#534AB7"></i><div class="qval">${avgDur > 0 ? avgDurStr : '—'}</div><div class="qlbl">Gem. duur</div></div>
+      <div class="qstat"><i class="ti ti-pill qicon" style="color:#1D9E75"></i><div class="qval">${(totalMeds.paracetamol||0)+(totalMeds.naproxen||0)+(totalMeds.sumatriptan||0)}</div><div class="qlbl">Medicatie</div></div>
+    </div>`;
+
+    // Insights / triggers
+    const triggers = analyzeMigraineTriggers();
+    const triggersH = triggers.map(t => `
+      <div class="insight-card ${t.type}">
+        <div class="insight-icon"><i class="ti ${t.icon}"></i></div>
+        <div style="flex:1;min-width:0">
+          <div class="t1" style="margin-bottom:4px">${t.title}</div>
+          <div class="t3">${t.text}</div>
+        </div>
+      </div>
+    `).join('');
+
+    // Timeline
+    const timelineRows = weekDates.map(d => renderTimelineDay(d)).join('');
+    const timelineNav = `<div class="timeline-nav">
+      <button class="timeline-nav-btn" onclick="shiftTimeline(-1)">‹</button>
+      <div class="timeline-nav-label">${weekLabel}<br><span class="t4" style="font-weight:500">${weekStart} – ${weekEnd}</span></div>
+      <button class="timeline-nav-btn" onclick="shiftTimeline(1)" ${!canGoForward?'disabled':''}>›</button>
+    </div>`;
+    const legend = `<div class="timeline-legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(220, 38, 38, 0.7);border:1px solid #DC2626"></div> Migraine</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(83, 74, 183, 0.18);border-top:2px solid #534AB7;border-bottom:2px solid #534AB7"></div> Slaap</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#92400E;width:6px"></div> Cafeïne</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(180, 122, 224, 0.25);border-top:2px solid #B47AE0;border-bottom:2px solid #B47AE0"></div> Training</div>
+    </div>`;
+
+    // Migraine geschiedenis (laatste 5)
+    const sortedMigs = [...migraines].sort((a,b) => new Date(b.startTime) - new Date(a.startTime));
+    const recentMigs = sortedMigs.slice(0, 5);
+    const recentH = recentMigs.length === 0 ? `<p class="t3" style="text-align:center;padding:20px 0;color:var(--text-3)">Nog geen aanvallen geregistreerd</p>` :
+      recentMigs.map(m => {
+        const idx = migraines.indexOf(m);
+        const dur = m.endTime ? Math.round((new Date(m.endTime) - new Date(m.startTime))/60000) : null;
+        const durStr = dur === null ? 'actief' : dur < 60 ? `${dur} min` : `${Math.floor(dur/60)}u ${dur%60}m`;
+        const meds = (m.medicationLog||[]).reduce((acc,med)=>{acc[med.type]=(acc[med.type]||0)+1;return acc;},{});
+        const medStr = Object.entries(meds).map(([t,c])=>`${c}× ${t.slice(0,4)}`).join(' · ') || 'geen meds';
+        return `<button class="past-mig-row" style="background:none;border:none;width:100%;cursor:pointer;font-family:var(--font-sans);text-align:left" onclick="showMigraineEditor(${idx})">
+          <div style="width:8px;height:40px;background:var(--migraine);border-radius:4px;flex-shrink:0"></div>
+          <div style="flex:1;min-width:0">
+            <div class="t3" style="font-weight:600;color:var(--text-1)">${fmtDateTime(m.startTime)}</div>
+            <div class="t4" style="margin-top:2px">${durStr} · ${medStr}${m.severity?' · ernst '+m.severity+'/10':''}</div>
+          </div>
+          <i class="ti ti-chevron-right" style="color:var(--text-3);font-size:18px"></i>
+        </button>`;
+      }).join('');
+
+    el.innerHTML = `
+      <p class="sec-header" style="margin-top:8px">Inzicht & analyse</p>
+      ${stats}
+      <p class="sec-header">Triggers (24-48u voor aanval)</p>
+      ${triggersH}
+      <p class="sec-header" style="margin-top:24px">Timeline overlay</p>
+      ${timelineNav}
+      ${legend}
+      <div class="card" style="padding:14px 16px">
+        ${timelineRows}
+      </div>
+      <p class="sec-header" style="margin-top:24px">Recente aanvallen</p>
+      <div class="card" style="padding:0 16px">${recentH}</div>
+      <p class="sec-header" style="margin-top:24px">Data export</p>
+      <div class="card">
+        <div class="t1" style="margin-bottom:6px"><i class="ti ti-table-export"></i> Excel-export</div>
+        <p class="t3" style="margin-bottom:14px">Eén platte tabel met alle dagdata, migraine-incidenten en medicatie-tijdstempels. Geschikt voor diepere analyse in Excel of Numbers.</p>
+        <button class="export-btn" onclick="exportXLSX()">
+          <i class="ti ti-download"></i> Download .xlsx
+        </button>
+      </div>
+    `;
+  }
+
+  function shiftTimeline(direction) {
+    const next = timelineWeekOffset + direction;
+    if (next > 0) return; // niet vooruitkijken
+    timelineWeekOffset = next;
+    safe(rInsights);
+  }
+
+  // ============================================================
+  // XLSX EXPORT
+  // ============================================================
+  function exportXLSX() {
+    try {
+      // Verzamel alle relevante datums
+      const allDates = new Set();
+      Object.keys(daily).forEach(d => allDates.add(d));
+      Object.keys(logs).forEach(d => allDates.add(d));
+      migraines.forEach(m => { if(m.startTime) allDates.add(m.startTime.split('T')[0]); });
+      TD.forEach(td => allDates.add(td.date));
+      const sortedDates = [...allDates].sort();
+
+      // SHEET 1: Daily summary - één rij per datum
+      const dailyRows = sortedDates.map(date => {
+        const d = getDay(date);
+        const trainType = getTrainType(date);
+        const sleepH = calcSleepHours(d.bedTime, d.wakeTime);
+        const dayMigs = migraines.filter(m => m.startTime && m.startTime.startsWith(date));
+        const medCounts = dayMigs.reduce((acc,m) => {
+          (m.medicationLog||[]).forEach(med => {
+            if (med.time && med.time.startsWith(date)) {
+              acc[med.type] = (acc[med.type]||0) + 1;
+            }
+          });
+          return acc;
+        }, {});
+        const totalSets = logs[date] ? Object.values(logs[date]).reduce((s,ex) => s + (ex.sets||[]).filter(Boolean).length, 0) : 0;
+
+        // Eerste medicatie tijd per type op die dag
+        const firstMedTime = (type) => {
+          for (const m of dayMigs) {
+            for (const med of (m.medicationLog||[])) {
+              if (med.type === type && med.time && med.time.startsWith(date)) {
+                return new Date(med.time).toTimeString().slice(0,8);
+              }
+            }
+          }
+          return '';
+        };
+
+        // Migraine start/end op deze dag
+        const migOnDate = dayMigs[0];
+        const migStartTime = migOnDate ? new Date(migOnDate.startTime).toTimeString().slice(0,8) : '';
+        const migEndTime = migOnDate && migOnDate.endTime ? new Date(migOnDate.endTime).toTimeString().slice(0,8) : '';
+
+        return {
+          date,
+          weekday: dnL(date),
+          water_ml: d.water || 0,
+          water_target_ml: waterTarget(date),
+          sleep_hours: sleepH || '',
+          bedtime: d.bedTime || '',
+          waketime: d.wakeTime || '',
+          caffeine_units: d.caffeine_units || 0,
+          creatine_taken: d.creat ? 1 : 0,
+          run_km: d.runKm || 0,
+          run_min: d.runMin || 0,
+          training_type: trainType || '',
+          training_sets_done: totalSets,
+          migraine_active_bool: dayMigs.length > 0 ? 1 : 0,
+          migraine_count: dayMigs.length,
+          migraine_start_time: migStartTime,
+          migraine_end_time: migEndTime,
+          migraine_severity: migOnDate?.severity || '',
+          paracetamol_count: medCounts.paracetamol || 0,
+          paracetamol_first_time: firstMedTime('paracetamol'),
+          naproxen_count: medCounts.naproxen || 0,
+          naproxen_first_time: firstMedTime('naproxen'),
+          sumatriptan_count: medCounts.sumatriptan || 0,
+          sumatriptan_first_time: firstMedTime('sumatriptan'),
+          notes: migOnDate?.notes || ''
+        };
+      });
+
+      // SHEET 2: Medicatie-log (één rij per inname)
+      const medRows = [];
+      migraines.forEach((m, mi) => {
+        (m.medicationLog || []).forEach(med => {
+          medRows.push({
+            migraine_id: m.id || `mig_${mi}`,
+            migraine_start: m.startTime || '',
+            migraine_end: m.endTime || '',
+            migraine_severity: m.severity || '',
+            med_type: med.type,
+            med_datetime: med.time || '',
+            med_date: med.time ? med.time.split('T')[0] : '',
+            med_time: med.time ? new Date(med.time).toTimeString().slice(0,8) : '',
+            minutes_after_start: (med.time && m.startTime) ? Math.round((new Date(med.time) - new Date(m.startTime))/60000) : ''
+          });
+        });
+      });
+
+      // SHEET 3: Migraine incidenten (één rij per aanval)
+      const migRows = migraines.map((m, idx) => {
+        const dur = m.endTime ? Math.round((new Date(m.endTime) - new Date(m.startTime))/60000) : '';
+        const counts = (m.medicationLog||[]).reduce((acc,med)=>{acc[med.type]=(acc[med.type]||0)+1;return acc;},{});
+        return {
+          migraine_id: m.id || `mig_${idx}`,
+          start_datetime: m.startTime || '',
+          end_datetime: m.endTime || '',
+          start_date: m.startTime ? m.startTime.split('T')[0] : '',
+          start_time: m.startTime ? new Date(m.startTime).toTimeString().slice(0,8) : '',
+          duration_minutes: dur,
+          severity: m.severity || '',
+          paracetamol_count: counts.paracetamol || 0,
+          naproxen_count: counts.naproxen || 0,
+          sumatriptan_count: counts.sumatriptan || 0,
+          total_med_count: (m.medicationLog||[]).length,
+          notes: m.notes || ''
+        };
+      });
+
+      // SHEET 4: Training-log (één rij per oefening per datum)
+      const trainRows = [];
+      Object.entries(logs).forEach(([date, exMap]) => {
+        const trainType = getTrainType(date);
+        Object.entries(exMap).forEach(([exId, exLog]) => {
+          const exDef = trainType ? EX[trainType]?.find(e => e.id === exId) : null;
+          trainRows.push({
+            date,
+            weekday: dnL(date),
+            training_type: trainType || '',
+            exercise_id: exId,
+            exercise_name: exDef?.n || exId,
+            muscle: exDef?.m || '',
+            target_sets: exDef?.sets || '',
+            target_reps: exDef?.reps || '',
+            sets_completed: (exLog.sets||[]).filter(Boolean).length,
+            weight: exLog.weight || 0,
+            unit: exDef?.u || ''
+          });
+        });
+      });
+
+      // Bouw workbook
+      const wb = XLSX.utils.book_new();
+
+      const ws1 = XLSX.utils.json_to_sheet(dailyRows);
+      ws1['!cols'] = Object.keys(dailyRows[0] || {}).map(k => ({ wch: Math.max(12, k.length + 2) }));
+      XLSX.utils.book_append_sheet(wb, ws1, 'Daily');
+
+      const ws2 = XLSX.utils.json_to_sheet(migRows);
+      if (migRows.length > 0) ws2['!cols'] = Object.keys(migRows[0]).map(k => ({ wch: Math.max(12, k.length + 2) }));
+      XLSX.utils.book_append_sheet(wb, ws2, 'Migraines');
+
+      const ws3 = XLSX.utils.json_to_sheet(medRows);
+      if (medRows.length > 0) ws3['!cols'] = Object.keys(medRows[0]).map(k => ({ wch: Math.max(12, k.length + 2) }));
+      XLSX.utils.book_append_sheet(wb, ws3, 'Medicatie');
+
+      const ws4 = XLSX.utils.json_to_sheet(trainRows);
+      if (trainRows.length > 0) ws4['!cols'] = Object.keys(trainRows[0]).map(k => ({ wch: Math.max(12, k.length + 2) }));
+      XLSX.utils.book_append_sheet(wb, ws4, 'Training');
+
+      const stamp = new Date().toISOString().split('T')[0];
+      XLSX.writeFile(wb, `lifestyle-export-${stamp}.xlsx`);
+    } catch (e) {
+      console.error(e);
+      alert('Export mislukt: ' + e.message);
+    }
+  }
+
+  // ============================================================
+  // EXPOSE FUNCTIES
+  // ============================================================
   window.switchTab = switchTab;
   window.adjW = adjW;
-  window.adjS = adjS;
+  window.updSleep = updSleep;
+  window.adjCaf = adjCaf;
   window.tgCreat = tgCreat;
   window.updR = updR;
   window.goToTraining = goToTraining;
@@ -1087,7 +2235,21 @@
   window.svDay = svDay;
   window.tgMl = tgMl;
   window.tgCup = tgCup;
+  window.setVoedingSub = setVoedingSub;
   window.tgSh = tgSh;
+  window.startMigraine = startMigraine;
+  window.addMed = addMed;
+  window.endMigraine = endMigraine;
+  window.viewMigraineDetail = viewMigraineDetail;
+  window.showMigraineEditor = showMigraineEditor;
+  window.closeEditor = closeEditor;
+  window.saveMigraineEdits = saveMigraineEdits;
+  window.deleteMigraine = deleteMigraine;
+  window.addMedTo = addMedTo;
+  window.updateMedTime = updateMedTime;
+  window.delMed = delMed;
+  window.shiftTimeline = shiftTimeline;
+  window.exportXLSX = exportXLSX;
 
 </script>
 </body>
