@@ -272,6 +272,9 @@
     .train-progress-pct { font-size: 14px; font-weight: 600; color: var(--text-1); flex-shrink: 0; }
 
     .sec-header { font-size:11px; color:var(--text-3); text-transform:uppercase; letter-spacing:.7px; font-weight:600; margin: 8px 4px 12px; }
+    .daypart-header { font-size:10.5px; color:var(--text-3); text-transform:uppercase; letter-spacing:.8px; font-weight:600; margin: 18px 4px 10px; display:flex; align-items:center; gap:8px; }
+    .daypart-header:first-child { margin-top: 8px; }
+    .daypart-header i { font-size:14px; }
 
     /* === MIGRAINE TRACKER STYLES === */
     .panic-btn {
@@ -366,20 +369,24 @@
     .med-log-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       padding: 10px 0;
       border-bottom: 1px solid var(--border-soft);
+      flex-wrap: wrap;
     }
     .med-log-row:last-child { border-bottom: none; }
+    .med-log-row > .med-log-info { flex: 1; min-width: 0; }
     .med-log-time-input {
-      width: 80px;
+      width: 100%;
+      max-width: 180px;
       height: 36px;
       padding: 0 8px;
       border: 1px solid var(--border);
       border-radius: 8px;
       font-family: var(--font-sans);
-      font-size: 13px;
+      font-size: 12.5px;
       background: var(--bg-soft);
+      box-sizing: border-box;
     }
     .med-log-del {
       width: 32px;
@@ -392,6 +399,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
     .med-log-del:active { background: var(--bg-soft); }
 
@@ -411,8 +419,119 @@
       font-family: var(--font-sans);
       font-size: 16px;
       color: var(--text-1);
+      box-sizing: border-box;
     }
     .time-input:focus { outline: none; border-color: var(--text-2); background: var(--bg-card); }
+
+    /* === MIGRAINE EDITOR (mobile-friendly) === */
+    .editor-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 50;
+      display: flex; align-items: flex-end; justify-content: center;
+      padding: 0;
+    }
+    .editor-sheet {
+      background: var(--bg-card);
+      width: 100%;
+      max-width: 680px;
+      border-radius: 18px 18px 0 0;
+      padding: 20px 16px calc(var(--safe-bottom) + 20px);
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: slideUp .25s ease;
+      box-sizing: border-box;
+    }
+    .editor-handle {
+      width: 40px; height: 5px;
+      background: var(--border);
+      border-radius: 3px;
+      margin: 0 auto 16px;
+    }
+    .editor-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 8px;
+    }
+    .editor-close {
+      border: none;
+      background: var(--bg-soft);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      font-size: 20px;
+      color: var(--text-2);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .editor-close:active { background: var(--border); }
+    .editor-field { margin-bottom: 14px; }
+    .editor-textarea {
+      width: 100%;
+      padding: 12px 14px;
+      min-height: 70px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-soft);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--text-1);
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    .editor-textarea:focus { outline: none; border-color: var(--text-2); background: var(--bg-card); }
+    .editor-meds-list {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px 12px;
+      margin-bottom: 14px;
+      background: var(--bg-soft);
+    }
+    .editor-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+    /* === RUST TIMER OVERLAY === */
+    .rest-timer {
+      position: fixed;
+      top: calc(var(--safe-top) + 14px);
+      right: 14px;
+      z-index: 30;
+      background: var(--text-1);
+      color: #fff;
+      border-radius: 22px;
+      padding: 8px 14px 8px 12px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 16px rgba(17,24,39,0.3);
+      cursor: pointer;
+      user-select: none;
+      animation: timerSlideIn .3s ease;
+      min-height: 36px;
+      letter-spacing: -0.01em;
+    }
+    .rest-timer:active { transform: scale(0.95); }
+    .rest-timer i { font-size: 16px; }
+    .rest-timer.warning { background: #B91C1C; }
+    @keyframes timerSlideIn {
+      from { transform: translateX(120%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .rest-timer.fading {
+      animation: timerSlideOut .25s ease forwards;
+    }
+    @keyframes timerSlideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(120%); opacity: 0; }
+    }
 
     /* === INSIGHTS / TIMELINE === */
     .timeline-nav {
@@ -544,6 +663,13 @@
       .savbtn:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
       .exacc:hover { border-color: #cdd1d8; }
     }
+
+    /* Smaller screens: stack med-grid 2 cols and tighten editor */
+    @media (max-width: 380px) {
+      .med-grid { grid-template-columns: 1fr 1fr; }
+      .editor-sheet { padding-left: 14px; padding-right: 14px; }
+      .time-input-group { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -563,6 +689,9 @@
     <button class="tb" data-tab="insights" onclick="switchTab('insights')"><i class="ti ti-chart-line"></i><span>Inzicht</span></button>
   </div>
 </div>
+
+<!-- Rust timer overlay container -->
+<div id="rest-timer-host"></div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -661,19 +790,16 @@
   let isAppLoaded = false;
 
   // === DATA STATE ===
-  // avail: per-datum trainingsbeschikbaarheid
-  // weights: per-oefening huidig gewicht
-  // logs: training-logs per datum
-  // shopCk: shopping-list checkboxes
-  // daily: per-datum lifestyle data (water, slaap, creatine, run, cafeïne)
-  //        nieuw: bedTime / wakeTime ipv enkel uren
-  //        nieuw: caffeine_units (aantal eenheden)
-  // migraines: array van migraine-incidenten met startTime, endTime, medicationLog[], severity, notes
   let avail={}, weights={}, logs={}, shopCk={}, daily={}, migraines=[];
   let selDate=null, vDay=0, sLog={}, expEx=null, ssSaved=false, expMeal=null, expCup=null;
-  let voedingSubTab = 'meals'; // 'meals' or 'shop'
-  let timelineWeekOffset = 0; // 0 = current week, -1 = vorige week, etc.
+  let voedingSubTab = 'meals';
+  let timelineWeekOffset = 0;
   let showLegacyMigraines = false;
+
+  // === REST TIMER STATE ===
+  const REST_DURATION = 90; // seconds, vast voor alles
+  let restTimerInterval = null;
+  let restTimerEnd = null;
 
   const TODAY = (()=>{ try { return new Date().toISOString().split('T')[0]; } catch { return '2026-05-08'; } })();
 
@@ -741,9 +867,6 @@
       daily = d || {};
       migraines = m || [];
 
-      // Migratie: oude sleep-format (number) → nieuwe (bedTime/wakeTime)
-      // We laten de oude `sleep` numerieke waarde staan voor compat,
-      // maar gebruiken bedTime/wakeTime indien beschikbaar.
       Object.keys(daily).forEach(date => {
         const d = daily[date];
         if (typeof d === 'object' && d !== null) {
@@ -785,8 +908,6 @@
     return daily[d]||{water:0,sleep:0,creat:false,runKm:0,runMin:0,caffeine_units:0,bedTime:'',wakeTime:''};
   }
 
-  // Slaap berekening: bedTime is van VORIGE avond, wakeTime is van DEZE ochtend
-  // We slaan beide op in `daily[date]` waarbij `date` = de wakkere dag
   function calcSleepHours(bedTime, wakeTime) {
     if (!bedTime || !wakeTime) return 0;
     const [bh, bm] = bedTime.split(':').map(Number);
@@ -794,11 +915,9 @@
     if (isNaN(bh) || isNaN(wh)) return 0;
     let bedMinutes = bh * 60 + bm;
     let wakeMinutes = wh * 60 + wm;
-    // Als bedTime na 18:00 is, geldt het als de avond ervoor → wake is volgende dag
     if (bedMinutes >= 18 * 60) {
       wakeMinutes += 24 * 60;
     } else if (wakeMinutes < bedMinutes) {
-      // Bv bed 01:00, wake 08:00
       wakeMinutes += 24 * 60;
     }
     const diff = wakeMinutes - bedMinutes;
@@ -806,14 +925,12 @@
   }
 
   function bedtimeMinutesFromNoon(bedTime) {
-    // Voor variantie analyse: bereken minuten t.o.v. middernacht (negatief = voor 00:00)
     if (!bedTime) return null;
     const [bh, bm] = bedTime.split(':').map(Number);
     if (isNaN(bh)) return null;
     let mins = bh * 60 + bm;
-    // Bedtijden tussen 18:00 en 23:59 → negatieve minuten ten opzichte van 00:00
     if (mins >= 18 * 60) mins = mins - 24 * 60;
-    return mins; // bv 23:30 → -30, 00:30 → 30
+    return mins;
   }
 
   function nowHHMM() {
@@ -854,7 +971,6 @@
     } catch { return '—'; }
   }
 
-  // Active migraine = laatste die nog niet endTime heeft
   function getActiveMigraine() {
     for (let i = migraines.length - 1; i >= 0; i--) {
       if (!migraines[i].endTime) return { idx: i, ...migraines[i] };
@@ -863,7 +979,7 @@
   }
 
   // ============================================================
-  // TAB 1: VANDAAG
+  // TAB 1: VANDAAG  (REORDERED PER DAYPART, GEEN QUICK STATS)
   // ============================================================
   function rVandaag(){
     const el=document.getElementById('vandaag')
@@ -878,7 +994,7 @@
     const sleepH = calcSleepHours(d.bedTime, d.wakeTime);
     const sleepGood = sleepH >= 7 && sleepH <= 9;
 
-    // PANIC BUTTON of ACTIEVE MIGRAINE
+    // --- MIGRAINE-BLOK (panic of actief) ---
     let migBlock = '';
     if (activeMig) {
       const startStr = fmtDateTime(activeMig.startTime);
@@ -929,6 +1045,7 @@
       </button>`;
     }
 
+    // --- TRAININGSDAG-CARD ---
     let tdyCard=''
     if(td){const cfg=TCONF[td.type]
       tdyCard=`<button class="card-feature" style="cursor:pointer;width:100%;text-align:left;font-family:var(--font-sans);border:none" onclick="goToTraining('${t}')">
@@ -949,27 +1066,8 @@
         <div class="t4" style="margin-top:4px">${isWeekend?'Perfect voor een rondje hardlopen — 30-45 min rustig tempo':'Focus op herstel: water, slaap en eiwit'}</div>
       </div>`
     }
-    const qs=`<div class="qstat-grid">
-      <div class="qstat"><i class="ti ti-droplet-filled qicon" style="color:#185FA5"></i><div class="qval">${(d.water/1000).toFixed(1)}L</div><div class="qlbl">Water</div></div>
-      <div class="qstat"><i class="ti ti-moon-filled qicon" style="color:#534AB7"></i><div class="qval">${sleepH?sleepH+'h':'—'}</div><div class="qlbl">Slaap</div></div>
-      <div class="qstat"><i class="ti ti-coffee qicon" style="color:#92400E"></i><div class="qval">${d.caffeine_units||0}×</div><div class="qlbl">Cafeïne</div></div>
-      <div class="qstat"><i class="ti ti-run qicon" style="color:#D85A30"></i><div class="qval">${d.runKm?d.runKm+'km':'—'}</div><div class="qlbl">Run</div></div>
-    </div>`
-    const water=`<div class="card">
-      <div class="bet" style="margin-bottom:14px">
-        <div><div class="t1"><i class="ti ti-droplet" style="color:#185FA5"></i> Water</div><div class="t4" style="margin-top:2px">Doel: ${wt/1000}L (${isTrainDay(t)?'trainingsdag':'rustdag'})</div></div>
-        <div class="t3" style="font-weight:600;color:${wpct>=100?'#1D9E75':'var(--text-1)'}">${wpct}%</div>
-      </div>
-      <div class="wctrl">
-        <button class="wbtn" onclick="adjW(-250)" aria-label="-250ml">−</button>
-        <div class="wval">${(d.water/1000).toFixed(2)}L <span class="t4">/ ${wt/1000}L</span></div>
-        <button class="wbtn" onclick="adjW(250)" aria-label="+250ml">+</button>
-      </div>
-      <div class="ptrack"><div class="pfill" style="width:${wpct}%;background:#378ADD"></div></div>
-      <p class="t4" style="margin-top:12px">+250ml per tap · creatine vraagt extra hydratatie</p>
-    </div>`
 
-    // SLAAP - bedTime / wakeTime input
+    // --- OCHTEND: SLAAP + CREATINE ---
     const sleep=`<div class="card">
       <div class="bet" style="margin-bottom:14px">
         <div><div class="t1"><i class="ti ti-moon" style="color:#534AB7"></i> Slaap</div><div class="t4" style="margin-top:2px">Bedtijd & wakkertijd voor ritme-tracking</div></div>
@@ -988,7 +1086,28 @@
       ${sleepH>0?`<p class="t4" style="margin-top:10px">${sleepGood?'<i class="ti ti-check" style="color:#1D9E75"></i> Goed ritme':sleepH<7?'<i class="ti ti-alert-circle" style="color:#D85A30"></i> Te kort - migraine-trigger':'<i class="ti ti-alert-circle" style="color:#D85A30"></i> Erg lang - kan ritme verstoren'}</p>`:''}
     </div>`
 
-    // CAFEÏNE TRACKER
+    const creat=`<button class="toggle-card${d.creat?' on':''}" onclick="tgCreat()">
+      <div class="bet">
+        <div><div class="t1"><i class="ti ti-pill" style="color:#1D9E75"></i> Creatine 5g vandaag</div><div class="t4" style="margin-top:2px">Door je shake of glas water</div></div>
+        <div class="cb${d.creat?' on':''}">${d.creat?'<i class="ti ti-check"></i>':''}</div>
+      </div>
+    </button>`
+
+    // --- DAG: WATER + CAFEÏNE ---
+    const water=`<div class="card">
+      <div class="bet" style="margin-bottom:14px">
+        <div><div class="t1"><i class="ti ti-droplet" style="color:#185FA5"></i> Water</div><div class="t4" style="margin-top:2px">Doel: ${wt/1000}L (${isTrainDay(t)?'trainingsdag':'rustdag'})</div></div>
+        <div class="t3" style="font-weight:600;color:${wpct>=100?'#1D9E75':'var(--text-1)'}">${wpct}%</div>
+      </div>
+      <div class="wctrl">
+        <button class="wbtn" onclick="adjW(-250)" aria-label="-250ml">−</button>
+        <div class="wval">${(d.water/1000).toFixed(2)}L <span class="t4">/ ${wt/1000}L</span></div>
+        <button class="wbtn" onclick="adjW(250)" aria-label="+250ml">+</button>
+      </div>
+      <div class="ptrack"><div class="pfill" style="width:${wpct}%;background:#378ADD"></div></div>
+      <p class="t4" style="margin-top:12px">+250ml per tap · creatine vraagt extra hydratatie</p>
+    </div>`
+
     const cafUnits = d.caffeine_units || 0;
     const caffeine = `<div class="card">
       <div class="bet" style="margin-bottom:14px">
@@ -1003,12 +1122,7 @@
       ${cafUnits>0?`<div style="margin-top:14px;text-align:center">${'<span class="caf-bean"></span>'.repeat(Math.min(cafUnits,8))}${cafUnits>8?` <span class="t4" style="margin-left:6px">+${cafUnits-8}</span>`:''}</div>`:''}
     </div>`
 
-    const creat=`<button class="toggle-card${d.creat?' on':''}" onclick="tgCreat()">
-      <div class="bet">
-        <div><div class="t1"><i class="ti ti-pill" style="color:#1D9E75"></i> Creatine 5g vandaag</div><div class="t4" style="margin-top:2px">Door je shake of glas water</div></div>
-        <div class="cb${d.creat?' on':''}">${d.creat?'<i class="ti ti-check"></i>':''}</div>
-      </div>
-    </button>`
+    // --- AVOND: HARDLOPEN ---
     const runDone=d.runKm>0||d.runMin>0
     const run=`<div class="card">
       <div class="bet" style="margin-bottom:14px">
@@ -1021,6 +1135,8 @@
       </div>
       ${d.runKm>0&&d.runMin>0?`<p class="t4" style="margin-top:12px">Tempo: ${(d.runMin/d.runKm).toFixed(2)} min/km · ~${Math.round(d.runKm*70)} kcal</p>`:''}
     </div>`
+
+    // --- LAATSTE 7 DAGEN ---
     const last7=[]
     const tD=new Date(t)
     for(let i=6;i>=0;i--){
@@ -1052,13 +1168,29 @@
       ${streakRow('Run','run','ti-run','#D85A30')}
       ${migraineStreakRow()}
     </div>`
+
+    // --- LAYOUT ASSEMBLEREN: training kaart bovenaan, dan dagdelen, migraine onderaan, streaks heel onderaan ---
     el.innerHTML=`
       <div class="top-strip">
         <div class="top-strip-eyebrow">${dnL(t).toLowerCase()}</div>
         <div class="top-strip-title">${fdate(t)}</div>
       </div>
       <div style="padding-top:16px">
-        ${tdyCard}${qs}${water}${sleep}${caffeine}${creat}${run}${streaks}
+        ${tdyCard}
+
+        <div class="daypart-header"><i class="ti ti-sun"></i> Ochtend</div>
+        ${sleep}
+        ${creat}
+
+        <div class="daypart-header"><i class="ti ti-sun-high"></i> Door de dag</div>
+        ${water}
+        ${caffeine}
+
+        <div class="daypart-header"><i class="ti ti-moon-stars"></i> Avond</div>
+        ${run}
+
+        <div class="daypart-header"><i class="ti ti-chart-bar"></i> Overzicht</div>
+        ${streaks}
         ${migBlock}
       </div>`
     setupScrollDetection(el);
@@ -1095,7 +1227,6 @@
     const t=TODAY;
     ensureDay(t);
     daily[t][field] = val;
-    // backwards compat: ook numerieke `sleep` updaten
     daily[t].sleep = calcSleepHours(daily[t].bedTime, daily[t].wakeTime);
     safe(rVandaag);
     sset('daily',daily);
@@ -1165,7 +1296,7 @@
     showMigraineEditor(active.idx);
   }
 
-  // Modal-stijl editor (we openen 'm in een overlay binnen vandaag)
+  // === MOBILE-FRIENDLY MIGRAINE EDITOR ===
   function showMigraineEditor(idx) {
     const m = migraines[idx];
     if (!m) return;
@@ -1173,55 +1304,56 @@
     const endLocal = m.endTime ? new Date(m.endTime).toISOString().slice(0,16) : '';
     const overlay = document.createElement('div');
     overlay.id = 'mig-editor-overlay';
-    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:50;display:flex;align-items:flex-end;justify-content:center;padding:0;';
+    overlay.className = 'editor-overlay';
     overlay.onclick = (e) => { if(e.target === overlay) closeEditor(); };
+
+    const medsHTML = (m.medicationLog||[]).length === 0
+      ? '<div class="t4" style="padding:14px 0;text-align:center">Nog geen medicatie geregistreerd</div>'
+      : (m.medicationLog||[]).map((med,i) => `
+          <div class="med-log-row">
+            <div class="med-log-info">
+              <div class="t3" style="font-weight:600;text-transform:capitalize">${med.type}</div>
+              <div class="t4">${fmtDateTime(med.time)}</div>
+            </div>
+            <button class="med-log-del" onclick="delMed(${idx},${i})" aria-label="Verwijder"><i class="ti ti-trash"></i></button>
+            <input type="datetime-local" class="med-log-time-input" value="${new Date(med.time).toISOString().slice(0,16)}" onchange="updateMedTime(${idx},${i},this.value)" />
+          </div>`).join('');
+
     overlay.innerHTML = `
-      <div style="background:var(--bg-card);width:100%;max-width:680px;border-radius:18px 18px 0 0;padding:24px 18px calc(var(--safe-bottom) + 24px);max-height:85vh;overflow-y:auto;animation:slideUp .25s ease">
-        <div style="width:40px;height:5px;background:var(--border);border-radius:3px;margin:0 auto 18px"></div>
-        <div class="bet" style="margin-bottom:18px">
+      <div class="editor-sheet">
+        <div class="editor-handle"></div>
+        <div class="editor-header">
           <div class="t1">Migraine bewerken</div>
-          <button onclick="closeEditor()" style="border:none;background:none;font-size:22px;color:var(--text-3);cursor:pointer;padding:4px 8px">×</button>
+          <button class="editor-close" onclick="closeEditor()" aria-label="Sluiten">×</button>
         </div>
-        <div style="margin-bottom:14px">
+        <div class="editor-field">
           <div class="time-input-label">Starttijd</div>
           <input type="datetime-local" id="mig-start" value="${startLocal}" class="time-input" />
         </div>
-        <div style="margin-bottom:14px">
+        <div class="editor-field">
           <div class="time-input-label">Eindtijd (leeg = nog actief)</div>
           <input type="datetime-local" id="mig-end" value="${endLocal}" class="time-input" />
         </div>
-        <div style="margin-bottom:14px">
+        <div class="editor-field">
           <div class="time-input-label">Ernst (1-10, optioneel)</div>
           <input type="number" min="1" max="10" id="mig-sev" value="${m.severity||''}" class="time-input" placeholder="bv 6" />
         </div>
-        <div style="margin-bottom:18px">
+        <div class="editor-field">
           <div class="time-input-label">Notities</div>
-          <textarea id="mig-notes" class="time-input" style="height:auto;padding:12px 14px;min-height:70px;font-family:var(--font-sans);resize:vertical">${m.notes||''}</textarea>
+          <textarea id="mig-notes" class="editor-textarea" placeholder="Optionele notities...">${m.notes||''}</textarea>
         </div>
         <div class="time-input-label">Medicatie ingenomen (${(m.medicationLog||[]).length})</div>
-        <div id="mig-meds" style="border:1px solid var(--border);border-radius:10px;padding:4px 12px;margin-bottom:14px;background:var(--bg-soft)">
-          ${(m.medicationLog||[]).length === 0 ? '<div class="t4" style="padding:14px 0;text-align:center">Nog geen medicatie geregistreerd</div>' : 
-            (m.medicationLog||[]).map((med,i) => `
-              <div class="med-log-row">
-                <div style="flex:1;min-width:0">
-                  <div class="t3" style="font-weight:600;text-transform:capitalize">${med.type}</div>
-                  <div class="t4">${fmtDateTime(med.time)}</div>
-                </div>
-                <input type="datetime-local" class="med-log-time-input" value="${new Date(med.time).toISOString().slice(0,16)}" onchange="updateMedTime(${idx},${i},this.value)" />
-                <button class="med-log-del" onclick="delMed(${idx},${i})"><i class="ti ti-trash"></i></button>
-              </div>`).join('')}
-        </div>
-        <div class="med-grid" style="margin-bottom:18px">
+        <div class="editor-meds-list">${medsHTML}</div>
+        <div class="med-grid">
           <button class="med-tile parac" onclick="addMedTo(${idx},'paracetamol')"><i class="ti ti-pill"></i><div class="med-tile-name">Paracetamol</div><div class="med-tile-unit">+ pil</div></button>
           <button class="med-tile napro" onclick="addMedTo(${idx},'naproxen')"><i class="ti ti-pill"></i><div class="med-tile-name">Naproxen</div><div class="med-tile-unit">+ pil</div></button>
           <button class="med-tile suma" onclick="addMedTo(${idx},'sumatriptan')"><i class="ti ti-spray"></i><div class="med-tile-name">Sumatriptan</div><div class="med-tile-unit">+ spray</div></button>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="editor-actions">
           <button class="export-btn" onclick="deleteMigraine(${idx})" style="border-color:#DC2626;color:#DC2626"><i class="ti ti-trash"></i> Verwijder</button>
           <button class="savbtn" style="margin-top:0" onclick="saveMigraineEdits(${idx})"><i class="ti ti-check"></i> Opslaan</button>
         </div>
       </div>
-      <style>@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}</style>
     `;
     document.body.appendChild(overlay);
   }
@@ -1281,7 +1413,7 @@
   function goToTraining(d){selDate=d;sLog={};expEx=null;ssSaved=false;switchTab('training')}
 
   // ============================================================
-  // TAB 2: SCHEMA (ongewijzigd)
+  // TAB 2: SCHEMA
   // ============================================================
   function rSchema(){
     const el=document.getElementById('schema')
@@ -1334,7 +1466,7 @@
   }
 
   // ============================================================
-  // TAB 3: TRAINING (ongewijzigd)
+  // TAB 3: TRAINING — met REST TIMER
   // ============================================================
   function rTraining(){
     const el=document.getElementById('training')
@@ -1384,7 +1516,7 @@
             <div class="wval">${lg.weight} <span class="t4">${ex.u==='kg/hand'?'kg/hand':'kg'}</span></div>
             <button class="wbtn" onclick="adjEW('${ex.id}',${ex.c?2.5:1.25})" aria-label="Hoger">+</button>
           </div>`:''}
-          <p class="h-eyebrow" style="margin-bottom:10px">Sets afvinken</p>
+          <p class="h-eyebrow" style="margin-bottom:10px">Sets afvinken (start 90s rust)</p>
           <div class="${setsClass}">${lg.sets.map((done,si)=>`<button class="sbtn${done?' done':''}" onclick="tgSet('${ex.id}',${si})">${done?'<i class="ti ti-check"></i>':si+1}</button>`).join('')}</div>
         </div>`:''}
       </div>`}).join('')
@@ -1412,7 +1544,17 @@
   }
   function selD(d){selDate=d;sLog={};expEx=null;ssSaved=false;safe(rTraining);window.scrollTo({top:0,behavior:'instant'})}
   function tgEx(id){expEx=expEx===id?null:id;safe(rTraining)}
-  function tgSet(id,si){sLog[id].sets[si]=!sLog[id].sets[si];safe(rTraining)}
+
+  function tgSet(id,si){
+    const wasOff = !sLog[id].sets[si];
+    sLog[id].sets[si]=!sLog[id].sets[si];
+    safe(rTraining);
+    // Alleen rust-timer starten als de set NU afgevinkt wordt (van off → on)
+    if (wasOff) {
+      startRestTimer();
+    }
+  }
+
   function adjEW(id,delta){sLog[id].weight=Math.max(0,Math.round((sLog[id].weight+delta)*4)/4);safe(rTraining)}
   async function saveSess(){
     const day=TD.find(d=>d.date===selDate);if(!day)return
@@ -1424,7 +1566,80 @@
   }
 
   // ============================================================
-  // VOEDING + SHOP DATA
+  // REST TIMER (90s vast, korte vibratie start, 2x bij einde)
+  // ============================================================
+  function vibrate(pattern) {
+    try {
+      if (navigator.vibrate) navigator.vibrate(pattern);
+    } catch (e) { /* niet beschikbaar op iOS Safari, dat is OK */ }
+  }
+
+  function startRestTimer() {
+    // Cancel bestaande timer
+    if (restTimerInterval) {
+      clearInterval(restTimerInterval);
+      restTimerInterval = null;
+    }
+    restTimerEnd = Date.now() + REST_DURATION * 1000;
+    // Korte vibratie bij start
+    vibrate(50);
+    renderRestTimer();
+    restTimerInterval = setInterval(() => {
+      const remaining = Math.ceil((restTimerEnd - Date.now()) / 1000);
+      if (remaining <= 0) {
+        // 2 vibraties bij einde
+        vibrate([200, 100, 200]);
+        stopRestTimer(false); // false = niet door tap, dus geen extra vibration
+      } else {
+        renderRestTimer();
+      }
+    }, 250);
+  }
+
+  function stopRestTimer(byTap) {
+    if (restTimerInterval) {
+      clearInterval(restTimerInterval);
+      restTimerInterval = null;
+    }
+    restTimerEnd = null;
+    const host = document.getElementById('rest-timer-host');
+    if (host) {
+      const existing = host.querySelector('.rest-timer');
+      if (existing) {
+        existing.classList.add('fading');
+        setTimeout(() => { if (existing.parentElement) existing.remove(); }, 250);
+      }
+    }
+  }
+
+  function renderRestTimer() {
+    const host = document.getElementById('rest-timer-host');
+    if (!host) return;
+    if (!restTimerEnd) {
+      host.innerHTML = '';
+      return;
+    }
+    const remaining = Math.max(0, Math.ceil((restTimerEnd - Date.now()) / 1000));
+    const mm = Math.floor(remaining / 60);
+    const ss = remaining % 60;
+    const display = mm > 0 ? `${mm}:${String(ss).padStart(2,'0')}` : `${ss}s`;
+    const isWarning = remaining <= 10;
+
+    let timer = host.querySelector('.rest-timer');
+    if (!timer) {
+      timer = document.createElement('div');
+      timer.className = 'rest-timer';
+      timer.setAttribute('role', 'button');
+      timer.setAttribute('aria-label', 'Rust timer - tik om te stoppen');
+      timer.onclick = () => stopRestTimer(true);
+      host.appendChild(timer);
+    }
+    timer.classList.toggle('warning', isWarning);
+    timer.innerHTML = `<i class="ti ti-clock"></i><span>${display}</span>`;
+  }
+
+  // ============================================================
+  // VOEDING + SHOP DATA (ongewijzigd)
   // ============================================================
   const MEALS=[
     {day:'Maandag',tot:{k:2400,p:188,c:253,f:60},m:[
@@ -1612,7 +1827,7 @@
   }
 
   // ============================================================
-  // TAB 4: VOEDING (incl Shop sub-tab)
+  // TAB 4: VOEDING
   // ============================================================
   function rVoeding(){
     const el=document.getElementById('voeding')
@@ -1628,7 +1843,6 @@
       return;
     }
 
-    // MEALS
     const day=MEALS[vDay]
     const mc=[{l:'Kcal',v:day.tot.k,c:'#1D9E75'},{l:'Eiwit',v:day.tot.p+'g',c:'#185FA5'},{l:'Koolh',v:day.tot.c+'g',c:'#854F0B'},{l:'Vet',v:day.tot.f+'g',c:'#993556'}]
     const mlH=day.m.map((ml,mi)=>{const key=`${vDay}-${mi}`,isE=expMeal===key
@@ -1692,7 +1906,6 @@
   function tgCup(i){expCup=expCup===i?null:i;safe(rVoeding)}
   function setVoedingSub(s){voedingSubTab=s;safe(rVoeding);window.scrollTo({top:0,behavior:'instant'})}
 
-  // SHOP CONTENT (sub-tab)
   function renderShopContent() {
     const all=Object.values(SHOP).flat()
     const ck=all.filter(i=>shopCk[i.id]).length
@@ -1723,12 +1936,11 @@
   }
 
   // ============================================================
-  // TAB 5: INSIGHTS (Timeline + Correlatie + Export)
+  // TAB 5: INSIGHTS
   // ============================================================
   function getWeekDates(offset) {
-    // offset 0 = huidige week (ma t/m zo); -1 = vorige; etc.
     const today = new Date(TODAY);
-    const dow = today.getDay(); // 0 = zo, 1 = ma
+    const dow = today.getDay();
     const monShift = dow === 0 ? -6 : 1 - dow;
     const monday = new Date(today);
     monday.setDate(today.getDate() + monShift + offset * 7);
@@ -1746,28 +1958,20 @@
     const trainType = getTrainType(date);
     const dayMigraines = migraines.filter(m => m.startTime && m.startTime.startsWith(date));
 
-    // Slaap-blok: bedTime is GISTERAVOND, dus het slaap-blok loopt deels over deze dag heen
-    // Voor visualisatie: toon op DEZE dag het deel van vorige nacht (00:00 - wakeTime)
-    // En aan het einde van de dag: bedTime - 24:00 (alleen als bedTime > 18:00 en geldt voor volgende nacht)
     let sleepBlocks = [];
     if (d.bedTime && d.wakeTime) {
       const [wh, wm] = d.wakeTime.split(':').map(Number);
       const [bh, bm] = d.bedTime.split(':').map(Number);
       const wakeMinutes = wh * 60 + wm;
       const bedMinutes = bh * 60 + bm;
-      // Slaapdeel van de nacht ervoor: 0 → wakeTime
       if (!isNaN(wakeMinutes) && wakeMinutes > 0) {
         sleepBlocks.push({ startMin: 0, endMin: wakeMinutes });
       }
-      // Bedtijd van vanavond: bedTime → 24:00
       if (!isNaN(bedMinutes) && bedMinutes >= 18 * 60) {
         sleepBlocks.push({ startMin: bedMinutes, endMin: 24 * 60 });
       }
     }
 
-    // Cafeïne: we hebben alleen TOTAAL per dag, geen tijdstempels.
-    // Visualiseer als evenredig verspreid over wakkere uren (8:00-22:00)
-    // OF: als losse markers op vaste momenten (8, 11, 14, 17 uur etc) - eerste 'caffeine_units' tonen
     const cafTimes = [8 * 60, 11 * 60, 14 * 60, 17 * 60, 20 * 60, 9 * 60 + 30, 13 * 60, 15 * 60 + 30];
 
     const dayLabel = `${dn(date)} ${dnum(date)}`;
@@ -1783,17 +1987,14 @@
       tags.push(`<span class="tag tcaf"><i class="ti ti-coffee"></i> ${d.caffeine_units}×</span>`);
     }
 
-    // Bouw markers
     let markers = '';
 
-    // Sleep blocks (achtergrond)
     sleepBlocks.forEach(b => {
       const left = (b.startMin / (24*60)) * 100;
       const w = ((b.endMin - b.startMin) / (24*60)) * 100;
       markers += `<div class="timeline-marker tl-sleep" style="left:${left}%;width:${w}%" title="Slaap"></div>`;
     });
 
-    // Train block (kruistraining tijdvenster onbekend, neem 17:00-18:30 als default)
     if (trainType) {
       const startMin = 17 * 60;
       const endMin = 18 * 60 + 30;
@@ -1802,24 +2003,21 @@
       markers += `<div class="timeline-marker tl-train" style="left:${left}%;width:${w}%" title="${TCONF[trainType].label}"></div>`;
     }
 
-    // Caffeine markers (visueel verspreid)
     const cafCount = Math.min(d.caffeine_units||0, cafTimes.length);
     for (let i = 0; i < cafCount; i++) {
       const left = (cafTimes[i] / (24*60)) * 100;
       markers += `<div class="timeline-marker tl-caf" style="left:${left}%;width:4px" title="Cafeïne"></div>`;
     }
 
-    // Migraine markers (rood blok, voorgrond)
     dayMigraines.forEach(m => {
       const start = new Date(m.startTime);
       const end = m.endTime ? new Date(m.endTime) : new Date(date + 'T23:59:59');
       const startMin = start.getHours() * 60 + start.getMinutes();
-      // Als end op andere dag is, capen op einde van deze dag
       let endMin;
       if (m.endTime && m.endTime.startsWith(date)) {
         endMin = end.getHours() * 60 + end.getMinutes();
       } else if (m.endTime) {
-        endMin = 24 * 60; // doorloopt naar volgende dag
+        endMin = 24 * 60;
       } else {
         endMin = 24 * 60;
       }
@@ -1841,13 +2039,12 @@
     </div>`;
   }
 
-  // Verschuivingsanalyse: 24-48u voor migraine
   function analyzeMigraineTriggers() {
     const insights = [];
     const recentMigraines = migraines
       .filter(m => m.startTime)
       .sort((a,b) => new Date(b.startTime) - new Date(a.startTime))
-      .slice(0, 5); // Laatste 5 aanvallen
+      .slice(0, 5);
 
     if (recentMigraines.length === 0) {
       insights.push({
@@ -1859,7 +2056,6 @@
       return insights;
     }
 
-    // Algemene stats per type trigger
     let waterDrops = 0, sleepShifts = 0, highCaffeine = 0, heavyTraining = 0;
     let analyzed = 0;
 
@@ -1873,24 +2069,20 @@
       const d1 = getDay(day1);
       const d2 = getDay(day2);
 
-      // Water drop: dag voor (d1) significant lager dan d2?
       if (d1.water > 0 && d2.water > 0 && d1.water < d2.water * 0.7) {
         waterDrops++;
       }
 
-      // Bedtijd-shift: meer dan 90 min verschuiving tussen d2 en d1?
       const bed1 = bedtimeMinutesFromNoon(d1.bedTime);
       const bed2 = bedtimeMinutesFromNoon(d2.bedTime);
       if (bed1 !== null && bed2 !== null && Math.abs(bed1 - bed2) > 90) {
         sleepShifts++;
       }
 
-      // Hoge cafeïne (≥5 op d1 of d2)
       if ((d1.caffeine_units||0) >= 5 || (d2.caffeine_units||0) >= 5) {
         highCaffeine++;
       }
 
-      // Zware trainingsdag (lower of legs) op d1
       const t1 = getTrainType(day1);
       if (t1 === 'lower' || t1 === 'legs' || t1 === 'pull') {
         heavyTraining++;
@@ -1901,7 +2093,6 @@
 
     if (analyzed === 0) return insights;
 
-    // Bouw insights
     if (waterDrops / analyzed >= 0.4) {
       insights.push({
         type: 'alert',
@@ -1957,7 +2148,6 @@
     const weekLabel = timelineWeekOffset === 0 ? 'Deze week' : timelineWeekOffset === -1 ? 'Vorige week' : `${weekStart} – ${weekEnd}`;
     const canGoForward = timelineWeekOffset < 0;
 
-    // Stats: aanvallen totaal, deze week, gemiddelde duur, medicatie-totalen
     const completedMigraines = migraines.filter(m => m.startTime && m.endTime);
     const thisWeekMigs = migraines.filter(m => m.startTime && weekDates.includes(m.startTime.split('T')[0]));
     const totalMeds = migraines.reduce((acc, m) => {
@@ -1977,7 +2167,6 @@
       <div class="qstat"><i class="ti ti-pill qicon" style="color:#1D9E75"></i><div class="qval">${(totalMeds.paracetamol||0)+(totalMeds.naproxen||0)+(totalMeds.sumatriptan||0)}</div><div class="qlbl">Medicatie</div></div>
     </div>`;
 
-    // Insights / triggers
     const triggers = analyzeMigraineTriggers();
     const triggersH = triggers.map(t => `
       <div class="insight-card ${t.type}">
@@ -1989,7 +2178,6 @@
       </div>
     `).join('');
 
-    // Timeline
     const timelineRows = weekDates.map(d => renderTimelineDay(d)).join('');
     const timelineNav = `<div class="timeline-nav">
       <button class="timeline-nav-btn" onclick="shiftTimeline(-1)">‹</button>
@@ -2003,7 +2191,6 @@
       <div class="legend-item"><div class="legend-swatch" style="background:rgba(180, 122, 224, 0.25);border-top:2px solid #B47AE0;border-bottom:2px solid #B47AE0"></div> Training</div>
     </div>`;
 
-    // Migraine geschiedenis (laatste 5)
     const sortedMigs = [...migraines].sort((a,b) => new Date(b.startTime) - new Date(a.startTime));
     const recentMigs = sortedMigs.slice(0, 5);
     const recentH = recentMigs.length === 0 ? `<p class="t3" style="text-align:center;padding:20px 0;color:var(--text-3)">Nog geen aanvallen geregistreerd</p>` :
@@ -2049,7 +2236,7 @@
 
   function shiftTimeline(direction) {
     const next = timelineWeekOffset + direction;
-    if (next > 0) return; // niet vooruitkijken
+    if (next > 0) return;
     timelineWeekOffset = next;
     safe(rInsights);
   }
@@ -2059,7 +2246,6 @@
   // ============================================================
   function exportXLSX() {
     try {
-      // Verzamel alle relevante datums
       const allDates = new Set();
       Object.keys(daily).forEach(d => allDates.add(d));
       Object.keys(logs).forEach(d => allDates.add(d));
@@ -2067,7 +2253,6 @@
       TD.forEach(td => allDates.add(td.date));
       const sortedDates = [...allDates].sort();
 
-      // SHEET 1: Daily summary - één rij per datum
       const dailyRows = sortedDates.map(date => {
         const d = getDay(date);
         const trainType = getTrainType(date);
@@ -2083,7 +2268,6 @@
         }, {});
         const totalSets = logs[date] ? Object.values(logs[date]).reduce((s,ex) => s + (ex.sets||[]).filter(Boolean).length, 0) : 0;
 
-        // Eerste medicatie tijd per type op die dag
         const firstMedTime = (type) => {
           for (const m of dayMigs) {
             for (const med of (m.medicationLog||[])) {
@@ -2095,7 +2279,6 @@
           return '';
         };
 
-        // Migraine start/end op deze dag
         const migOnDate = dayMigs[0];
         const migStartTime = migOnDate ? new Date(migOnDate.startTime).toTimeString().slice(0,8) : '';
         const migEndTime = migOnDate && migOnDate.endTime ? new Date(migOnDate.endTime).toTimeString().slice(0,8) : '';
@@ -2129,7 +2312,6 @@
         };
       });
 
-      // SHEET 2: Medicatie-log (één rij per inname)
       const medRows = [];
       migraines.forEach((m, mi) => {
         (m.medicationLog || []).forEach(med => {
@@ -2147,7 +2329,6 @@
         });
       });
 
-      // SHEET 3: Migraine incidenten (één rij per aanval)
       const migRows = migraines.map((m, idx) => {
         const dur = m.endTime ? Math.round((new Date(m.endTime) - new Date(m.startTime))/60000) : '';
         const counts = (m.medicationLog||[]).reduce((acc,med)=>{acc[med.type]=(acc[med.type]||0)+1;return acc;},{});
@@ -2167,7 +2348,6 @@
         };
       });
 
-      // SHEET 4: Training-log (één rij per oefening per datum)
       const trainRows = [];
       Object.entries(logs).forEach(([date, exMap]) => {
         const trainType = getTrainType(date);
@@ -2189,7 +2369,6 @@
         });
       });
 
-      // Bouw workbook
       const wb = XLSX.utils.book_new();
 
       const ws1 = XLSX.utils.json_to_sheet(dailyRows);
