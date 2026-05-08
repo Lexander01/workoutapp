@@ -136,21 +136,17 @@
       firebaseConfig = JSON.parse(__firebase_config);
       useFirebase = true;
   } else {
-      // INSTRUCTIONS: Fill in these keys from your Firebase Console to enable syncing on GitHub.
-      const firebaseConfig = {
-        apiKey: "AIzaSyDmLxNeZmZf0eh3KaxGIiVCupbjJDVRYVI",
-        authDomain: "workoutapp-573b9.firebaseapp.com",
-        projectId: "workoutapp-573b9",
-        storageBucket: "workoutapp-573b9.firebasestorage.app",
-        messagingSenderId: "897583578240",
-        appId: "1:897583578240:web:05e1f8249b340353e9fa65"
-      };
-      
-      if (customConfig.apiKey) {
-          firebaseConfig = customConfig;
-          useFirebase = true;
-      }
-  }
+    // Hardcoded Firebase config for GitHub Pages deployment
+    firebaseConfig = {
+      apiKey: "AIzaSyDmLxNeZmZf0eh3KaxGIiVCupbjJDVRYVI",
+      authDomain: "workoutapp-573b9.firebaseapp.com",
+      projectId: "workoutapp-573b9",
+      storageBucket: "workoutapp-573b9.firebasestorage.app",
+      messagingSenderId: "897583578240",
+      appId: "1:897583578240:web:05e1f8249b340353e9fa65"
+    };
+    useFirebase = true;
+}
 
   let db, auth, currentUserId = null;
   const appId = typeof __app_id !== 'undefined' ? __app_id : 'summer-body-app';
