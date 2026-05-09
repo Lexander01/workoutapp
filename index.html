@@ -41,43 +41,28 @@
 
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 
-    html, body {
-      height: 100%;
-      background-color: var(--bg-page);
-      overscroll-behavior: contain;
-    }
+    html, body { height: 100%; background-color: var(--bg-page); overscroll-behavior: contain; }
 
     body {
-      display: flex;
-      justify-content: center;
+      display: flex; justify-content: center;
       -webkit-font-smoothing: antialiased;
       font-family: var(--font-sans);
-      color: var(--text-1);
-      font-size: 15px;
-      line-height: 1.5;
+      color: var(--text-1); font-size: 15px; line-height: 1.5;
       touch-action: manipulation;
     }
 
-    button, .pill, .tb {
-      -webkit-user-select: none;
-      user-select: none;
-    }
+    button, .pill, .tb { -webkit-user-select: none; user-select: none; }
 
     .app{
-      width:100%;
-      max-width:680px;
-      min-height:100vh;
-      min-height:100dvh;
+      width:100%; max-width:680px;
+      min-height:100vh; min-height:100dvh;
       background:var(--bg-card);
       box-shadow:0 0 40px rgba(17,24,39,0.06);
-      display:flex;
-      flex-direction:column;
-      position:relative;
+      display:flex; flex-direction:column; position:relative;
     }
 
     .top-strip {
-      position: sticky;
-      top: 0;
+      position: sticky; top: 0;
       background: rgba(255,255,255,0.95);
       backdrop-filter: saturate(180%) blur(14px);
       -webkit-backdrop-filter: saturate(180%) blur(14px);
@@ -90,50 +75,30 @@
     .top-strip-eyebrow { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .8px; font-weight: 600; margin-bottom: 2px; }
     .top-strip-title { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em; line-height: 1.2; }
 
-    .sec {
-      display: none;
-      flex: 1;
-      padding: 16px 16px calc(var(--tabbar-h) + var(--safe-bottom) + 24px);
-      animation: fadeIn .18s ease;
-    }
+    .sec { display: none; flex: 1; padding: 16px 16px calc(var(--tabbar-h) + var(--safe-bottom) + 24px); animation: fadeIn .18s ease; }
     .sec.on { display: block; }
     @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-    
+
     @keyframes spin { 100% { transform: rotate(360deg); } }
     .loader-cnt { display:flex; flex-direction:column; align-items:center; justify-content:center; height:60vh; color:var(--text-3); }
     .loader-cnt i { font-size:32px; animation: spin 1s linear infinite; margin-bottom:12px; }
 
     .tabs{
-      position:fixed;
-      bottom:0; left:0; right:0;
-      z-index:20;
-      display:flex;
-      gap:0;
+      position:fixed; bottom:0; left:0; right:0; z-index:20;
+      display:flex; gap:0;
       background:rgba(255,255,255,0.96);
       backdrop-filter:saturate(180%) blur(20px);
       -webkit-backdrop-filter:saturate(180%) blur(20px);
       border-top:1px solid var(--border);
       padding: 6px 4px calc(var(--safe-bottom) + 6px);
-      max-width:680px;
-      margin:0 auto;
+      max-width:680px; margin:0 auto;
     }
     .tb{
-      flex:1;
-      padding:10px 4px 8px;
-      background:none;
-      border:none;
-      cursor:pointer;
-      font-family:var(--font-sans);
-      font-size:10.5px;
-      font-weight:500;
-      color:var(--text-3);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:4px;
-      position:relative;
-      min-height:48px;
+      flex:1; padding:10px 4px 8px;
+      background:none; border:none; cursor:pointer;
+      font-family:var(--font-sans); font-size:10.5px; font-weight:500; color:var(--text-3);
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+      position:relative; min-height:48px;
       transition:color .12s ease, transform .1s ease;
     }
     .tb i{font-size:22px;line-height:1}
@@ -168,11 +133,10 @@
     .tcup{background:#FBEAF0;color:#72243E;border:1px solid #ED93B1}
     .tmig{background:var(--migraine-soft);color:#7F1D1D;border:1px solid var(--migraine-border)}
     .tcaf{background:var(--caffeine-soft);color:#78350F;border:1px solid var(--caffeine-border)}
+    .trest{background:var(--bg-soft);color:var(--text-3);border:1px solid var(--border)}
+    .tmoved{background:#FEF3C7;color:#78350F;border:1px solid #FCD34D}
 
-    .pill{
-      padding:9px 15px; border-radius:22px; border:1px solid var(--border); background:var(--bg-card); cursor:pointer;
-      font-size:12.5px; font-weight:500; font-family:var(--font-sans); color:var(--text-2); white-space:nowrap; min-height:36px; transition:all .12s ease;
-    }
+    .pill{ padding:9px 15px; border-radius:22px; border:1px solid var(--border); background:var(--bg-card); cursor:pointer; font-size:12.5px; font-weight:500; font-family:var(--font-sans); color:var(--text-2); white-space:nowrap; min-height:36px; transition:all .12s ease; }
     .pill:active{transform:scale(0.95)}
     .pill.ap{background:#E1F5EE;border-color:#5DCAA5;color:#085041;font-weight:600}
     .pill.ab{background:#E6F1FB;border-color:#85B7EB;color:#0C447C;font-weight:600}
@@ -186,6 +150,8 @@
     .dbtn:active{transform:scale(0.95)}
     .dbtn.off{opacity:.4}
     .dbtn.tdy{border:2px solid var(--text-1);box-shadow:0 0 0 3px rgba(17,24,39,0.06)}
+    .dbtn.rest{background:var(--bg-soft);border-color:var(--border-soft);opacity:0.85}
+    .dbtn.moved{background:#FEF8E1;border-color:#FCD34D}
 
     .srow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
     .srow.s3{grid-template-columns:repeat(3,1fr)}
@@ -212,7 +178,7 @@
     .exhdr{ display:flex; align-items:center; gap:12px; padding:16px 14px; cursor:pointer; background:none; border:none; width:100%; font-family:var(--font-sans); text-align:left; transition:background .12s ease; min-height:64px; }
     .exhdr:active{background:var(--bg-soft)}
     .exbdy{padding:6px 16px 18px;border-top:1px solid var(--border-soft);background:var(--bg-softer)}
-    
+
     .tipbox{ background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--text-2); margin:14px 0; line-height:1.5; display:flex; gap:10px; }
     .tipbox i{color:#EF9F27;flex-shrink:0;margin-top:2px;font-size:18px}
 
@@ -229,7 +195,6 @@
     .savbtn:active{transform:scale(0.98);box-shadow:var(--shadow-sm)}
     .savbtn.sv{background:#E1F5EE;color:#085041;border:1px solid #5DCAA5;box-shadow:none}
 
-    .statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
     .qstat{ background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px 6px; text-align:center; box-shadow:var(--shadow-sm); }
     .qstat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
     .qicon{font-size:22px;color:var(--text-2);margin-bottom:6px}
@@ -242,7 +207,7 @@
     .streak-off{background:var(--bg-soft);color:var(--text-3)}
     .streak-today{outline:2px solid var(--text-1);outline-offset:1px}
 
-    .run-input{ width:100%; height:48px; padding:0 14px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-soft); font-family:var(--font-sans); font-size:16px; color:var(--text-1); transition:border-color .12s ease, background .12s ease; -webkit-appearance: none; appearance: none; }
+    .run-input{ width:100%; height:48px; padding:0 14px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-soft); font-family:var(--font-sans); font-size:16px; color:var(--text-1); transition:border-color .12s ease, background .12s ease; -webkit-appearance: none; appearance: none; box-sizing:border-box; }
     .run-input:focus{outline:none;border-color:var(--text-2);background:var(--bg-card)}
     .run-input::-webkit-outer-spin-button, .run-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     .run-input[type=number] { -moz-appearance: textfield; }
@@ -277,68 +242,15 @@
     .daypart-header i { font-size:14px; }
 
     /* === MIGRAINE TRACKER STYLES === */
-    .panic-btn {
-      width: 100%;
-      padding: 22px 20px;
-      background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
-      border: none;
-      border-radius: var(--radius-lg);
-      color: white;
-      font-family: var(--font-sans);
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 14px;
-      transition: all .15s ease;
-      letter-spacing: -0.01em;
-    }
+    .panic-btn { width: 100%; padding: 22px 20px; background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%); border: none; border-radius: var(--radius-lg); color: white; font-family: var(--font-sans); font-size: 17px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 16px rgba(220, 38, 38, 0.25); display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 14px; transition: all .15s ease; letter-spacing: -0.01em; }
     .panic-btn:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3); }
     .panic-btn i { font-size: 24px; }
-    .panic-btn.active {
-      background: linear-gradient(135deg, #991B1B 0%, #7F1D1D 100%);
-    }
 
-    .active-migraine-card {
-      background: var(--migraine-soft);
-      border: 2px solid var(--migraine-border);
-      border-radius: var(--radius-lg);
-      padding: 18px 20px;
-      margin-bottom: 14px;
-      animation: pulse 2.5s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.3); }
-      50% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
-    }
+    .active-migraine-card { background: var(--migraine-soft); border: 2px solid var(--migraine-border); border-radius: var(--radius-lg); padding: 18px 20px; margin-bottom: 14px; animation: pulse 2.5s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.3); } 50% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); } }
 
-    .med-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .med-tile {
-      padding: 18px 8px;
-      background: var(--bg-card);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      font-family: var(--font-sans);
-      text-align: center;
-      transition: all .15s ease;
-      box-shadow: var(--shadow-sm);
-      min-height: 110px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-    }
+    .med-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .med-tile { padding: 18px 8px; background: var(--bg-card); border: 1.5px solid var(--border); border-radius: var(--radius-md); cursor: pointer; font-family: var(--font-sans); text-align: center; transition: all .15s ease; box-shadow: var(--shadow-sm); min-height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
     .med-tile:active { transform: scale(0.95); background: var(--bg-soft); }
     .med-tile i { font-size: 28px; margin-bottom: 4px; }
     .med-tile-name { font-size: 13px; font-weight: 600; color: var(--text-1); }
@@ -351,36 +263,24 @@
     .med-tile.suma { border-color: #C4B5FD; }
     .med-tile.suma i { color: #7C3AED; }
 
-    .caffeine-control {
-      display: grid;
-      grid-template-columns: 50px 1fr 50px;
-      gap: 10px;
-      align-items: center;
-    }
-    .caf-bean {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      background: var(--caffeine);
-      border-radius: 50%;
-      margin: 0 1px;
-    }
+    .caf-bean { display: inline-block; width: 16px; height: 16px; background: var(--caffeine); border-radius: 50%; margin: 0 1px; }
 
-    .med-log-row {
-      display: flex;
+    /* === GENERIC LOG ROW (medication / caffeine) === */
+    .log-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
       align-items: center;
       gap: 8px;
       padding: 10px 0;
       border-bottom: 1px solid var(--border-soft);
-      flex-wrap: wrap;
     }
-    .med-log-row:last-child { border-bottom: none; }
-    .med-log-row > .med-log-info { flex: 1; min-width: 0; }
-    .med-log-time-input {
+    .log-row:last-child { border-bottom: none; }
+    .log-row-info { min-width: 0; }
+    .log-row-time-input {
       width: 100%;
-      max-width: 180px;
+      max-width: 130px;
       height: 36px;
-      padding: 0 8px;
+      padding: 0 6px;
       border: 1px solid var(--border);
       border-radius: 8px;
       font-family: var(--font-sans);
@@ -388,270 +288,173 @@
       background: var(--bg-soft);
       box-sizing: border-box;
     }
-    .med-log-del {
-      width: 32px;
-      height: 32px;
-      border: none;
-      border-radius: 8px;
+    .log-row-del {
+      width: 32px; height: 32px;
+      border: none; border-radius: 8px;
       background: transparent;
       color: var(--text-3);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-    .med-log-del:active { background: var(--bg-soft); }
+    .log-row-del:active { background: var(--bg-soft); }
 
-    .time-input-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+    /* === TIME INPUTS GENERIC === */
+    .time-input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .time-input-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .5px; font-weight: 600; margin-bottom: 6px; }
     .time-input {
       width: 100%;
       height: 48px;
-      padding: 0 14px;
+      padding: 0 12px;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       background: var(--bg-soft);
       font-family: var(--font-sans);
-      font-size: 16px;
+      font-size: 15px;
       color: var(--text-1);
       box-sizing: border-box;
+      min-width: 0;
     }
     .time-input:focus { outline: none; border-color: var(--text-2); background: var(--bg-card); }
 
-    /* === MIGRAINE EDITOR (mobile-friendly) === */
-    .editor-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 50;
-      display: flex; align-items: flex-end; justify-content: center;
-      padding: 0;
-    }
+    /* === EDITOR (mobile-friendly bottom sheet) === */
+    .editor-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; display: flex; align-items: flex-end; justify-content: center; padding: 0; }
     .editor-sheet {
       background: var(--bg-card);
       width: 100%;
       max-width: 680px;
       border-radius: 18px 18px 0 0;
-      padding: 20px 16px calc(var(--safe-bottom) + 20px);
+      padding: 18px 14px calc(var(--safe-bottom) + 18px);
       max-height: 90vh;
       overflow-y: auto;
       animation: slideUp .25s ease;
       box-sizing: border-box;
     }
-    .editor-handle {
-      width: 40px; height: 5px;
-      background: var(--border);
-      border-radius: 3px;
-      margin: 0 auto 16px;
-    }
-    .editor-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px;
-      gap: 8px;
-    }
+    .editor-handle { width: 40px; height: 5px; background: var(--border); border-radius: 3px; margin: 0 auto 16px; }
+    .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; gap: 8px; }
     .editor-close {
-      border: none;
-      background: var(--bg-soft);
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      font-size: 20px;
-      color: var(--text-2);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+      border: none; background: var(--bg-soft);
+      width: 36px; height: 36px; border-radius: 50%;
+      font-size: 20px; color: var(--text-2); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     .editor-close:active { background: var(--border); }
     .editor-field { margin-bottom: 14px; }
     .editor-textarea {
-      width: 100%;
-      padding: 12px 14px;
-      min-height: 70px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
+      width: 100%; padding: 12px 14px; min-height: 70px;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
       background: var(--bg-soft);
-      font-family: var(--font-sans);
-      font-size: 15px;
-      color: var(--text-1);
-      resize: vertical;
-      box-sizing: border-box;
+      font-family: var(--font-sans); font-size: 15px; color: var(--text-1);
+      resize: vertical; box-sizing: border-box;
     }
     .editor-textarea:focus { outline: none; border-color: var(--text-2); background: var(--bg-card); }
     .editor-meds-list {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 4px 12px;
-      margin-bottom: 14px;
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 4px 12px; margin-bottom: 14px;
       background: var(--bg-soft);
     }
-    .editor-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+    .editor-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-    /* === RUST TIMER OVERLAY === */
+    /* === REST TIMER === */
     .rest-timer {
       position: fixed;
-      top: calc(var(--safe-top) + 14px);
-      right: 14px;
-      z-index: 30;
-      background: var(--text-1);
-      color: #fff;
+      top: calc(var(--safe-top) + 14px); right: 14px; z-index: 30;
+      background: var(--text-1); color: #fff;
       border-radius: 22px;
       padding: 8px 14px 8px 12px;
-      font-family: var(--font-sans);
-      font-weight: 600;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-family: var(--font-sans); font-weight: 600; font-size: 14px;
+      display: flex; align-items: center; gap: 8px;
       box-shadow: 0 6px 16px rgba(17,24,39,0.3);
-      cursor: pointer;
-      user-select: none;
+      cursor: pointer; user-select: none;
       animation: timerSlideIn .3s ease;
-      min-height: 36px;
-      letter-spacing: -0.01em;
+      min-height: 36px; letter-spacing: -0.01em;
     }
     .rest-timer:active { transform: scale(0.95); }
     .rest-timer i { font-size: 16px; }
     .rest-timer.warning { background: #B91C1C; }
-    @keyframes timerSlideIn {
-      from { transform: translateX(120%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    .rest-timer.fading {
-      animation: timerSlideOut .25s ease forwards;
-    }
-    @keyframes timerSlideOut {
-      from { transform: translateX(0); opacity: 1; }
-      to { transform: translateX(120%); opacity: 0; }
-    }
+    @keyframes timerSlideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .rest-timer.fading { animation: timerSlideOut .25s ease forwards; }
+    @keyframes timerSlideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
 
-    /* === INSIGHTS / TIMELINE === */
-    .timeline-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 14px;
-      padding: 8px 4px;
-    }
-    .timeline-nav-btn {
-      width: 40px; height: 40px;
+    /* === EXERCISE EDIT (pencil button + replace list) === */
+    .ex-edit-btn {
+      width: 30px; height: 30px;
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 8px;
       background: var(--bg-card);
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; color: var(--text-1);
+      color: var(--text-2);
+      flex-shrink: 0;
+      transition: all .12s ease;
+      margin-right: 6px;
     }
+    .ex-edit-btn:active { transform: scale(0.92); background: var(--bg-soft); }
+    .ex-edit-btn i { font-size: 15px; }
+
+    .replace-list {
+      display: flex; flex-direction: column; gap: 8px;
+      max-height: 60vh; overflow-y: auto;
+      margin-bottom: 14px;
+    }
+    .replace-item {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      text-align: left;
+      display: flex; align-items: center; gap: 10px;
+      transition: all .12s ease;
+    }
+    .replace-item:active { transform: scale(0.985); background: var(--bg-soft); }
+    .replace-item.current { border-color: var(--text-1); background: var(--bg-soft); }
+    .replace-item-info { flex: 1; min-width: 0; }
+    .replace-item-meta { display: flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 12px; color: var(--text-3); font-weight: 500; }
+
+    /* === INSIGHTS / TIMELINE === */
+    .timeline-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 14px; padding: 8px 4px; }
+    .timeline-nav-btn { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--text-1); }
     .timeline-nav-btn:active { background: var(--bg-soft); }
     .timeline-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .timeline-nav-label { flex: 1; text-align: center; font-size: 14px; font-weight: 600; color: var(--text-1); }
 
-    .timeline-day {
-      border-bottom: 1px solid var(--border-soft);
-      padding: 10px 0;
-    }
+    .timeline-day { border-bottom: 1px solid var(--border-soft); padding: 10px 0; }
     .timeline-day:last-child { border-bottom: none; }
-    .timeline-day-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 8px;
-    }
+    .timeline-day-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
     .timeline-day-label { font-size: 13px; font-weight: 600; color: var(--text-1); }
     .timeline-day-tags { display: flex; gap: 4px; flex-wrap: wrap; }
-    .timeline-track {
-      position: relative;
-      height: 28px;
-      background: var(--bg-soft);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    .timeline-hours {
-      display: grid;
-      grid-template-columns: repeat(24, 1fr);
-      height: 100%;
-      gap: 0;
-    }
+    .timeline-track { position: relative; height: 28px; background: var(--bg-soft); border-radius: 6px; overflow: hidden; }
+    .timeline-hours { display: grid; grid-template-columns: repeat(24, 1fr); height: 100%; gap: 0; }
     .timeline-hour { border-right: 1px solid rgba(0,0,0,0.03); position: relative; }
     .timeline-hour:nth-child(6n) { border-right-color: rgba(0,0,0,0.08); }
-    .timeline-marker {
-      position: absolute;
-      top: 0; bottom: 0;
-      border-radius: 3px;
-      pointer-events: none;
-    }
+    .timeline-marker { position: absolute; top: 0; bottom: 0; border-radius: 3px; pointer-events: none; }
     .tl-mig { background: rgba(220, 38, 38, 0.7); border: 1px solid #DC2626; z-index: 3; }
     .tl-sleep { background: rgba(83, 74, 183, 0.18); border-top: 2px solid #534AB7; border-bottom: 2px solid #534AB7; }
     .tl-caf { background: #92400E; width: 4px !important; border-radius: 2px; z-index: 2; top: 4px; bottom: 4px; }
     .tl-train { background: rgba(180, 122, 224, 0.25); border-top: 2px solid #B47AE0; border-bottom: 2px solid #B47AE0; }
 
-    .timeline-legend {
-      display: flex; flex-wrap: wrap; gap: 12px;
-      margin: 10px 4px 16px;
-      font-size: 11px; color: var(--text-2);
-    }
+    .timeline-legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 4px 16px; font-size: 11px; color: var(--text-2); }
     .legend-item { display: flex; align-items: center; gap: 6px; }
     .legend-swatch { width: 14px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 
-    .insight-card {
-      padding: 14px 16px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      margin-bottom: 10px;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
+    .insight-card { padding: 14px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 10px; display: flex; gap: 12px; align-items: flex-start; }
     .insight-card.warn { background: #FFF7ED; border-color: #FDBA74; }
     .insight-card.alert { background: var(--migraine-soft); border-color: var(--migraine-border); }
     .insight-card.good { background: #ECFDF5; border-color: #6EE7B7; }
-    .insight-icon {
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      font-size: 18px;
-    }
+    .insight-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; background: var(--bg-soft); color: var(--text-2); }
     .insight-card.warn .insight-icon { background: #FED7AA; color: #9A3412; }
     .insight-card.alert .insight-icon { background: #FCA5A5; color: #7F1D1D; }
     .insight-card.good .insight-icon { background: #A7F3D0; color: #065F46; }
-    .insight-card .insight-icon { background: var(--bg-soft); color: var(--text-2); }
 
-    .export-btn {
-      width: 100%;
-      padding: 16px;
-      background: var(--bg-card);
-      border: 1.5px solid var(--text-1);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      font-family: var(--font-sans);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: all .15s ease;
-      min-height: 56px;
-    }
+    .export-btn { width: 100%; padding: 16px; background: var(--bg-card); border: 1.5px solid var(--text-1); border-radius: var(--radius-md); cursor: pointer; font-family: var(--font-sans); font-size: 15px; font-weight: 600; color: var(--text-1); display: flex; align-items: center; justify-content: center; gap: 10px; transition: all .15s ease; min-height: 56px; }
     .export-btn:active { transform: scale(0.98); background: var(--bg-soft); }
 
-    .past-mig-row {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border-soft);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .past-mig-row { padding: 12px 0; border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; gap: 12px; }
     .past-mig-row:last-child { border-bottom: none; }
 
     @media (hover: hover) {
@@ -662,13 +465,16 @@
       .sbtn:hover { border-color: #cdd1d8; }
       .savbtn:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
       .exacc:hover { border-color: #cdd1d8; }
+      .ex-edit-btn:hover { border-color: #cdd1d8; }
     }
 
-    /* Smaller screens: stack med-grid 2 cols and tighten editor */
+    /* Smaller screens */
     @media (max-width: 380px) {
       .med-grid { grid-template-columns: 1fr 1fr; }
-      .editor-sheet { padding-left: 14px; padding-right: 14px; }
+      .editor-sheet { padding-left: 12px; padding-right: 12px; }
       .time-input-group { grid-template-columns: 1fr; }
+      .time-input { font-size: 14px; padding: 0 10px; }
+      .log-row-time-input { max-width: 110px; font-size: 12px; }
     }
   </style>
 </head>
@@ -690,7 +496,6 @@
   </div>
 </div>
 
-<!-- Rust timer overlay container -->
 <div id="rest-timer-host"></div>
 
 <script type="module">
@@ -698,23 +503,16 @@
   import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-  const TD = (() => {
-    const out = [];
-    const start = new Date('2026-05-08');
-    const end = new Date('2026-06-25');
-    const map = {1:'upper', 2:'lower', 4:'push', 5:'pull', 6:'legs'};
-    let s = 1;
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
-      const dow = d.getDay();
-      const type = map[dow];
-      if (type) {
-        const date = d.toISOString().split('T')[0];
-        out.push({ date, type, s: s++ });
-      }
-    }
-    return out;
-  })();
+  // ============================================================
+  // CONSTANTS / EXERCISE LIBRARY
+  // ============================================================
+  // BASIS-trainingsschema (origineel). Wordt gebruikt om TD te bouwen,
+  // maar 'avail[date] = false' en 'shifts' kunnen de schedule veranderen.
+  const SCHEDULE_START = '2026-05-08';
+  const SCHEDULE_END = '2026-06-25';
+  const ORIGINAL_DOW_MAP = {1:'upper', 2:'lower', 4:'push', 5:'pull', 6:'legs'};
 
+  // Default sessie-data wordt dynamisch berekend in computeTD() (zie verder)
   const EX = {
     upper: [
       {id:'bench',n:'Bench Press',m:'Borst',w:60,sets:4,reps:8,c:1,u:'kg',tip:'Schouderbladen ingedrukt, voeten op vloer, stang gecontroleerd naar borst'},
@@ -723,6 +521,13 @@
       {id:'dbrow',n:'Single-arm DB Row',m:'Rug',w:22,sets:3,reps:10,c:1,u:'kg/hand',tip:'Knie op bank, rug horizontaal, elleboog hoog trekken'},
       {id:'bbcurl',n:'Barbell Curl',m:'Biceps',w:30,sets:3,reps:10,c:0,u:'kg',tip:'Geen slingeren, ellebogen gefixeerd, volle stretch en knijp'},
       {id:'tpd',n:'Tricep Pushdown',m:'Triceps',w:22.5,sets:3,reps:12,c:0,u:'kg',tip:'Ellebogen strak langs lichaam, volle extensie, squeeze'},
+      // Extra alternatieven voor upper
+      {id:'incbench',n:'Incline Barbell Press',m:'Borst (boven)',w:50,sets:4,reps:8,c:1,u:'kg',tip:'Bank op 30°, gecontroleerd omlaag naar bovenborst.'},
+      {id:'dbpress',n:'Flat DB Press',m:'Borst',w:24,sets:4,reps:10,c:1,u:'kg/hand',tip:'Goede vervanger van bench. Volledige range of motion.'},
+      {id:'cablerow',n:'Cable Row',m:'Rug (midden)',w:55,sets:4,reps:10,c:1,u:'kg',tip:'Rechte rug, ellebogen langs lichaam.'},
+      {id:'machsh',n:'Machine Shoulder Press',m:'Schouders',w:40,sets:3,reps:10,c:1,u:'kg',tip:'Stabiel pad, volledig persen.'},
+      {id:'preachcurl',n:'Preacher Curl',m:'Biceps',w:22,sets:3,reps:10,c:0,u:'kg',tip:'Ellebogen gefixeerd op bank, controle.'},
+      {id:'overheadext',n:'Overhead Tricep Extension',m:'Triceps',w:18,sets:3,reps:12,c:0,u:'kg',tip:'Ellebogen dicht bij hoofd, volle stretch.'},
     ],
     lower: [
       {id:'squat',n:'Barbell Back Squat',m:'Quads / Glutes',w:70,sets:4,reps:8,c:1,u:'kg',tip:'Schouderbreedte, heupen onder kniehoogte, borst omhoog'},
@@ -731,6 +536,11 @@
       {id:'lcurl',n:'Leg Curl',m:'Hamstrings',w:37.5,sets:3,reps:12,c:0,u:'kg',tip:'Gecontroleerd omlaag, volle range of motion'},
       {id:'calf',n:'Standing Calf Raise',m:'Kuiten',w:50,sets:4,reps:15,c:0,u:'kg',tip:'Volle stretch onderaan, explosief omhoog, pauze bovenkant'},
       {id:'plank',n:'Plank',m:'Core',w:45,sets:3,reps:1,c:0,u:'sec',tip:'Lichaam recht als plank, billen niet omhoog, buik aanspannen'},
+      {id:'gobsquat',n:'Goblet Squat',m:'Quads',w:24,sets:3,reps:12,c:1,u:'kg',tip:'DB op borst, rechtop, diep zakken.'},
+      {id:'hipthrust',n:'Hip Thrust',m:'Glutes',w:60,sets:3,reps:10,c:1,u:'kg',tip:'Rug op bank, heupen volledig strekken bovenaan.'},
+      {id:'lext',n:'Leg Extension',m:'Quads',w:35,sets:3,reps:12,c:0,u:'kg',tip:'Volle range, knijp bovenaan.'},
+      {id:'bulgsquat',n:'Bulgarian Split Squat',m:'Quads / Glutes',w:14,sets:3,reps:10,c:1,u:'kg/hand',tip:'10 reps per been, achterste voet op bank.'},
+      {id:'abwheel',n:'Ab Wheel Rollout',m:'Core',w:0,sets:3,reps:10,c:0,u:'reps',tip:'Strakke core, langzaam uitrollen.'},
     ],
     push: [
       {id:'incdb',n:'Incline DB Press',m:'Borst (boven)',w:18,sets:4,reps:10,c:1,u:'kg/hand',tip:'Bank op 30-45°, dumbbells langzaam omlaag, stretch voelen'},
@@ -739,6 +549,10 @@
       {id:'latr',n:'Lateral Raises',m:'Zijdeltoid',w:8,sets:3,reps:15,c:0,u:'kg/hand',tip:'Lichte buiging elleboog, tot schouderhoogte, langzaam terug'},
       {id:'skull',n:'Skull Crushers',m:'Triceps',w:22.5,sets:3,reps:12,c:0,u:'kg',tip:'EZ-bar, ellebogen omhoog, gecontroleerd omlaag'},
       {id:'tpd',n:'Tricep Pushdown',m:'Triceps',w:22.5,sets:3,reps:12,c:0,u:'kg',tip:'Ellebogen strak langs lichaam, volle extensie, squeeze'},
+      {id:'bench',n:'Flat Bench Press',m:'Borst',w:60,sets:4,reps:8,c:1,u:'kg',tip:'Klassieke bench, schouderbladen ingedrukt.'},
+      {id:'dippush',n:'Dips',m:'Borst (onder) / Triceps',w:0,sets:3,reps:10,c:1,u:'kg',tip:'Bodyweight; gewicht=extra belasting.'},
+      {id:'arnold',n:'Arnold Press',m:'Schouders',w:14,sets:3,reps:10,c:1,u:'kg/hand',tip:'Roteer dumbbells tijdens persen voor volle deltoid.'},
+      {id:'overheadext',n:'Overhead Tricep Extension',m:'Triceps',w:18,sets:3,reps:12,c:0,u:'kg',tip:'Ellebogen dicht bij hoofd, volle stretch.'},
     ],
     pull: [
       {id:'pullup',n:'Pull-ups (of Lat Pulldown)',m:'Rug (breed)',w:0,sets:4,reps:8,c:1,u:'kg',tip:'Eigen gewicht; gewicht=extra belasting (0 = bodyweight). Volle hang, kin boven stang.'},
@@ -747,6 +561,10 @@
       {id:'fpull',n:'Face Pulls',m:'Achterschouders',w:20,sets:3,reps:15,c:0,u:'kg',tip:'Touw naar gezicht, ellebogen hoog, achterschouder squeezen'},
       {id:'idcurl',n:'Incline DB Curl',m:'Biceps (long head)',w:10,sets:3,reps:12,c:0,u:'kg/hand',tip:'Bank op 60°, volle stretch onderaan voor maximale activatie'},
       {id:'hcurl',n:'Hammer Curl',m:'Biceps / Brachialis',w:12,sets:3,reps:12,c:0,u:'kg/hand',tip:'Neutrale grip, ellebogen gefixeerd, gecontroleerd tempo'},
+      {id:'lpd',n:'Lat Pulldown',m:'Rug (breed)',w:62.5,sets:4,reps:8,c:1,u:'kg',tip:'Brede greep, naar borst trekken.'},
+      {id:'tbar',n:'T-Bar Row',m:'Rug (midden)',w:50,sets:4,reps:10,c:1,u:'kg',tip:'Rug recht, knieën licht gebogen.'},
+      {id:'bbcurl',n:'Barbell Curl',m:'Biceps',w:30,sets:3,reps:10,c:0,u:'kg',tip:'Klassieke biceps curl.'},
+      {id:'rdelt',n:'Reverse Pec Deck',m:'Achterschouders',w:25,sets:3,reps:15,c:0,u:'kg',tip:'Knijp schouderbladen samen.'},
     ],
     legs: [
       {id:'fsquat',n:'Front Squat (of High-bar)',m:'Quads',w:50,sets:4,reps:8,c:1,u:'kg',tip:'Quad-dominant. Ellebogen hoog, romp rechtop, dieper dan back squat.'},
@@ -755,6 +573,10 @@
       {id:'lcurl',n:'Leg Curl',m:'Hamstrings',w:37.5,sets:3,reps:12,c:0,u:'kg',tip:'Gecontroleerd omlaag, volle range of motion'},
       {id:'calf',n:'Standing Calf Raise',m:'Kuiten',w:50,sets:4,reps:15,c:0,u:'kg',tip:'Volle stretch onderaan, explosief omhoog, pauze bovenkant'},
       {id:'plank',n:'Plank',m:'Core',w:45,sets:3,reps:1,c:0,u:'sec',tip:'Lichaam recht als plank, billen niet omhoog, buik aanspannen'},
+      {id:'squat',n:'Barbell Back Squat',m:'Quads / Glutes',w:70,sets:4,reps:8,c:1,u:'kg',tip:'Klassieke back squat.'},
+      {id:'lpress',n:'Leg Press',m:'Quads',w:100,sets:3,reps:12,c:1,u:'kg',tip:'Voeten schouderbreedte.'},
+      {id:'lext',n:'Leg Extension',m:'Quads',w:35,sets:3,reps:12,c:0,u:'kg',tip:'Volle range, knijp bovenaan.'},
+      {id:'hipthrust',n:'Hip Thrust',m:'Glutes',w:60,sets:3,reps:10,c:1,u:'kg',tip:'Rug op bank, heupen strekken.'},
     ],
   };
 
@@ -766,6 +588,9 @@
     legs:  {label:'Legs',  muscles:'Quads · Hamstrings · Kuiten', cls:'tg', pill:'aa', col:'#EF9F27'},
   };
 
+  // ============================================================
+  // FIREBASE INIT
+  // ============================================================
   let useFirebase = false;
   let firebaseConfig = null;
 
@@ -789,19 +614,101 @@
   let isFirebaseReady = false;
   let isAppLoaded = false;
 
-  // === DATA STATE ===
-  let avail={}, weights={}, logs={}, shopCk={}, daily={}, migraines=[];
-  let selDate=null, vDay=0, sLog={}, expEx=null, ssSaved=false, expMeal=null, expCup=null;
+  // ============================================================
+  // STATE
+  // ============================================================
+  let avail = {};        // {date: false} = vrij genomen
+  let weights = {};      // {exId: weight}
+  let logs = {};         // {date: {exId: {sets:[], weight, exerciseTimestamps:[ISO,...]}}}
+  let shopCk = {};
+  let daily = {};        // {date: {water, bedTime, wakeTime, creat, runKm, runMin, caffeine_log:[{time:ISO}]}}
+  let migraines = [];
+  let exerciseOverrides = {}; // {date: {originalExId: replacementExId}} - per-sessie oefening swaps
+  let trainingShifts = {};    // {originalDate: shiftedDate} - verplaatste trainingen
+  // TD wordt dynamisch berekend op basis van shifts:
+  let TD = [];
+
+  let selDate = null, vDay = 0, sLog = {}, expEx = null, ssSaved = false, expMeal = null, expCup = null;
   let voedingSubTab = 'meals';
   let timelineWeekOffset = 0;
-  let showLegacyMigraines = false;
 
-  // === REST TIMER STATE ===
-  const REST_DURATION = 90; // seconds, vast voor alles
+  // Rest timer
+  const REST_DURATION = 90;
   let restTimerInterval = null;
   let restTimerEnd = null;
 
   const TODAY = (()=>{ try { return new Date().toISOString().split('T')[0]; } catch { return '2026-05-08'; } })();
+
+  // ============================================================
+  // SCHEDULE COMPUTATION (met shifts naar rustdagen)
+  // ============================================================
+  function computeTD() {
+    // Stap 1: bouw "originele" trainingsdagen op basis van DOW
+    const orig = [];
+    const start = new Date(SCHEDULE_START);
+    const end = new Date(SCHEDULE_END);
+    let s = 1;
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
+      const dow = d.getDay();
+      const type = ORIGINAL_DOW_MAP[dow];
+      if (type) {
+        const date = d.toISOString().split('T')[0];
+        orig.push({ originalDate: date, type, s: s++ });
+      }
+    }
+
+    // Stap 2: pas shifts toe. Shift = trainingsdag wordt verplaatst naar een rustdag.
+    const result = [];
+    for (const t of orig) {
+      const shiftedTo = trainingShifts[t.originalDate];
+      const effectiveDate = shiftedTo || t.originalDate;
+      result.push({
+        date: effectiveDate,
+        originalDate: t.originalDate,
+        type: t.type,
+        s: t.s,
+        moved: !!shiftedTo
+      });
+    }
+
+    TD = result;
+  }
+
+  function getNextRestDate(fromDate) {
+    // Vind eerstvolgende rustdag NA fromDate (binnen schedule).
+    // Een dag is een rustdag als er geen training op gepland staat (na shifts toepassen).
+    const used = new Set(TD.map(t => t.date)); // all training dates incl. shifted
+    const start = new Date(fromDate);
+    const end = new Date(SCHEDULE_END);
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
+      const dStr = d.toISOString().split('T')[0];
+      if (dStr === fromDate) continue; // eerst skippen, we willen NA fromDate
+      if (!used.has(dStr)) return dStr;
+    }
+    return null;
+  }
+
+  function shiftTrainingFromDate(originalDate) {
+    // Verplaats de training met deze originalDate naar de eerste rustdag NA originalDate
+    const target = getNextRestDate(originalDate);
+    if (target) {
+      trainingShifts[originalDate] = target;
+      computeTD();
+      sset('shifts', trainingShifts);
+      return true;
+    }
+    return false;
+  }
+
+  function unshiftTraining(originalDate) {
+    // Herstel de training: terug naar originele dag
+    delete trainingShifts[originalDate];
+    computeTD();
+    sset('shifts', trainingShifts);
+  }
+
+  // Initial schedule build (zonder shifts) zodat UI direct iets kan tonen
+  computeTD();
 
   rerenderActive('vandaag');
 
@@ -817,24 +724,33 @@
         } else {
           await signInAnonymously(auth);
         }
-        
         currentUserId = auth.currentUser?.uid || crypto.randomUUID();
         if (currentUserId) {
           isFirebaseReady = true;
           await loadCloud();
         }
-        
         isAppLoaded = true;
+
+        // Set vandaag-dag in voeding tab op vandaag
+        initVoedingDayToToday();
+
         const active = document.querySelector('.tb.on')?.dataset.tab || 'vandaag';
         rerenderActive(active);
-
-      } catch (e) { 
-        console.error('auth error', e); 
+      } catch (e) {
+        console.error('auth error', e);
         isAppLoaded = true;
+        initVoedingDayToToday();
         rerenderActive('vandaag');
       }
     };
     initAuth();
+  }
+
+  function initVoedingDayToToday() {
+    // Map JS getDay (0=zo..6=za) naar onze MEALS-array index (0=Ma..6=Zo)
+    const jsDay = new Date(TODAY).getDay();
+    const mealIdx = jsDay === 0 ? 6 : jsDay - 1; // zo=6, ma=0, di=1...
+    vDay = mealIdx;
   }
 
   async function cloudGet(key) {
@@ -846,7 +762,7 @@
       return null;
     } catch(e) { console.error(e); return null; }
   }
-  
+
   async function cloudSet(key, val) {
     if (!useFirebase || !isFirebaseReady || !currentUserId) return;
     try {
@@ -857,8 +773,10 @@
 
   async function loadCloud() {
     try {
-      const [a,w,l,s,d,m] = await Promise.all([
-        cloudGet('avail'), cloudGet('weights'), cloudGet('logs'), cloudGet('shop'), cloudGet('daily'), cloudGet('migraines')
+      const [a, w, l, s, d, m, ovr, sh] = await Promise.all([
+        cloudGet('avail'), cloudGet('weights'), cloudGet('logs'),
+        cloudGet('shop'), cloudGet('daily'), cloudGet('migraines'),
+        cloudGet('exerciseOverrides'), cloudGet('shifts')
       ]);
       avail = a || {};
       weights = w || {};
@@ -866,15 +784,32 @@
       shopCk = s || {};
       daily = d || {};
       migraines = m || [];
+      exerciseOverrides = ovr || {};
+      trainingShifts = sh || {};
 
+      // Migration: oude caffeine_units → caffeine_log met geschatte tijden
       Object.keys(daily).forEach(date => {
-        const d = daily[date];
-        if (typeof d === 'object' && d !== null) {
-          if (d.caffeine_units === undefined) d.caffeine_units = 0;
-          if (d.bedTime === undefined) d.bedTime = '';
-          if (d.wakeTime === undefined) d.wakeTime = '';
+        const dd = daily[date];
+        if (typeof dd === 'object' && dd !== null) {
+          if (dd.bedTime === undefined) dd.bedTime = '';
+          if (dd.wakeTime === undefined) dd.wakeTime = '';
+          if (dd.caffeine_log === undefined) {
+            dd.caffeine_log = [];
+            // Migratie van caffeine_units naar log: backfill met default tijden
+            if (dd.caffeine_units && dd.caffeine_units > 0) {
+              const defaults = ['08:00','11:00','14:00','17:00','20:00','09:30','13:00','15:30'];
+              for (let i = 0; i < dd.caffeine_units && i < defaults.length; i++) {
+                const t = defaults[i];
+                dd.caffeine_log.push({ time: `${date}T${t}:00.000Z` });
+              }
+            }
+            delete dd.caffeine_units;
+          }
         }
       });
+
+      // Update TD met geladen shifts
+      computeTD();
     } catch(e) { console.error(e); }
   }
 
@@ -898,14 +833,47 @@
     if (tab==='insights') safe(rInsights);
   }
 
-  function gw(id){if(weights[id]!==undefined)return weights[id];for(const k of Object.keys(EX)){const e=EX[k].find(e=>e.id===id);if(e)return e.w}return 0}
-  function nxtW(cur,done,target,compound){if(done>=target)return Math.round((cur+(compound?2.5:1.25))*4)/4;if(done>=Math.ceil(target*.75))return cur;return Math.round((cur*.95)*4)/4}
-  function isAv(d){return avail[d]!==false}
-  function isTrainDay(d){return!!TD.find(td=>td.date===d&&isAv(td.date))}
-  function getTrainType(d){const td=TD.find(t=>t.date===d&&isAv(t.date));return td?td.type:null}
-  function waterTarget(d){return isTrainDay(d)?3500:3000}
-  function getDay(d){
-    return daily[d]||{water:0,sleep:0,creat:false,runKm:0,runMin:0,caffeine_units:0,bedTime:'',wakeTime:''};
+  // ============================================================
+  // HELPERS
+  // ============================================================
+  function gw(id) {
+    if (weights[id] !== undefined) return weights[id];
+    for (const k of Object.keys(EX)) {
+      const e = EX[k].find(e => e.id === id);
+      if (e) return e.w;
+    }
+    return 0;
+  }
+
+  function getExDef(id) {
+    for (const k of Object.keys(EX)) {
+      const e = EX[k].find(e => e.id === id);
+      if (e) return e;
+    }
+    return null;
+  }
+
+  function nxtW(cur, done, target, compound) {
+    if (done >= target) return Math.round((cur + (compound ? 2.5 : 1.25)) * 4) / 4;
+    if (done >= Math.ceil(target * .75)) return cur;
+    return Math.round((cur * .95) * 4) / 4;
+  }
+
+  function isAv(d) { return avail[d] !== false; }
+
+  function isTrainDay(d) {
+    return !!TD.find(td => td.date === d && isAv(td.date));
+  }
+
+  function getTrainType(d) {
+    const td = TD.find(t => t.date === d && isAv(t.date));
+    return td ? td.type : null;
+  }
+
+  function waterTarget(d) { return isTrainDay(d) ? 3500 : 3000; }
+
+  function getDay(d) {
+    return daily[d] || {water:0, sleep:0, creat:false, runKm:0, runMin:0, caffeine_log:[], bedTime:'', wakeTime:''};
   }
 
   function calcSleepHours(bedTime, wakeTime) {
@@ -915,13 +883,9 @@
     if (isNaN(bh) || isNaN(wh)) return 0;
     let bedMinutes = bh * 60 + bm;
     let wakeMinutes = wh * 60 + wm;
-    if (bedMinutes >= 18 * 60) {
-      wakeMinutes += 24 * 60;
-    } else if (wakeMinutes < bedMinutes) {
-      wakeMinutes += 24 * 60;
-    }
-    const diff = wakeMinutes - bedMinutes;
-    return Math.round((diff / 60) * 10) / 10;
+    if (bedMinutes >= 18 * 60) wakeMinutes += 24 * 60;
+    else if (wakeMinutes < bedMinutes) wakeMinutes += 24 * 60;
+    return Math.round(((wakeMinutes - bedMinutes) / 60) * 10) / 10;
   }
 
   function bedtimeMinutesFromNoon(bedTime) {
@@ -933,43 +897,63 @@
     return mins;
   }
 
-  function nowHHMM() {
-    const d = new Date();
-    return d.toTimeString().slice(0, 5);
-  }
+  function nowISO() { return new Date().toISOString(); }
 
-  function nowISO() {
-    return new Date().toISOString();
-  }
-
-  function switchTab(tab){
-    document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab))
-    document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on',s.id===tab))
-    window.scrollTo({top: 0, behavior: 'instant'});
-    rerenderActive(tab);
-  }
-  function safe(fn){try{fn()}catch(e){console.error(e)}}
-
-  function dn(d){return['Zo','Ma','Di','Wo','Do','Vr','Za'][new Date(d).getDay()]}
-  function dnL(d){return['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'][new Date(d).getDay()]}
-  function dnum(d){return new Date(d).getDate()}
-  function fdate(str){const d=new Date(str);const mn=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];return`${dnL(str)} ${d.getDate()} ${mn[d.getMonth()]}`}
-  function fdateShort(str){const d=new Date(str);const mn=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];return`${d.getDate()} ${mn[d.getMonth()]}`}
-
-  function fmtTime(iso) {
+  // FIX: gebruik LOCAL time, niet UTC, voor display van migraine tijden
+  function fmtTimeLocal(iso) {
     if (!iso) return '—';
     try {
       const d = new Date(iso);
-      return d.toTimeString().slice(0, 5);
+      const hh = String(d.getHours()).padStart(2,'0');
+      const mm = String(d.getMinutes()).padStart(2,'0');
+      return `${hh}:${mm}`;
     } catch { return '—'; }
   }
+
+  function localDateStr(iso) {
+    // YYYY-MM-DD in LOCAL tijdzone
+    if (!iso) return '';
+    try {
+      const d = new Date(iso);
+      const y = d.getFullYear();
+      const mo = String(d.getMonth()+1).padStart(2,'0');
+      const da = String(d.getDate()).padStart(2,'0');
+      return `${y}-${mo}-${da}`;
+    } catch { return ''; }
+  }
+
   function fmtDateTime(iso) {
     if (!iso) return '—';
     try {
       const d = new Date(iso);
-      return `${fdateShort(d.toISOString().split('T')[0])} ${d.toTimeString().slice(0,5)}`;
+      return `${fdateShort(localDateStr(iso))} ${fmtTimeLocal(iso)}`;
     } catch { return '—'; }
   }
+
+  // Convert ISO → "YYYY-MM-DDTHH:MM" in LOCAL tijd (voor datetime-local input)
+  function isoToLocalInput(iso) {
+    if (!iso) return '';
+    try {
+      const d = new Date(iso);
+      const pad = n => String(n).padStart(2,'0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    } catch { return ''; }
+  }
+
+  // Convert "YYYY-MM-DDTHH:MM" (local) → ISO string
+  function localInputToISO(localStr) {
+    if (!localStr) return null;
+    // new Date(localStr) interpreteert als local
+    const d = new Date(localStr);
+    if (isNaN(d.getTime())) return null;
+    return d.toISOString();
+  }
+
+  function dn(d){return ['Zo','Ma','Di','Wo','Do','Vr','Za'][new Date(d).getDay()]}
+  function dnL(d){return ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'][new Date(d).getDay()]}
+  function dnum(d){return new Date(d).getDate()}
+  function fdate(str){const d=new Date(str);const mn=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];return`${dnL(str)} ${d.getDate()} ${mn[d.getMonth()]}`}
+  function fdateShort(str){const d=new Date(str);const mn=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];return`${d.getDate()} ${mn[d.getMonth()]}`}
 
   function getActiveMigraine() {
     for (let i = migraines.length - 1; i >= 0; i--) {
@@ -978,25 +962,60 @@
     return null;
   }
 
+  function switchTab(tab){
+    document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+    document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on',s.id===tab));
+    window.scrollTo({top: 0, behavior: 'instant'});
+    rerenderActive(tab);
+  }
+  function safe(fn){try{fn()}catch(e){console.error(e)}}
+
+  function ensureDay(t) {
+    if (!daily[t]) {
+      daily[t] = {water:0, sleep:0, creat:false, runKm:0, runMin:0, caffeine_log:[], bedTime:'', wakeTime:''};
+    } else {
+      if (daily[t].caffeine_log === undefined) daily[t].caffeine_log = [];
+      if (daily[t].bedTime === undefined) daily[t].bedTime = '';
+      if (daily[t].wakeTime === undefined) daily[t].wakeTime = '';
+    }
+  }
+
+  // Resolve welke oefening we moeten gebruiken (na overrides)
+  function resolveEx(date, originalExId) {
+    const ovr = exerciseOverrides[date];
+    if (ovr && ovr[originalExId]) {
+      const newId = ovr[originalExId];
+      const def = getExDef(newId);
+      if (def) return def;
+    }
+    return getExDef(originalExId);
+  }
+
   // ============================================================
-  // TAB 1: VANDAAG  (REORDERED PER DAYPART, GEEN QUICK STATS)
+  // TAB 1: VANDAAG
   // ============================================================
   function rVandaag(){
-    const el=document.getElementById('vandaag')
-    if(!isAppLoaded) return;
+    const el = document.getElementById('vandaag');
+    if (!isAppLoaded) return;
 
-    const t=TODAY,d=getDay(t),wt=waterTarget(t),wpct=Math.min(100,Math.round(d.water/wt*100))
-    const td=TD.find(x=>x.date===t&&isAv(x.date))
-    const dow=new Date(t).getDay()
-    const isWeekend=dow===0||dow===6
+    const t = TODAY;
+    ensureDay(t);
+    const d = getDay(t);
+    const wt = waterTarget(t);
+    const wpct = Math.min(100, Math.round(d.water / wt * 100));
+    const td = TD.find(x => x.date === t && isAv(x.date));
+    const dow = new Date(t).getDay();
+    const isWeekend = dow === 0 || dow === 6;
 
     const activeMig = getActiveMigraine();
     const sleepH = calcSleepHours(d.bedTime, d.wakeTime);
     const sleepGood = sleepH >= 7 && sleepH <= 9;
+    const cafCount = (d.caffeine_log || []).length;
 
-    // --- MIGRAINE-BLOK (panic of actief) ---
+    // ===== MIGRAINE BLOCK =====
     let migBlock = '';
     if (activeMig) {
+      // Toon STARTTIJD lokaal — match met hoe gebruiker hem invulde
       const startStr = fmtDateTime(activeMig.startTime);
       const dur = Math.floor((Date.now() - new Date(activeMig.startTime).getTime()) / 60000);
       const durStr = dur < 60 ? `${dur} min` : `${Math.floor(dur/60)}u ${dur%60}m`;
@@ -1045,56 +1064,58 @@
       </button>`;
     }
 
-    // --- TRAININGSDAG-CARD ---
-    let tdyCard=''
-    if(td){const cfg=TCONF[td.type]
-      tdyCard=`<button class="card-feature" style="cursor:pointer;width:100%;text-align:left;font-family:var(--font-sans);border:none" onclick="goToTraining('${t}')">
+    // ===== TRAINING CARD =====
+    let tdyCard = '';
+    if (td) {
+      const cfg = TCONF[td.type];
+      const movedNote = td.moved ? ` <span class="tag tmoved" style="margin-left:6px"><i class="ti ti-arrow-right"></i> verplaatst</span>` : '';
+      tdyCard = `<button class="card-feature" style="cursor:pointer;width:100%;text-align:left;font-family:var(--font-sans);border:none" onclick="goToTraining('${t}')">
         <div class="accent-bar" style="background:${cfg.col}"></div>
         <div class="bet">
           <div style="min-width:0">
-            <span class="tag ${cfg.cls}" style="margin-bottom:10px;display:inline-block">${cfg.label} day · sessie #${td.s}</span>
+            <span class="tag ${cfg.cls}" style="margin-bottom:10px;display:inline-block">${cfg.label} day · sessie #${td.s}</span>${movedNote}
             <div class="t1">Vandaag is een trainingsdag</div>
             <div class="t4" style="margin-top:4px">${cfg.muscles}</div>
           </div>
           <i class="ti ti-arrow-right" style="font-size:24px;color:var(--text-2);flex-shrink:0"></i>
-        </div></button>`
-    }else{
-      tdyCard=`<div class="card-feature">
+        </div></button>`;
+    } else {
+      tdyCard = `<div class="card-feature">
         <div class="accent-bar" style="background:#AFA9EC"></div>
         <span class="tag tr" style="margin-bottom:10px;display:inline-block">Rustdag</span>
         <div class="t1">Vandaag geen krachttraining</div>
         <div class="t4" style="margin-top:4px">${isWeekend?'Perfect voor een rondje hardlopen — 30-45 min rustig tempo':'Focus op herstel: water, slaap en eiwit'}</div>
-      </div>`
+      </div>`;
     }
 
-    // --- OCHTEND: SLAAP + CREATINE ---
-    const sleep=`<div class="card">
+    // ===== SLAAP =====
+    const sleep = `<div class="card">
       <div class="bet" style="margin-bottom:14px">
-        <div><div class="t1"><i class="ti ti-moon" style="color:#534AB7"></i> Slaap</div><div class="t4" style="margin-top:2px">Bedtijd & wakkertijd voor ritme-tracking</div></div>
-        <div class="t3" style="font-weight:600;color:${sleepGood?'#1D9E75':sleepH>0?'#D85A30':'var(--text-2)'}">${sleepH?sleepH+' uur':'—'}</div>
+        <div style="min-width:0"><div class="t1"><i class="ti ti-moon" style="color:#534AB7"></i> Slaap</div><div class="t4" style="margin-top:2px">Bedtijd & wakkertijd voor ritme-tracking</div></div>
+        <div class="t3" style="font-weight:600;color:${sleepGood?'#1D9E75':sleepH>0?'#D85A30':'var(--text-2)'};flex-shrink:0">${sleepH?sleepH+' uur':'—'}</div>
       </div>
       <div class="time-input-group">
-        <div>
+        <div style="min-width:0">
           <div class="time-input-label">Bedtijd (gisteravond)</div>
           <input class="time-input" type="time" value="${d.bedTime||''}" onchange="updSleep('bedTime',this.value)" />
         </div>
-        <div>
+        <div style="min-width:0">
           <div class="time-input-label">Wakkertijd</div>
           <input class="time-input" type="time" value="${d.wakeTime||''}" onchange="updSleep('wakeTime',this.value)" />
         </div>
       </div>
       ${sleepH>0?`<p class="t4" style="margin-top:10px">${sleepGood?'<i class="ti ti-check" style="color:#1D9E75"></i> Goed ritme':sleepH<7?'<i class="ti ti-alert-circle" style="color:#D85A30"></i> Te kort - migraine-trigger':'<i class="ti ti-alert-circle" style="color:#D85A30"></i> Erg lang - kan ritme verstoren'}</p>`:''}
-    </div>`
+    </div>`;
 
-    const creat=`<button class="toggle-card${d.creat?' on':''}" onclick="tgCreat()">
+    const creat = `<button class="toggle-card${d.creat?' on':''}" onclick="tgCreat()">
       <div class="bet">
         <div><div class="t1"><i class="ti ti-pill" style="color:#1D9E75"></i> Creatine 5g vandaag</div><div class="t4" style="margin-top:2px">Door je shake of glas water</div></div>
         <div class="cb${d.creat?' on':''}">${d.creat?'<i class="ti ti-check"></i>':''}</div>
       </div>
-    </button>`
+    </button>`;
 
-    // --- DAG: WATER + CAFEÏNE ---
-    const water=`<div class="card">
+    // ===== WATER =====
+    const water = `<div class="card">
       <div class="bet" style="margin-bottom:14px">
         <div><div class="t1"><i class="ti ti-droplet" style="color:#185FA5"></i> Water</div><div class="t4" style="margin-top:2px">Doel: ${wt/1000}L (${isTrainDay(t)?'trainingsdag':'rustdag'})</div></div>
         <div class="t3" style="font-weight:600;color:${wpct>=100?'#1D9E75':'var(--text-1)'}">${wpct}%</div>
@@ -1106,25 +1127,45 @@
       </div>
       <div class="ptrack"><div class="pfill" style="width:${wpct}%;background:#378ADD"></div></div>
       <p class="t4" style="margin-top:12px">+250ml per tap · creatine vraagt extra hydratatie</p>
-    </div>`
+    </div>`;
 
-    const cafUnits = d.caffeine_units || 0;
+    // ===== CAFEÏNE met TIJDSTEMPELS =====
+    // Sorteer log chronologisch
+    const cafLog = [...(d.caffeine_log||[])].sort((a,b) => new Date(a.time) - new Date(b.time));
+    const cafListHTML = cafLog.length === 0 ? '' : `
+      <div style="margin-top:14px;border-top:1px solid var(--border-soft);padding-top:8px">
+        <div class="time-input-label" style="margin-bottom:4px">Tijdstippen (pas aan indien terugwerkend)</div>
+        ${cafLog.map((c, i) => {
+          // Index in originele array (voor delete/update)
+          const origIdx = (d.caffeine_log||[]).indexOf(c);
+          return `<div class="log-row">
+            <div class="log-row-info">
+              <div class="t3" style="font-weight:600">${i+1}. Cafeïne</div>
+              <div class="t4">${fmtTimeLocal(c.time)}</div>
+            </div>
+            <input type="time" class="log-row-time-input" value="${fmtTimeLocal(c.time)}" onchange="updCafTime(${origIdx}, this.value)" />
+            <button class="log-row-del" onclick="delCaf(${origIdx})" aria-label="Verwijder"><i class="ti ti-trash"></i></button>
+          </div>`;
+        }).join('')}
+      </div>`;
+
     const caffeine = `<div class="card">
       <div class="bet" style="margin-bottom:14px">
         <div><div class="t1"><i class="ti ti-coffee" style="color:#92400E"></i> Cafeïne</div><div class="t4" style="margin-top:2px">1 eenheid = 1 koffie / thee / cola</div></div>
-        ${cafUnits>=4?'<span class="tag tcaf"><i class="ti ti-alert-circle"></i> hoog</span>':''}
+        ${cafCount>=4?'<span class="tag tcaf"><i class="ti ti-alert-circle"></i> hoog</span>':''}
       </div>
       <div class="wctrl">
         <button class="wbtn" onclick="adjCaf(-1)" aria-label="-1">−</button>
-        <div class="wval">${cafUnits} <span class="t4">eenheden</span></div>
+        <div class="wval">${cafCount} <span class="t4">eenheden</span></div>
         <button class="wbtn" onclick="adjCaf(1)" aria-label="+1">+</button>
       </div>
-      ${cafUnits>0?`<div style="margin-top:14px;text-align:center">${'<span class="caf-bean"></span>'.repeat(Math.min(cafUnits,8))}${cafUnits>8?` <span class="t4" style="margin-left:6px">+${cafUnits-8}</span>`:''}</div>`:''}
-    </div>`
+      ${cafCount>0?`<div style="margin-top:14px;text-align:center">${'<span class="caf-bean"></span>'.repeat(Math.min(cafCount,8))}${cafCount>8?` <span class="t4" style="margin-left:6px">+${cafCount-8}</span>`:''}</div>`:''}
+      ${cafListHTML}
+    </div>`;
 
-    // --- AVOND: HARDLOPEN ---
-    const runDone=d.runKm>0||d.runMin>0
-    const run=`<div class="card">
+    // ===== HARDLOPEN =====
+    const runDone = d.runKm > 0 || d.runMin > 0;
+    const run = `<div class="card">
       <div class="bet" style="margin-bottom:14px">
         <div><div class="t1"><i class="ti ti-run" style="color:#D85A30"></i> Hardlopen</div><div class="t4" style="margin-top:2px">${isWeekend?'Weekend - ideaal voor een rustige run':'Optioneel - bij voorkeur weekend'}</div></div>
         ${runDone?`<span class="tag" style="background:#FAECE7;color:#993C1D;border:1px solid #F0997B"><i class="ti ti-check"></i> ${d.runKm}km</span>`:''}
@@ -1134,32 +1175,33 @@
         <div><div class="t4" style="margin-bottom:6px">Tijd (min)</div><input class="run-input" type="number" inputmode="numeric" enterkeyhint="done" min="0" step="1" value="${d.runMin||''}" placeholder="0" onchange="updR('runMin',this.value)" /></div>
       </div>
       ${d.runKm>0&&d.runMin>0?`<p class="t4" style="margin-top:12px">Tempo: ${(d.runMin/d.runKm).toFixed(2)} min/km · ~${Math.round(d.runKm*70)} kcal</p>`:''}
-    </div>`
+    </div>`;
 
-    // --- LAATSTE 7 DAGEN ---
-    const last7=[]
-    const tD=new Date(t)
-    for(let i=6;i>=0;i--){
-      const dt=new Date(tD);
-      dt.setDate(tD.getDate()-i);
-      const ds=dt.toISOString().split('T')[0],
-            dd=getDay(ds),
-            wT=waterTarget(ds),
-            sH=calcSleepHours(dd.bedTime, dd.wakeTime),
-            hadMig=migraines.some(m=>m.startTime && m.startTime.startsWith(ds));
-      last7.push({date:ds,day:dn(ds),water:dd.water>=wT*.85,sleep:sH>=7,creat:dd.creat,run:dd.runKm>0||dd.runMin>0,migraine:hadMig})
+    // ===== STREAKS =====
+    const last7 = [];
+    const tD = new Date(t);
+    for (let i = 6; i >= 0; i--) {
+      const dt = new Date(tD); dt.setDate(tD.getDate()-i);
+      const ds = dt.toISOString().split('T')[0];
+      const dd = getDay(ds);
+      const wT = waterTarget(ds);
+      const sH = calcSleepHours(dd.bedTime, dd.wakeTime);
+      const hadMig = migraines.some(m => m.startTime && localDateStr(m.startTime) === ds);
+      last7.push({date:ds,day:dn(ds),water:dd.water>=wT*.85,sleep:sH>=7,creat:dd.creat,run:dd.runKm>0||dd.runMin>0,migraine:hadMig});
     }
-    function streakRow(label,key,icon,color){return`<div class="streak-row">
-      <div class="t3" style="display:flex;align-items:center;gap:6px;font-weight:500"><i class="ti ${icon}" style="color:${color};font-size:15px"></i> ${label}</div>
-      ${last7.map(d=>`<div class="streak-cell ${d[key]?'streak-on':'streak-off'}${d.date===TODAY?' streak-today':''}" title="${d.day}">${d[key]?'✓':''}</div>`).join('')}
-    </div>`}
+    function streakRow(label, key, icon, color) {
+      return `<div class="streak-row">
+        <div class="t3" style="display:flex;align-items:center;gap:6px;font-weight:500"><i class="ti ${icon}" style="color:${color};font-size:15px"></i> ${label}</div>
+        ${last7.map(d=>`<div class="streak-cell ${d[key]?'streak-on':'streak-off'}${d.date===TODAY?' streak-today':''}" title="${d.day}">${d[key]?'✓':''}</div>`).join('')}
+      </div>`;
+    }
     function migraineStreakRow() {
       return `<div class="streak-row">
         <div class="t3" style="display:flex;align-items:center;gap:6px;font-weight:500"><i class="ti ti-alert-triangle" style="color:var(--migraine);font-size:15px"></i> Migraine</div>
         ${last7.map(d=>`<div class="streak-cell ${d.migraine?'':'streak-off'}${d.date===TODAY?' streak-today':''}" style="${d.migraine?'background:var(--migraine-soft);color:#7F1D1D':''}" title="${d.day}">${d.migraine?'✗':''}</div>`).join('')}
       </div>`;
     }
-    const streaks=`<div class="card">
+    const streaks = `<div class="card">
       <div class="t1" style="margin-bottom:14px">Laatste 7 dagen</div>
       <div class="streak-row" style="margin-bottom:8px"><div></div>${last7.map(d=>`<div class="t4" style="text-align:center;font-weight:600">${d.day}</div>`).join('')}</div>
       ${streakRow('Water','water','ti-droplet','#185FA5')}
@@ -1167,10 +1209,9 @@
       ${streakRow('Creatine','creat','ti-pill','#1D9E75')}
       ${streakRow('Run','run','ti-run','#D85A30')}
       ${migraineStreakRow()}
-    </div>`
+    </div>`;
 
-    // --- LAYOUT ASSEMBLEREN: training kaart bovenaan, dan dagdelen, migraine onderaan, streaks heel onderaan ---
-    el.innerHTML=`
+    el.innerHTML = `
       <div class="top-strip">
         <div class="top-strip-eyebrow">${dnL(t).toLowerCase()}</div>
         <div class="top-strip-title">${fdate(t)}</div>
@@ -1192,7 +1233,7 @@
         <div class="daypart-header"><i class="ti ti-chart-bar"></i> Overzicht</div>
         ${streaks}
         ${migBlock}
-      </div>`
+      </div>`;
     setupScrollDetection(el);
   }
 
@@ -1206,55 +1247,70 @@
     onScroll();
   }
 
-  function ensureDay(t) {
-    if (!daily[t]) {
-      daily[t] = {water:0,sleep:0,creat:false,runKm:0,runMin:0,caffeine_units:0,bedTime:'',wakeTime:''};
-    } else {
-      if (daily[t].caffeine_units === undefined) daily[t].caffeine_units = 0;
-      if (daily[t].bedTime === undefined) daily[t].bedTime = '';
-      if (daily[t].wakeTime === undefined) daily[t].wakeTime = '';
-    }
-  }
-
+  // ============================================================
+  // VANDAAG ACTIONS
+  // ============================================================
   function adjW(delta){
-    const t=TODAY;
-    ensureDay(t);
-    daily[t].water=Math.max(0,(daily[t].water||0)+delta);
-    safe(rVandaag);
-    sset('daily',daily);
+    const t = TODAY; ensureDay(t);
+    daily[t].water = Math.max(0, (daily[t].water||0) + delta);
+    safe(rVandaag); sset('daily', daily);
   }
   function updSleep(field, val) {
-    const t=TODAY;
-    ensureDay(t);
+    const t = TODAY; ensureDay(t);
     daily[t][field] = val;
     daily[t].sleep = calcSleepHours(daily[t].bedTime, daily[t].wakeTime);
-    safe(rVandaag);
-    sset('daily',daily);
+    safe(rVandaag); sset('daily', daily);
   }
   function adjCaf(delta) {
-    const t=TODAY;
-    ensureDay(t);
-    daily[t].caffeine_units = Math.max(0, (daily[t].caffeine_units||0) + delta);
-    safe(rVandaag);
-    sset('daily',daily);
+    const t = TODAY; ensureDay(t);
+    if (delta > 0) {
+      // Voeg log-entry toe met huidige tijd
+      daily[t].caffeine_log = daily[t].caffeine_log || [];
+      daily[t].caffeine_log.push({ time: nowISO() });
+    } else {
+      // Verwijder de meest recent toegevoegde
+      if (daily[t].caffeine_log && daily[t].caffeine_log.length > 0) {
+        // Sorteer op tijd, verwijder laatste (chronologisch)
+        const sorted = [...daily[t].caffeine_log].sort((a,b) => new Date(a.time) - new Date(b.time));
+        const lastTime = sorted[sorted.length-1].time;
+        const idx = daily[t].caffeine_log.findIndex(c => c.time === lastTime);
+        if (idx >= 0) daily[t].caffeine_log.splice(idx, 1);
+      }
+    }
+    safe(rVandaag); sset('daily', daily);
+  }
+  function updCafTime(idx, hhmm) {
+    const t = TODAY; ensureDay(t);
+    if (!daily[t].caffeine_log || !daily[t].caffeine_log[idx]) return;
+    if (!hhmm) return;
+    // hhmm is "HH:MM", combineer met TODAY's lokale datum
+    const [h, m] = hhmm.split(':').map(Number);
+    const d = new Date(); d.setHours(h, m, 0, 0);
+    // Forceer dat de datum vandaag is (lokaal)
+    const tD = new Date(t);
+    d.setFullYear(tD.getFullYear(), tD.getMonth(), tD.getDate());
+    daily[t].caffeine_log[idx].time = d.toISOString();
+    safe(rVandaag); sset('daily', daily);
+  }
+  function delCaf(idx) {
+    const t = TODAY; ensureDay(t);
+    if (!daily[t].caffeine_log) return;
+    daily[t].caffeine_log.splice(idx, 1);
+    safe(rVandaag); sset('daily', daily);
   }
   function tgCreat(){
-    const t=TODAY;
-    ensureDay(t);
-    daily[t].creat=!daily[t].creat;
-    safe(rVandaag);
-    sset('daily',daily);
+    const t = TODAY; ensureDay(t);
+    daily[t].creat = !daily[t].creat;
+    safe(rVandaag); sset('daily', daily);
   }
-  function updR(field,val){
-    const t=TODAY;
-    ensureDay(t);
-    daily[t][field]=parseFloat(val)||0;
-    safe(rVandaag);
-    sset('daily',daily);
+  function updR(field, val){
+    const t = TODAY; ensureDay(t);
+    daily[t][field] = parseFloat(val) || 0;
+    safe(rVandaag); sset('daily', daily);
   }
 
   // ============================================================
-  // MIGRAINE FUNCTIES
+  // MIGRAINE
   // ============================================================
   function startMigraine() {
     const newMig = {
@@ -1274,10 +1330,7 @@
     const active = getActiveMigraine();
     if (!active) return;
     migraines[active.idx].medicationLog = migraines[active.idx].medicationLog || [];
-    migraines[active.idx].medicationLog.push({
-      type,
-      time: nowISO()
-    });
+    migraines[active.idx].medicationLog.push({ type, time: nowISO() });
     safe(rVandaag);
     sset('migraines', migraines);
   }
@@ -1296,12 +1349,12 @@
     showMigraineEditor(active.idx);
   }
 
-  // === MOBILE-FRIENDLY MIGRAINE EDITOR ===
   function showMigraineEditor(idx) {
     const m = migraines[idx];
     if (!m) return;
-    const startLocal = m.startTime ? new Date(m.startTime).toISOString().slice(0,16) : '';
-    const endLocal = m.endTime ? new Date(m.endTime).toISOString().slice(0,16) : '';
+    // FIX: gebruik LOCALE tijd voor datetime-local input
+    const startLocal = isoToLocalInput(m.startTime);
+    const endLocal = isoToLocalInput(m.endTime);
     const overlay = document.createElement('div');
     overlay.id = 'mig-editor-overlay';
     overlay.className = 'editor-overlay';
@@ -1309,14 +1362,14 @@
 
     const medsHTML = (m.medicationLog||[]).length === 0
       ? '<div class="t4" style="padding:14px 0;text-align:center">Nog geen medicatie geregistreerd</div>'
-      : (m.medicationLog||[]).map((med,i) => `
-          <div class="med-log-row">
-            <div class="med-log-info">
+      : (m.medicationLog||[]).map((med, i) => `
+          <div class="log-row">
+            <div class="log-row-info">
               <div class="t3" style="font-weight:600;text-transform:capitalize">${med.type}</div>
               <div class="t4">${fmtDateTime(med.time)}</div>
             </div>
-            <button class="med-log-del" onclick="delMed(${idx},${i})" aria-label="Verwijder"><i class="ti ti-trash"></i></button>
-            <input type="datetime-local" class="med-log-time-input" value="${new Date(med.time).toISOString().slice(0,16)}" onchange="updateMedTime(${idx},${i},this.value)" />
+            <input type="datetime-local" class="log-row-time-input" value="${isoToLocalInput(med.time)}" onchange="updateMedTime(${idx},${i},this.value)" />
+            <button class="log-row-del" onclick="delMed(${idx},${i})" aria-label="Verwijder"><i class="ti ti-trash"></i></button>
           </div>`).join('');
 
     overlay.innerHTML = `
@@ -1370,13 +1423,12 @@
     const end = document.getElementById('mig-end').value;
     const sev = document.getElementById('mig-sev').value;
     const notes = document.getElementById('mig-notes').value;
-    if (start) m.startTime = new Date(start).toISOString();
-    m.endTime = end ? new Date(end).toISOString() : null;
+    if (start) m.startTime = localInputToISO(start);
+    m.endTime = end ? localInputToISO(end) : null;
     m.severity = sev ? parseInt(sev) : null;
     m.notes = notes || '';
     closeEditor();
-    safe(rVandaag);
-    safe(rInsights);
+    safe(rVandaag); safe(rInsights);
     sset('migraines', migraines);
   }
 
@@ -1384,8 +1436,7 @@
     if (!confirm('Migraine verwijderen?')) return;
     migraines.splice(idx, 1);
     closeEditor();
-    safe(rVandaag);
-    safe(rInsights);
+    safe(rVandaag); safe(rInsights);
     sset('migraines', migraines);
   }
 
@@ -1399,7 +1450,9 @@
 
   function updateMedTime(migIdx, medIdx, val) {
     if (!val) return;
-    migraines[migIdx].medicationLog[medIdx].time = new Date(val).toISOString();
+    const iso = localInputToISO(val);
+    if (!iso) return;
+    migraines[migIdx].medicationLog[medIdx].time = iso;
     sset('migraines', migraines);
   }
 
@@ -1410,29 +1463,87 @@
     sset('migraines', migraines);
   }
 
-  function goToTraining(d){selDate=d;sLog={};expEx=null;ssSaved=false;switchTab('training')}
+  function goToTraining(d){
+    selDate = d; sLog = {}; expEx = null; ssSaved = false;
+    switchTab('training');
+  }
 
   // ============================================================
-  // TAB 2: SCHEMA
+  // TAB 2: SCHEMA — toont nu OOK rustdagen, en verschuift trainingen
   // ============================================================
   function rSchema(){
-    const el=document.getElementById('schema')
-    if(!isAppLoaded) return;
-    
-    const cnt={upper:0,lower:0,push:0,pull:0,legs:0}
-    TD.forEach(d=>{if(isAv(d.date))cnt[d.type]++})
-    const may=TD.filter(d=>d.date.startsWith('2026-05'))
-    const jun=TD.filter(d=>d.date.startsWith('2026-06'))
-    function mth(days,nm){return`<p class="sec-header">${nm}</p>
-      <div class="dgrid">${days.map(d=>{const cfg=TCONF[d.type],av=isAv(d.date),isT=d.date===TODAY,hl=logs[d.date]&&Object.keys(logs[d.date]).length>0
-        return`<button class="dbtn${av?'':' off'}${isT?' tdy':''}" onclick="tgAv('${d.date}')">
-          <span class="t4">${dn(d.date)}</span><br>
-          <span style="font-size:18px;font-weight:600;color:var(--text-1);display:block;margin:2px 0">${dnum(d.date)}</span>
+    const el = document.getElementById('schema');
+    if (!isAppLoaded) return;
+
+    const cnt = {upper:0, lower:0, push:0, pull:0, legs:0};
+    TD.forEach(d => { if (isAv(d.date)) cnt[d.type]++; });
+
+    // Bouw alle dagen tussen start en end (inclusief rustdagen)
+    function allDates(yearMonth) {
+      const out = [];
+      const [y, mo] = yearMonth.split('-').map(Number);
+      const first = new Date(y, mo-1, 1);
+      const last = new Date(y, mo, 0);
+      const startBound = new Date(SCHEDULE_START);
+      const endBound = new Date(SCHEDULE_END);
+      for (let d = new Date(first); d <= last; d.setDate(d.getDate()+1)) {
+        if (d >= startBound && d <= endBound) {
+          out.push(d.toISOString().split('T')[0]);
+        }
+      }
+      return out;
+    }
+
+    function dayCell(date) {
+      const td = TD.find(t => t.date === date);
+      const isToday = date === TODAY;
+      const isVrij = avail[date] === false; // expliciet vrij genomen op originele trainingsdag
+      const hasLog = logs[date] && Object.keys(logs[date]).length > 0;
+
+      // Originele trainingsdag (zonder shifts) - check of er een trainingsdag was met deze date als ORIGINAL
+      const origAtThisDate = (() => {
+        // Als deze date in trainingShifts als KEY staat (=ze was originele trainingsdag, nu verschoven)
+        if (trainingShifts[date]) return true;
+        // Of als deze date een originele DOW-trainingsdag is en NIET geshift
+        const dow = new Date(date).getDay();
+        if (ORIGINAL_DOW_MAP[dow]) {
+          // Het is een originele trainingsdag tenzij hij verschoven is (dan staat hij in trainingShifts als key)
+          return !trainingShifts[date]; // = is het een actieve originele?
+        }
+        return false;
+      })();
+
+      if (td) {
+        const cfg = TCONF[td.type];
+        const movedTag = td.moved ? '<br><span style="font-size:9px;color:#92400E;font-weight:600;display:block;margin-top:2px"><i class="ti ti-arrow-right"></i> verpl.</span>' : '';
+        return `<button class="dbtn${td.moved?' moved':''}${isToday?' tdy':''}" onclick="onSchemaTap('${date}','${td.originalDate}',true)">
+          <span class="t4">${dn(date)}</span><br>
+          <span style="font-size:18px;font-weight:600;color:var(--text-1);display:block;margin:2px 0">${dnum(date)}</span>
           <span class="tag ${cfg.cls}" style="margin-top:4px;display:inline-block;font-size:9.5px;padding:2px 6px">${cfg.label}</span>
-          ${hl?'<br><span style="font-size:10px;color:#1D9E75;font-weight:600;display:block;margin-top:4px">✓ klaar</span>':''}
-          ${!av?'<br><span style="font-size:10px;color:var(--text-3);font-weight:500;display:block;margin-top:4px">vrij</span>':''}
-        </button>`}).join('')}</div>`}
-    el.innerHTML=`
+          ${hasLog?'<br><span style="font-size:10px;color:#1D9E75;font-weight:600;display:block;margin-top:4px">✓ klaar</span>':''}
+          ${movedTag}
+        </button>`;
+      } else {
+        // Rustdag (al dan niet originele rustdag of vrijgenomen training)
+        const dow = new Date(date).getDay();
+        const wasOrigTraining = ORIGINAL_DOW_MAP[dow] && trainingShifts[date]; // verschoven van hier af
+        return `<button class="dbtn rest${isToday?' tdy':''}" onclick="onSchemaTap('${date}','',false)">
+          <span class="t4">${dn(date)}</span><br>
+          <span style="font-size:18px;font-weight:600;color:var(--text-2);display:block;margin:2px 0">${dnum(date)}</span>
+          <span class="tag trest" style="margin-top:4px;display:inline-block;font-size:9.5px;padding:2px 6px">Rust</span>
+          ${wasOrigTraining ? `<br><span style="font-size:9px;color:#92400E;font-weight:500;display:block;margin-top:2px">vrij genomen</span>` : ''}
+        </button>`;
+      }
+    }
+
+    function mth(yearMonth, nm) {
+      const dates = allDates(yearMonth);
+      if (dates.length === 0) return '';
+      return `<p class="sec-header">${nm}</p>
+        <div class="dgrid">${dates.map(d => dayCell(d)).join('')}</div>`;
+    }
+
+    el.innerHTML = `
       <p class="sec-header" style="margin-top:8px">Trainingsschema</p>
       <div class="card-feature" style="margin-bottom:14px">
         <div class="h-eyebrow">5x per week split</div>
@@ -1441,94 +1552,170 @@
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:18px">
-        ${['upper','lower','push','pull','legs'].map(t=>{const cfg=TCONF[t]
-          return`<div class="card" style="padding:10px 4px;text-align:center;border-top:3px solid ${cfg.col};margin-bottom:0">
+        ${['upper','lower','push','pull','legs'].map(t => {const cfg = TCONF[t];
+          return `<div class="card" style="padding:10px 4px;text-align:center;border-top:3px solid ${cfg.col};margin-bottom:0">
             <div class="nbig" style="font-size:18px">${cnt[t]}×</div>
             <div class="t4" style="margin-top:2px;font-size:10px">${cfg.label}</div>
-          </div>`}).join('')}
+          </div>`;}).join('')}
       </div>
 
-      <p class="t4" style="margin-bottom:18px"><i class="ti ti-hand-click"></i> Tik op een dag om vrij te plannen of te herstellen</p>
-      ${mth(may,'Mei 2026')}${mth(jun,'Juni 2026')}
+      <p class="t4" style="margin-bottom:18px;line-height:1.5"><i class="ti ti-hand-click"></i> Tik op een trainingsdag om vrij te plannen — de training schuift dan door naar de eerstvolgende rustdag.</p>
+      ${mth('2026-05','Mei 2026')}${mth('2026-06','Juni 2026')}
 
       <div class="card-soft" style="margin-top:8px">
         <p class="h-eyebrow">Profiel & doelen</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px">
           ${[['Gewicht','92 kg'],['Lengte','191 cm'],['Doel','Recompositie'],['Frequentie','5×/week'],['Kcal/dag','~2.400'],['Eiwit/dag','~185 g'],['Water/dag','3-3,5L'],['Slaap','7-8 uur'],['Creatine','5g/dag'],['Hardlopen','1×/wknd'],['Periode','7 weken']].map(([k,v])=>`<p class="t3">${k}: <strong>${v}</strong></p>`).join('')}
         </div>
-      </div>`
+      </div>`;
   }
-  function tgAv(date){
-    if(avail[date]===false) delete avail[date];
-    else avail[date]=false;
-    safe(rSchema);
-    sset('avail',avail);
+
+  // Bij tap op een schema-cel:
+  // - Als trainingsdag (huidige date heeft TD entry): toggle 'vrij' → verschuif training naar volgende rustdag
+  // - Als rustdag: niets doen (of toon optie om eerder verschoven training terug te zetten)
+  function onSchemaTap(date, originalDate, isTraining) {
+    if (isTraining) {
+      // Trainingsdag → markeer originalDate als 'vrij' en verplaats
+      // Indien deze training al een verschoven training was, herstel terug
+      if (trainingShifts[originalDate] === date) {
+        // Deze ‘date’ is dus een verschoven plek. Tappen = terugzetten naar originele dag.
+        if (confirm(`Training terugzetten naar ${fdateShort(originalDate)}?`)) {
+          unshiftTraining(originalDate);
+          safe(rSchema);
+        }
+        return;
+      }
+      // Anders: standaard trainingsdag (date === originalDate)
+      if (confirm(`Training op ${fdateShort(date)} vrij nemen? De sessie schuift door naar de eerstvolgende rustdag.`)) {
+        shiftTrainingFromDate(date);
+        safe(rSchema);
+      }
+    } else {
+      // Rustdag aangetikt — doe niks (of: in toekomst training hierheen plaatsen)
+      // Als deze datum in trainingShifts als VALUE staat, is het een doelstelling van een shift; doe niks.
+    }
   }
 
   // ============================================================
-  // TAB 3: TRAINING — met REST TIMER
+  // TAB 3: TRAINING — incl. exercise replace via potlood
   // ============================================================
   function rTraining(){
-    const el=document.getElementById('training')
-    if(!isAppLoaded) return;
+    const el = document.getElementById('training');
+    if (!isAppLoaded) return;
 
-    const avDays=TD.filter(d=>isAv(d.date))
-    if(!selDate)selDate=avDays.find(d=>d.date>=TODAY)?.date||avDays[0]?.date
-    const day=TD.find(d=>d.date===selDate)
-    const pillsH=`<div class="pill-row">
-      ${avDays.map(d=>{const cfg=TCONF[d.type],ia=d.date===selDate,hl=logs[d.date]&&Object.keys(logs[d.date]).length>0
-        return`<button class="pill${ia?' '+cfg.pill:''}" onclick="selD('${d.date}')">${dnum(d.date)}/${new Date(d.date).getMonth()+1} · ${cfg.label.slice(0,2)}${hl?' ✓':''}</button>`}).join('')}
-    </div>`
-    if(!day){el.innerHTML=pillsH+'<p class="t2">Selecteer een trainingssessie hierboven.</p>';return}
-    const cfg=TCONF[day.type],exs=EX[day.type]
-    if(!sLog._date||sLog._date!==selDate){sLog={_date:selDate};exs.forEach(ex=>{sLog[ex.id]=logs[selDate]?.[ex.id]||{sets:Array(ex.sets).fill(false),weight:gw(ex.id)}})}
+    const avDays = TD.filter(d => isAv(d.date));
+    if (!selDate) selDate = avDays.find(d => d.date >= TODAY)?.date || avDays[0]?.date;
+    const day = TD.find(d => d.date === selDate);
+
+    const pillsH = `<div class="pill-row">
+      ${avDays.map(d => {const cfg = TCONF[d.type], ia = d.date === selDate, hl = logs[d.date] && Object.keys(logs[d.date]).length > 0;
+        return `<button class="pill${ia?' '+cfg.pill:''}" onclick="selD('${d.date}')">${dnum(d.date)}/${new Date(d.date).getMonth()+1} · ${cfg.label.slice(0,2)}${hl?' ✓':''}</button>`;}).join('')}
+    </div>`;
+
+    if (!day) {
+      el.innerHTML = pillsH + '<p class="t2">Selecteer een trainingssessie hierboven.</p>';
+      return;
+    }
+
+    const cfg = TCONF[day.type];
+    // Bepaal lijst van originele exercise-IDs voor dit type
+    const origExs = EX[day.type].slice(0, 6); // eerste 6 zijn de originele
+    // Resolve naar feitelijke oefeningen op basis van overrides per datum
+    const exs = origExs.map(orig => {
+      const resolved = resolveEx(selDate, orig.id);
+      // Bewaar ook de originele ID voor key-tracking in sLog
+      return { ...resolved, _origId: orig.id };
+    });
+
+    if (!sLog._date || sLog._date !== selDate) {
+      sLog = {_date: selDate};
+      exs.forEach(ex => {
+        // Sla op onder originele ID zodat verschillende ex-ids in sLog naar hetzelfde slot wijzen
+        const stored = logs[selDate]?.[ex._origId];
+        sLog[ex._origId] = stored || {
+          sets: Array(ex.sets).fill(false),
+          weight: gw(ex.id),
+          exerciseTimestamps: []
+        };
+        // Adjust sets length if needed
+        while (sLog[ex._origId].sets.length < ex.sets) sLog[ex._origId].sets.push(false);
+        while (sLog[ex._origId].sets.length > ex.sets) sLog[ex._origId].sets.pop();
+      });
+    }
 
     let totalSets = 0, doneSets = 0;
     exs.forEach(ex => {
       totalSets += ex.sets;
-      doneSets += sLog[ex.id].sets.filter(Boolean).length;
+      doneSets += sLog[ex._origId].sets.filter(Boolean).length;
     });
     const sessionPct = totalSets > 0 ? Math.round(doneSets / totalSets * 100) : 0;
 
     const stickyProgress = `<div class="train-progress">
       <div class="train-progress-info">
-        <div class="train-progress-label">${cfg.label} · sessie #${day.s}</div>
+        <div class="train-progress-label">${cfg.label} · sessie #${day.s}${day.moved?' · verplaatst':''}</div>
         <div class="train-progress-bar"><div class="train-progress-fill" style="width:${sessionPct}%;background:${cfg.col}"></div></div>
       </div>
       <div class="train-progress-pct">${doneSets}/${totalSets}</div>
     </div>`;
 
-    const exH=exs.map((ex,i)=>{const lg=sLog[ex.id],dnC=lg.sets.filter(Boolean).length,allD=dnC===ex.sets,isE=expEx===ex.id
-      const wshow=ex.u==='sec'?lg.weight+'s':lg.weight+' '+(ex.u==='kg/hand'?'kg/h':'kg')
+    const exH = exs.map((ex, i) => {
+      const lg = sLog[ex._origId];
+      const dnC = lg.sets.filter(Boolean).length;
+      const allD = dnC === ex.sets;
+      const isE = expEx === ex._origId;
+      const wshow = ex.u === 'sec' ? lg.weight + 's' : lg.weight + ' ' + (ex.u === 'kg/hand' ? 'kg/h' : 'kg');
       const setsClass = ex.sets > 4 ? 'srow' : (ex.sets <= 3 ? 'srow s3' : 'srow');
-      return`<div class="exacc">
-        <button class="exhdr" onclick="tgEx('${ex.id}')">
-          <div style="width:32px;height:32px;border-radius:50%;background:${allD?'#E1F5EE':'var(--bg-soft)'};border:1px solid ${allD?'#5DCAA5':'var(--border)'};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:${allD?'#085041':'var(--text-2)'};flex-shrink:0">${allD?'<i class="ti ti-check"></i>':i+1}</div>
-          <div style="flex:1;min-width:0"><div class="t1">${ex.n}</div><div class="t4" style="margin-top:2px">${ex.m}</div></div>
-          <div style="text-align:right;margin-right:6px;flex-shrink:0"><div class="t3" style="font-weight:600;font-size:12.5px">${ex.sets}×${ex.reps}${ex.u==='sec'?'s':''}</div><div class="t4" style="margin-top:2px">@ ${wshow}</div></div>
-          <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:18px;color:var(--text-3);flex-shrink:0"></i>
-        </button>
+      const isReplaced = ex.id !== ex._origId;
+
+      return `<div class="exacc">
+        <div class="exhdr" style="cursor:default">
+          <div onclick="tgEx('${ex._origId}')" style="display:flex;align-items:center;gap:12px;flex:1;min-width:0;cursor:pointer">
+            <div style="width:32px;height:32px;border-radius:50%;background:${allD?'#E1F5EE':'var(--bg-soft)'};border:1px solid ${allD?'#5DCAA5':'var(--border)'};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:${allD?'#085041':'var(--text-2)'};flex-shrink:0">${allD?'<i class="ti ti-check"></i>':i+1}</div>
+            <div style="flex:1;min-width:0">
+              <div class="t1">${ex.n}${isReplaced?' <span class="tag tmoved" style="margin-left:4px;font-size:9px;padding:2px 5px">vervangen</span>':''}</div>
+              <div class="t4" style="margin-top:2px">${ex.m}</div>
+            </div>
+            <div style="text-align:right;margin-right:6px;flex-shrink:0">
+              <div class="t3" style="font-weight:600;font-size:12.5px">${ex.sets}×${ex.reps}${ex.u==='sec'?'s':''}</div>
+              <div class="t4" style="margin-top:2px">@ ${wshow}</div>
+            </div>
+          </div>
+          <button class="ex-edit-btn" onclick="openReplaceExercise('${ex._origId}')" aria-label="Vervang oefening" title="Vervang oefening"><i class="ti ti-pencil"></i></button>
+          <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:18px;color:var(--text-3);flex-shrink:0;margin-left:4px;cursor:pointer" onclick="tgEx('${ex._origId}')"></i>
+        </div>
         ${isE?`<div class="exbdy">
           <div class="tipbox"><i class="ti ti-bulb"></i><span>${ex.tip}</span></div>
           ${ex.u!=='sec'?`<p class="h-eyebrow" style="margin-bottom:10px">Gewicht aanpassen</p>
           <div class="wctrl" style="margin-bottom:20px">
-            <button class="wbtn" onclick="adjEW('${ex.id}',${ex.c?-2.5:-1.25})" aria-label="Lager">−</button>
+            <button class="wbtn" onclick="adjEW('${ex._origId}',${ex.c?-2.5:-1.25})" aria-label="Lager">−</button>
             <div class="wval">${lg.weight} <span class="t4">${ex.u==='kg/hand'?'kg/hand':'kg'}</span></div>
-            <button class="wbtn" onclick="adjEW('${ex.id}',${ex.c?2.5:1.25})" aria-label="Hoger">+</button>
+            <button class="wbtn" onclick="adjEW('${ex._origId}',${ex.c?2.5:1.25})" aria-label="Hoger">+</button>
           </div>`:''}
           <p class="h-eyebrow" style="margin-bottom:10px">Sets afvinken (start 90s rust)</p>
-          <div class="${setsClass}">${lg.sets.map((done,si)=>`<button class="sbtn${done?' done':''}" onclick="tgSet('${ex.id}',${si})">${done?'<i class="ti ti-check"></i>':si+1}</button>`).join('')}</div>
+          <div class="${setsClass}">${lg.sets.map((done,si)=>`<button class="sbtn${done?' done':''}" onclick="tgSet('${ex._origId}',${si})">${done?'<i class="ti ti-check"></i>':si+1}</button>`).join('')}</div>
         </div>`:''}
-      </div>`}).join('')
-    let nwH=''
-    if(ssSaved){nwH=`<div class="card" style="margin-top:14px">
-      <p class="t1" style="margin-bottom:14px"><i class="ti ti-trending-up" style="color:#1D9E75"></i> Volgende sessie (berekend gewicht)</p>
-      ${exs.map(ex=>{const lg=sLog[ex.id],done=lg.sets.filter(Boolean).length,cur=lg.weight,nxt=nxtW(cur,done,ex.sets,ex.c),diff=Math.round((nxt-cur)*4)/4
-        return`<div class="bet" style="padding:10px 0;border-bottom:1px solid var(--border-soft)">
-          <span class="t3" style="font-weight:500">${ex.n}</span>
-          <span style="font-size:13px">${cur}→<strong style="color:${diff>0?'#1D9E75':diff<0?'#D85A30':'var(--text-1)'}">${nxt}${ex.u==='sec'?'s':'kg'}</strong>${diff>0?` <span style="font-size:11px;color:#1D9E75">(+${diff})</span>`:diff<0?` <span style="font-size:11px;color:#D85A30">(${diff})</span>`:''}</span>
-        </div>`}).join('')}</div>`}
-    el.innerHTML=stickyProgress+pillsH+`
+      </div>`;
+    }).join('');
+
+    let nwH = '';
+    if (ssSaved) {
+      nwH = `<div class="card" style="margin-top:14px">
+        <p class="t1" style="margin-bottom:14px"><i class="ti ti-trending-up" style="color:#1D9E75"></i> Volgende sessie (berekend gewicht)</p>
+        ${exs.map(ex => {
+          const lg = sLog[ex._origId];
+          const done = lg.sets.filter(Boolean).length;
+          const cur = lg.weight;
+          const nxt = nxtW(cur, done, ex.sets, ex.c);
+          const diff = Math.round((nxt - cur) * 4) / 4;
+          return `<div class="bet" style="padding:10px 0;border-bottom:1px solid var(--border-soft)">
+            <span class="t3" style="font-weight:500">${ex.n}</span>
+            <span style="font-size:13px">${cur}→<strong style="color:${diff>0?'#1D9E75':diff<0?'#D85A30':'var(--text-1)'}">${nxt}${ex.u==='sec'?'s':'kg'}</strong>${diff>0?` <span style="font-size:11px;color:#1D9E75">(+${diff})</span>`:diff<0?` <span style="font-size:11px;color:#D85A30">(${diff})</span>`:''}</span>
+          </div>`;
+        }).join('')}
+      </div>`;
+    }
+
+    el.innerHTML = stickyProgress + pillsH + `
       <div class="card-feature" style="margin-bottom:18px">
         <div class="accent-bar" style="background:${cfg.col}"></div>
         <div class="bet">
@@ -1540,56 +1727,150 @@
       <button class="savbtn${ssSaved?' sv':''}" onclick="saveSess()">
         <i class="ti ti-${ssSaved?'check':'device-floppy'}"></i>
         ${ssSaved?'Sessie opgeslagen':'Sessie opslaan + evalueren'}
-      </button>${nwH}`
+      </button>${nwH}`;
   }
+
   function selD(d){selDate=d;sLog={};expEx=null;ssSaved=false;safe(rTraining);window.scrollTo({top:0,behavior:'instant'})}
-  function tgEx(id){expEx=expEx===id?null:id;safe(rTraining)}
+  function tgEx(origId){expEx = expEx === origId ? null : origId; safe(rTraining);}
 
-  function tgSet(id,si){
-    const wasOff = !sLog[id].sets[si];
-    sLog[id].sets[si]=!sLog[id].sets[si];
-    safe(rTraining);
-    // Alleen rust-timer starten als de set NU afgevinkt wordt (van off → on)
+  function tgSet(origId, si){
+    const wasOff = !sLog[origId].sets[si];
+    sLog[origId].sets[si] = !sLog[origId].sets[si];
+    // Log timestamp van afvinken (voor timeline-tracking in Insights)
     if (wasOff) {
-      startRestTimer();
+      sLog[origId].exerciseTimestamps = sLog[origId].exerciseTimestamps || [];
+      sLog[origId].exerciseTimestamps.push(nowISO());
     }
+    safe(rTraining);
+    if (wasOff) startRestTimer();
   }
 
-  function adjEW(id,delta){sLog[id].weight=Math.max(0,Math.round((sLog[id].weight+delta)*4)/4);safe(rTraining)}
+  function adjEW(origId, delta){
+    sLog[origId].weight = Math.max(0, Math.round((sLog[origId].weight + delta) * 4) / 4);
+    safe(rTraining);
+  }
+
   async function saveSess(){
-    const day=TD.find(d=>d.date===selDate);if(!day)return
-    const exs=EX[day.type],nL={...logs,[selDate]:{...(logs[selDate]||{})}},nW={...weights}
-    for(const[id,lg]of Object.entries(sLog)){if(id==='_date')continue;const ex=exs.find(e=>e.id===id);if(!ex)continue;nL[selDate][id]=lg;nW[id]=nxtW(lg.weight,lg.sets.filter(Boolean).length,ex.sets,ex.c)}
-    logs=nL;weights=nW;ssSaved=true
-    safe(rTraining)
-    await Promise.all([cloudSet('logs',logs), cloudSet('weights',weights)])
+    const day = TD.find(d => d.date === selDate);
+    if (!day) return;
+    const origExs = EX[day.type].slice(0, 6);
+    const nL = {...logs, [selDate]: {...(logs[selDate]||{})}};
+    const nW = {...weights};
+
+    for (const orig of origExs) {
+      const lg = sLog[orig.id];
+      if (!lg) continue;
+      // Resolve: welke oefening was er feitelijk? (voor progressive overload op de juiste exercise-id)
+      const resolved = resolveEx(selDate, orig.id);
+      nL[selDate][orig.id] = lg;
+      // Update weight onder de FEITELIJKE oefening-id (resolved.id) zodat overload doorloopt
+      // ongeacht of je 'm hier of bij een andere sessie hebt gedaan.
+      nW[resolved.id] = nxtW(lg.weight, lg.sets.filter(Boolean).length, resolved.sets, resolved.c);
+    }
+    logs = nL; weights = nW; ssSaved = true;
+    safe(rTraining);
+    await Promise.all([cloudSet('logs', logs), cloudSet('weights', weights)]);
+  }
+
+  // ===== EXERCISE REPLACE =====
+  function openReplaceExercise(origId) {
+    const day = TD.find(d => d.date === selDate);
+    if (!day) return;
+    const trainType = day.type;
+    const currentResolved = resolveEx(selDate, origId);
+    const candidates = EX[trainType]; // Zelfde type → alleen oefeningen voor deze dag
+
+    const overlay = document.createElement('div');
+    overlay.id = 'replace-overlay';
+    overlay.className = 'editor-overlay';
+    overlay.onclick = (e) => { if(e.target === overlay) closeReplace(); };
+
+    overlay.innerHTML = `
+      <div class="editor-sheet">
+        <div class="editor-handle"></div>
+        <div class="editor-header">
+          <div class="t1">Oefening vervangen</div>
+          <button class="editor-close" onclick="closeReplace()" aria-label="Sluiten">×</button>
+        </div>
+        <p class="t3" style="margin-bottom:14px;line-height:1.5">
+          Kies een andere oefening voor deze ${TCONF[trainType].label.toLowerCase()} sessie. Het huidige gewicht en de progressive overload blijven bewaard per oefening — als je later weer terugschakelt, gebruikt de app het laatste opgeslagen gewicht voor die oefening.
+        </p>
+        <div class="replace-list">
+          ${candidates.map(c => {
+            const isCurrent = c.id === currentResolved.id;
+            const w = gw(c.id);
+            const wstr = c.u === 'sec' ? `${w}s` : `${w} ${c.u==='kg/hand'?'kg/h':'kg'}`;
+            return `<button class="replace-item ${isCurrent?'current':''}" onclick="confirmReplace('${origId}','${c.id}')">
+              <div class="replace-item-info">
+                <div class="t1" style="font-size:14.5px">${c.n}${isCurrent?' <span class="t4" style="font-weight:500"> · huidige</span>':''}</div>
+                <div class="t4" style="margin-top:2px">${c.m} · ${c.sets}×${c.reps}${c.u==='sec'?'s':''}</div>
+              </div>
+              <div class="replace-item-meta">${wstr}</div>
+            </button>`;
+          }).join('')}
+        </div>
+        ${exerciseOverrides[selDate]?.[origId] ? `<button class="export-btn" onclick="resetReplace('${origId}')" style="border-color:var(--text-2);color:var(--text-2)"><i class="ti ti-arrow-back-up"></i> Reset naar standaard</button>` : ''}
+      </div>
+    `;
+    document.body.appendChild(overlay);
+  }
+
+  function closeReplace() {
+    const ov = document.getElementById('replace-overlay');
+    if (ov) ov.remove();
+  }
+
+  function confirmReplace(origId, newId) {
+    if (!exerciseOverrides[selDate]) exerciseOverrides[selDate] = {};
+    // Vergelijk met origineel: als nieuw == oud (origineel), verwijder override
+    if (newId === origId) {
+      delete exerciseOverrides[selDate][origId];
+      if (Object.keys(exerciseOverrides[selDate]).length === 0) {
+        delete exerciseOverrides[selDate];
+      }
+    } else {
+      exerciseOverrides[selDate][origId] = newId;
+    }
+    // Reset sLog zodat we hertegenwoordigen met juiste weight
+    sLog = {};
+    closeReplace();
+    safe(rTraining);
+    sset('exerciseOverrides', exerciseOverrides);
+  }
+
+  function resetReplace(origId) {
+    if (exerciseOverrides[selDate]) {
+      delete exerciseOverrides[selDate][origId];
+      if (Object.keys(exerciseOverrides[selDate]).length === 0) {
+        delete exerciseOverrides[selDate];
+      }
+    }
+    sLog = {};
+    closeReplace();
+    safe(rTraining);
+    sset('exerciseOverrides', exerciseOverrides);
   }
 
   // ============================================================
-  // REST TIMER (90s vast, korte vibratie start, 2x bij einde)
+  // REST TIMER
   // ============================================================
   function vibrate(pattern) {
-    try {
-      if (navigator.vibrate) navigator.vibrate(pattern);
-    } catch (e) { /* niet beschikbaar op iOS Safari, dat is OK */ }
+    try { if (navigator.vibrate) navigator.vibrate(pattern); } catch(e) {}
   }
 
   function startRestTimer() {
-    // Cancel bestaande timer
     if (restTimerInterval) {
       clearInterval(restTimerInterval);
       restTimerInterval = null;
     }
     restTimerEnd = Date.now() + REST_DURATION * 1000;
-    // Korte vibratie bij start
     vibrate(50);
     renderRestTimer();
     restTimerInterval = setInterval(() => {
       const remaining = Math.ceil((restTimerEnd - Date.now()) / 1000);
       if (remaining <= 0) {
-        // 2 vibraties bij einde
         vibrate([200, 100, 200]);
-        stopRestTimer(false); // false = niet door tap, dus geen extra vibration
+        stopRestTimer(false);
       } else {
         renderRestTimer();
       }
@@ -1615,10 +1896,7 @@
   function renderRestTimer() {
     const host = document.getElementById('rest-timer-host');
     if (!host) return;
-    if (!restTimerEnd) {
-      host.innerHTML = '';
-      return;
-    }
+    if (!restTimerEnd) { host.innerHTML = ''; return; }
     const remaining = Math.max(0, Math.ceil((restTimerEnd - Date.now()) / 1000));
     const mm = Math.floor(remaining / 60);
     const ss = remaining % 60;
@@ -1639,9 +1917,9 @@
   }
 
   // ============================================================
-  // VOEDING + SHOP DATA (ongewijzigd)
+  // MEALS DATA
   // ============================================================
-  const MEALS=[
+  const MEALS = [
     {day:'Maandag',tot:{k:2400,p:188,c:253,f:60},m:[
       {l:'Ontbijt',n:'Havermout powerbow',k:620,p:42,c:75,f:18,
        ing:['80g havermout','200ml halfvolle melk','1 banaan','150g skyr 0%','20g walnoten','1 tl honing'],
@@ -1740,14 +2018,16 @@
        ing:['200g rundergehakt','400g aardappelen','250g boerenkool','50ml melk, 1 el boter','Jus, nootmuskaat'],
        steps:['Aardappelen 20 min koken.','Boerenkool 5 min blancheren.','Stamppot maken met melk, boter, nootmuskaat.','Gehaktballen bakken. Jus erbij.']},
     ]},
-  ]
-  const CUP_RECIPES=[
+  ];
+
+  const CUP_RECIPES = [
     {n:'Skyr berry power',k:340,p:28,c:42,f:6,onder:'200g skyr 0% + 1 tl honing',boven:'30g granola + 50g blauwe bessen',tip:'Beste budget-optie. Bessen kunnen vers of uit de diepvries (ontdooien onderweg).'},
     {n:'Kwark crunch',k:380,p:32,c:38,f:12,onder:'250g magere kwark + 1 tl honing',boven:'30g muesli + 20g walnoten',tip:'Hoogste eiwit per cup (32g). Walnoten geven je omega-3 én extra crunch.'},
     {n:'Hüttenkäse fresh',k:280,p:26,c:30,f:4,onder:'200g hüttenkäse + snufje peper',boven:'4 rijstwafels (gebroken) + 50g aardbeien',tip:'Lichtste optie, hartig met fruit. Top als post-workout snack op trainingsdagen.'},
     {n:'Skyr proteïne plus',k:420,p:40,c:35,f:10,onder:'200g skyr + 15g proteïnepoeder (vanille) doorroeren',boven:'25g havermout + 1 banaan in plakjes',tip:'Bom van 40g eiwit. Mix de proteïne goed door de skyr de avond ervoor.'},
-  ]
-  const SHOP={
+  ];
+
+  const SHOP = {
     'Vlees & Vis':[
       {id:'kip',n:'AH Kipfilet vers',q:'2×1 kg',p:'€8,99/kg'},
       {id:'gehakt',n:'AH Rundergehakt mager',q:'2×500g',p:'€4,49/500g'},
@@ -1824,14 +2104,14 @@
       {id:'creat',n:'Creatine Monohydraat (microniseerd)',q:'1×500g',p:'~€15-20'},
       {id:'vitd',n:'Vitamine D3 (winter optie)',q:'1 potje',p:'~€8-12'},
     ],
-  }
+  };
 
   // ============================================================
   // TAB 4: VOEDING
   // ============================================================
   function rVoeding(){
-    const el=document.getElementById('voeding')
-    if(!isAppLoaded) return;
+    const el = document.getElementById('voeding');
+    if (!isAppLoaded) return;
 
     const subTabs = `<div class="pill-row" style="margin-bottom:14px">
       <button class="pill ${voedingSubTab==='meals'?'ac':''}" onclick="setVoedingSub('meals')"><i class="ti ti-leaf"></i> Maaltijden</button>
@@ -1843,11 +2123,19 @@
       return;
     }
 
-    const day=MEALS[vDay]
-    const mc=[{l:'Kcal',v:day.tot.k,c:'#1D9E75'},{l:'Eiwit',v:day.tot.p+'g',c:'#185FA5'},{l:'Koolh',v:day.tot.c+'g',c:'#854F0B'},{l:'Vet',v:day.tot.f+'g',c:'#993556'}]
-    const mlH=day.m.map((ml,mi)=>{const key=`${vDay}-${mi}`,isE=expMeal===key
-      const cupBadge=ml.cup?`<span class="tag tcup" style="margin-left:8px"><i class="ti ti-cup"></i> Cup</span>`:''
-      return`<div class="mlacc">
+    const day = MEALS[vDay];
+    const mc = [
+      {l:'Kcal',v:day.tot.k,c:'#1D9E75'},
+      {l:'Eiwit',v:day.tot.p+'g',c:'#185FA5'},
+      {l:'Koolh',v:day.tot.c+'g',c:'#854F0B'},
+      {l:'Vet',v:day.tot.f+'g',c:'#993556'}
+    ];
+
+    const mlH = day.m.map((ml, mi) => {
+      const key = `${vDay}-${mi}`;
+      const isE = expMeal === key;
+      const cupBadge = ml.cup ? `<span class="tag tcup" style="margin-left:8px"><i class="ti ti-cup"></i> Cup</span>` : '';
+      return `<div class="mlacc">
         <button class="mlhdr" onclick="tgMl('${key}')">
           <div style="flex:1;min-width:0"><div class="h-eyebrow" style="margin-bottom:4px">${ml.l}</div><div class="t1">${ml.n}${cupBadge}</div></div>
           <div style="text-align:right;margin-right:10px;flex-shrink:0"><div class="t3" style="font-weight:600">${ml.k} kcal</div><div class="t4" style="margin-top:2px">${ml.p}g eiwit</div></div>
@@ -1864,10 +2152,12 @@
           <p class="h-eyebrow" style="margin:18px 0 8px">Bereiding</p>
           ${ml.steps.map((s,si)=>`<div style="display:flex;gap:12px;padding:10px 0;font-size:13.5px;color:var(--text-2);line-height:1.5"><div class="stepn">${si+1}</div><span style="flex:1">${s}</span></div>`).join('')}
         </div>`:''}
-      </div>`}).join('')
+      </div>`;
+    }).join('');
 
-    const cupH=CUP_RECIPES.map((r,i)=>{const isE=expCup===i
-      return`<div class="mlacc">
+    const cupH = CUP_RECIPES.map((r, i) => {
+      const isE = expCup === i;
+      return `<div class="mlacc">
         <button class="mlhdr" onclick="tgCup(${i})">
           <div style="flex:1;min-width:0"><div class="h-eyebrow" style="margin-bottom:4px"><i class="ti ti-cup" style="color:#993556"></i> Cup recept</div><div class="t1">${r.n}</div></div>
           <div style="text-align:right;margin-right:10px;flex-shrink:0"><div class="t3" style="font-weight:600">${r.k} kcal</div><div class="t4" style="margin-top:2px">${r.p}g eiwit</div></div>
@@ -1883,9 +2173,10 @@
           <div class="cup-section"><div class="h-eyebrow" style="margin-bottom:6px">In het deksel-compartiment</div><div class="t3" style="font-size:13.5px">${r.boven}</div></div>
           <div class="tipbox" style="margin-top:12px"><i class="ti ti-bulb"></i><span>${r.tip}</span></div>
         </div>`:''}
-      </div>`}).join('')
+      </div>`;
+    }).join('');
 
-    el.innerHTML=`
+    el.innerHTML = `
       <p class="sec-header" style="margin-top:8px">Voeding & Boodschappen</p>
       ${subTabs}
       <div class="pill-row">${MEALS.map((m,i)=>`<button class="pill${vDay===i?' ac':''}" onclick="svDay(${i})">${m.day.slice(0,2)}</button>`).join('')}</div>
@@ -1899,7 +2190,7 @@
         <p class="t3" style="margin-bottom:8px;line-height:1.5">Voor je cup met apart deksel-compartiment. Werkwijze: <strong>zuivel onderin</strong>, <strong>droge topping in het deksel</strong>. Mix vlak voor het eten.</p>
         <p class="t4" style="line-height:1.4">Tip: gebruik deze als snack-vervanger op werk-dagen.</p>
       </div>
-      <div class="card" style="padding:0 18px">${cupH}</div>`
+      <div class="card" style="padding:0 18px">${cupH}</div>`;
   }
   function svDay(i){vDay=i;expMeal=null;safe(rVoeding);window.scrollTo({top:0,behavior:'instant'})}
   function tgMl(k){expMeal=expMeal===k?null:k;safe(rVoeding)}
@@ -1907,20 +2198,22 @@
   function setVoedingSub(s){voedingSubTab=s;safe(rVoeding);window.scrollTo({top:0,behavior:'instant'})}
 
   function renderShopContent() {
-    const all=Object.values(SHOP).flat()
-    const ck=all.filter(i=>shopCk[i.id]).length
-    const pct=Math.round(ck/all.length*100)
-    const catH=Object.entries(SHOP).map(([cat,items])=>{const cd=items.filter(i=>shopCk[i.id]).length
-      return`<div style="margin-bottom:20px">
+    const all = Object.values(SHOP).flat();
+    const ck = all.filter(i => shopCk[i.id]).length;
+    const pct = Math.round(ck / all.length * 100);
+    const catH = Object.entries(SHOP).map(([cat, items]) => {
+      const cd = items.filter(i => shopCk[i.id]).length;
+      return `<div style="margin-bottom:20px">
         <div class="bet" style="margin-bottom:10px;padding:0 4px"><p class="h-eyebrow" style="margin-bottom:0">${cat}</p><p class="t4" style="font-weight:500">${cd}/${items.length}</p></div>
         <div class="card" style="padding:0 18px">
-          ${items.map(item=>`<button class="shbtn${shopCk[item.id]?' dn':''}" onclick="tgSh('${item.id}')">
+          ${items.map(item => `<button class="shbtn${shopCk[item.id]?' dn':''}" onclick="tgSh('${item.id}')">
             <div class="cb${shopCk[item.id]?' on':''}">${shopCk[item.id]?'<i class="ti ti-check" style="font-size:14px"></i>':''}</div>
             <div style="flex:1;text-align:left;min-width:0"><div class="t3" style="font-size:13.5px;${shopCk[item.id]?'text-decoration:line-through':''}">${item.n}</div><div class="t4" style="margin-top:2px">${item.q}</div></div>
             <div class="t4" style="white-space:nowrap;font-weight:500;flex-shrink:0">${item.p}</div>
           </button>`).join('')}
         </div>
-      </div>`}).join('')
+      </div>`;
+    }).join('');
     return `
       <div class="card">
         <div class="bet" style="margin-bottom:10px"><p class="t1">Voortgang</p><p class="t3" style="color:#1D9E75;font-weight:600">${ck}/${all.length} items</p></div>
@@ -1930,13 +2223,13 @@
       ${catH}`;
   }
   function tgSh(id){
-    shopCk[id]=!shopCk[id];
+    shopCk[id] = !shopCk[id];
     safe(rVoeding);
-    sset('shop',shopCk);
+    sset('shop', shopCk);
   }
 
   // ============================================================
-  // TAB 5: INSIGHTS
+  // TAB 5: INSIGHTS — met ECHTE timestamps voor cafeïne + training
   // ============================================================
   function getWeekDates(offset) {
     const today = new Date(TODAY);
@@ -1956,8 +2249,9 @@
   function renderTimelineDay(date) {
     const d = getDay(date);
     const trainType = getTrainType(date);
-    const dayMigraines = migraines.filter(m => m.startTime && m.startTime.startsWith(date));
+    const dayMigraines = migraines.filter(m => m.startTime && localDateStr(m.startTime) === date);
 
+    // ===== SLAAP-blokken =====
     let sleepBlocks = [];
     if (d.bedTime && d.wakeTime) {
       const [wh, wm] = d.wakeTime.split(':').map(Number);
@@ -1972,8 +2266,43 @@
       }
     }
 
-    const cafTimes = [8 * 60, 11 * 60, 14 * 60, 17 * 60, 20 * 60, 9 * 60 + 30, 13 * 60, 15 * 60 + 30];
+    // ===== CAFEÏNE: gebruik ECHTE timestamps uit caffeine_log =====
+    const cafLog = (d.caffeine_log || []).map(c => {
+      try {
+        const dt = new Date(c.time);
+        // Filter op deze datum (lokaal)
+        if (localDateStr(c.time) !== date) return null;
+        return dt.getHours() * 60 + dt.getMinutes();
+      } catch { return null; }
+    }).filter(x => x !== null);
+    const cafCount = cafLog.length;
 
+    // ===== TRAINING: gebruik ECHTE timestamps uit logs[date][exId].exerciseTimestamps =====
+    let trainingBracket = null;
+    if (logs[date]) {
+      const allTimestamps = [];
+      Object.values(logs[date]).forEach(exLog => {
+        (exLog.exerciseTimestamps || []).forEach(ts => {
+          try {
+            const dt = new Date(ts);
+            if (localDateStr(ts) === date) {
+              allTimestamps.push(dt.getHours() * 60 + dt.getMinutes());
+            }
+          } catch {}
+        });
+      });
+      if (allTimestamps.length > 0) {
+        const minT = Math.min(...allTimestamps);
+        const maxT = Math.max(...allTimestamps);
+        // Maak een blok van min-15min tot max+5min, met minimum breedte
+        const startMin = Math.max(0, minT - 15);
+        const endMin = Math.min(24*60, Math.max(maxT + 5, minT + 30));
+        trainingBracket = { startMin, endMin };
+      }
+    }
+    // Fallback: als er een trainingsdag is maar geen vinkjes gezet, geen blok tonen
+
+    // ===== TAGS =====
     const dayLabel = `${dn(date)} ${dnum(date)}`;
     const tags = [];
     if (trainType) {
@@ -1983,10 +2312,11 @@
     if (dayMigraines.length > 0) {
       tags.push(`<span class="tag tmig"><i class="ti ti-alert-triangle"></i> ${dayMigraines.length}× migraine</span>`);
     }
-    if ((d.caffeine_units||0) >= 4) {
-      tags.push(`<span class="tag tcaf"><i class="ti ti-coffee"></i> ${d.caffeine_units}×</span>`);
+    if (cafCount >= 4) {
+      tags.push(`<span class="tag tcaf"><i class="ti ti-coffee"></i> ${cafCount}×</span>`);
     }
 
+    // ===== MARKERS =====
     let markers = '';
 
     sleepBlocks.forEach(b => {
@@ -1995,29 +2325,30 @@
       markers += `<div class="timeline-marker tl-sleep" style="left:${left}%;width:${w}%" title="Slaap"></div>`;
     });
 
-    if (trainType) {
-      const startMin = 17 * 60;
-      const endMin = 18 * 60 + 30;
-      const left = (startMin / (24*60)) * 100;
-      const w = ((endMin - startMin) / (24*60)) * 100;
-      markers += `<div class="timeline-marker tl-train" style="left:${left}%;width:${w}%" title="${TCONF[trainType].label}"></div>`;
+    if (trainingBracket) {
+      const left = (trainingBracket.startMin / (24*60)) * 100;
+      const w = ((trainingBracket.endMin - trainingBracket.startMin) / (24*60)) * 100;
+      const lbl = trainType ? TCONF[trainType].label : 'Training';
+      markers += `<div class="timeline-marker tl-train" style="left:${left}%;width:${w}%" title="${lbl}"></div>`;
     }
 
-    const cafCount = Math.min(d.caffeine_units||0, cafTimes.length);
-    for (let i = 0; i < cafCount; i++) {
-      const left = (cafTimes[i] / (24*60)) * 100;
+    cafLog.forEach(t => {
+      const left = (t / (24*60)) * 100;
       markers += `<div class="timeline-marker tl-caf" style="left:${left}%;width:4px" title="Cafeïne"></div>`;
-    }
+    });
 
     dayMigraines.forEach(m => {
       const start = new Date(m.startTime);
-      const end = m.endTime ? new Date(m.endTime) : new Date(date + 'T23:59:59');
       const startMin = start.getHours() * 60 + start.getMinutes();
       let endMin;
-      if (m.endTime && m.endTime.startsWith(date)) {
-        endMin = end.getHours() * 60 + end.getMinutes();
-      } else if (m.endTime) {
-        endMin = 24 * 60;
+      if (m.endTime) {
+        const endDate = localDateStr(m.endTime);
+        const end = new Date(m.endTime);
+        if (endDate === date) {
+          endMin = end.getHours() * 60 + end.getMinutes();
+        } else {
+          endMin = 24 * 60;
+        }
       } else {
         endMin = 24 * 60;
       }
@@ -2061,11 +2392,9 @@
 
     recentMigraines.forEach(mig => {
       const migDate = new Date(mig.startTime);
-      const day0 = mig.startTime.split('T')[0];
       const day1 = new Date(migDate.getTime() - 24*3600*1000).toISOString().split('T')[0];
       const day2 = new Date(migDate.getTime() - 48*3600*1000).toISOString().split('T')[0];
 
-      const d0 = getDay(day0);
       const d1 = getDay(day1);
       const d2 = getDay(day2);
 
@@ -2079,7 +2408,9 @@
         sleepShifts++;
       }
 
-      if ((d1.caffeine_units||0) >= 5 || (d2.caffeine_units||0) >= 5) {
+      const c1 = (d1.caffeine_log || []).length;
+      const c2 = (d2.caffeine_log || []).length;
+      if (c1 >= 5 || c2 >= 5) {
         highCaffeine++;
       }
 
@@ -2149,11 +2480,9 @@
     const canGoForward = timelineWeekOffset < 0;
 
     const completedMigraines = migraines.filter(m => m.startTime && m.endTime);
-    const thisWeekMigs = migraines.filter(m => m.startTime && weekDates.includes(m.startTime.split('T')[0]));
+    const thisWeekMigs = migraines.filter(m => m.startTime && weekDates.includes(localDateStr(m.startTime)));
     const totalMeds = migraines.reduce((acc, m) => {
-      (m.medicationLog||[]).forEach(med => {
-        acc[med.type] = (acc[med.type]||0) + 1;
-      });
+      (m.medicationLog||[]).forEach(med => { acc[med.type] = (acc[med.type]||0) + 1; });
       return acc;
     }, {});
     const avgDur = completedMigraines.length > 0 ?
@@ -2249,7 +2578,7 @@
       const allDates = new Set();
       Object.keys(daily).forEach(d => allDates.add(d));
       Object.keys(logs).forEach(d => allDates.add(d));
-      migraines.forEach(m => { if(m.startTime) allDates.add(m.startTime.split('T')[0]); });
+      migraines.forEach(m => { if(m.startTime) allDates.add(localDateStr(m.startTime)); });
       TD.forEach(td => allDates.add(td.date));
       const sortedDates = [...allDates].sort();
 
@@ -2257,10 +2586,10 @@
         const d = getDay(date);
         const trainType = getTrainType(date);
         const sleepH = calcSleepHours(d.bedTime, d.wakeTime);
-        const dayMigs = migraines.filter(m => m.startTime && m.startTime.startsWith(date));
+        const dayMigs = migraines.filter(m => m.startTime && localDateStr(m.startTime) === date);
         const medCounts = dayMigs.reduce((acc,m) => {
           (m.medicationLog||[]).forEach(med => {
-            if (med.time && med.time.startsWith(date)) {
+            if (med.time && localDateStr(med.time) === date) {
               acc[med.type] = (acc[med.type]||0) + 1;
             }
           });
@@ -2271,8 +2600,9 @@
         const firstMedTime = (type) => {
           for (const m of dayMigs) {
             for (const med of (m.medicationLog||[])) {
-              if (med.type === type && med.time && med.time.startsWith(date)) {
-                return new Date(med.time).toTimeString().slice(0,8);
+              if (med.type === type && med.time && localDateStr(med.time) === date) {
+                const t = new Date(med.time);
+                return `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}:${String(t.getSeconds()).padStart(2,'0')}`;
               }
             }
           }
@@ -2280,8 +2610,20 @@
         };
 
         const migOnDate = dayMigs[0];
-        const migStartTime = migOnDate ? new Date(migOnDate.startTime).toTimeString().slice(0,8) : '';
-        const migEndTime = migOnDate && migOnDate.endTime ? new Date(migOnDate.endTime).toTimeString().slice(0,8) : '';
+        const fmtLocalT = (iso) => {
+          if (!iso) return '';
+          const t = new Date(iso);
+          return `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}:${String(t.getSeconds()).padStart(2,'0')}`;
+        };
+        const migStartTime = migOnDate ? fmtLocalT(migOnDate.startTime) : '';
+        const migEndTime = migOnDate && migOnDate.endTime ? fmtLocalT(migOnDate.endTime) : '';
+
+        const cafLog = (d.caffeine_log || []).filter(c => localDateStr(c.time) === date);
+        const cafCount = cafLog.length;
+        const cafFirstTime = cafLog.length > 0 ? (() => {
+          const sorted = [...cafLog].sort((a,b) => new Date(a.time) - new Date(b.time));
+          return fmtLocalT(sorted[0].time);
+        })() : '';
 
         return {
           date,
@@ -2291,7 +2633,8 @@
           sleep_hours: sleepH || '',
           bedtime: d.bedTime || '',
           waketime: d.wakeTime || '',
-          caffeine_units: d.caffeine_units || 0,
+          caffeine_count: cafCount,
+          caffeine_first_time: cafFirstTime,
           creatine_taken: d.creat ? 1 : 0,
           run_km: d.runKm || 0,
           run_min: d.runMin || 0,
@@ -2322,12 +2665,29 @@
             migraine_severity: m.severity || '',
             med_type: med.type,
             med_datetime: med.time || '',
-            med_date: med.time ? med.time.split('T')[0] : '',
-            med_time: med.time ? new Date(med.time).toTimeString().slice(0,8) : '',
+            med_date: med.time ? localDateStr(med.time) : '',
+            med_time: med.time ? (() => {
+              const t = new Date(med.time);
+              return `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}:${String(t.getSeconds()).padStart(2,'0')}`;
+            })() : '',
             minutes_after_start: (med.time && m.startTime) ? Math.round((new Date(med.time) - new Date(m.startTime))/60000) : ''
           });
         });
       });
+
+      const cafRows = [];
+      Object.entries(daily).forEach(([date, d]) => {
+        (d.caffeine_log || []).forEach(c => {
+          if (!c.time) return;
+          const t = new Date(c.time);
+          cafRows.push({
+            date,
+            datetime: c.time,
+            time_local: `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}`
+          });
+        });
+      });
+      cafRows.sort((a,b) => new Date(a.datetime) - new Date(b.datetime));
 
       const migRows = migraines.map((m, idx) => {
         const dur = m.endTime ? Math.round((new Date(m.endTime) - new Date(m.startTime))/60000) : '';
@@ -2336,8 +2696,11 @@
           migraine_id: m.id || `mig_${idx}`,
           start_datetime: m.startTime || '',
           end_datetime: m.endTime || '',
-          start_date: m.startTime ? m.startTime.split('T')[0] : '',
-          start_time: m.startTime ? new Date(m.startTime).toTimeString().slice(0,8) : '',
+          start_date: m.startTime ? localDateStr(m.startTime) : '',
+          start_time: m.startTime ? (() => {
+            const t = new Date(m.startTime);
+            return `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}:${String(t.getSeconds()).padStart(2,'0')}`;
+          })() : '',
           duration_minutes: dur,
           severity: m.severity || '',
           paracetamol_count: counts.paracetamol || 0,
@@ -2352,17 +2715,31 @@
       Object.entries(logs).forEach(([date, exMap]) => {
         const trainType = getTrainType(date);
         Object.entries(exMap).forEach(([exId, exLog]) => {
-          const exDef = trainType ? EX[trainType]?.find(e => e.id === exId) : null;
+          // Resolve voor weergave
+          const resolved = resolveEx(date, exId);
+          const exDef = resolved || getExDef(exId);
+          const tsArr = exLog.exerciseTimestamps || [];
+          let firstTs = '', lastTs = '';
+          if (tsArr.length > 0) {
+            const sorted = [...tsArr].sort();
+            const fT = new Date(sorted[0]);
+            const lT = new Date(sorted[sorted.length-1]);
+            firstTs = `${String(fT.getHours()).padStart(2,'0')}:${String(fT.getMinutes()).padStart(2,'0')}`;
+            lastTs = `${String(lT.getHours()).padStart(2,'0')}:${String(lT.getMinutes()).padStart(2,'0')}`;
+          }
           trainRows.push({
             date,
             weekday: dnL(date),
             training_type: trainType || '',
-            exercise_id: exId,
+            original_exercise_id: exId,
+            actual_exercise_id: exDef?.id || exId,
             exercise_name: exDef?.n || exId,
             muscle: exDef?.m || '',
             target_sets: exDef?.sets || '',
             target_reps: exDef?.reps || '',
             sets_completed: (exLog.sets||[]).filter(Boolean).length,
+            first_set_time: firstTs,
+            last_set_time: lastTs,
             weight: exLog.weight || 0,
             unit: exDef?.u || ''
           });
@@ -2372,7 +2749,7 @@
       const wb = XLSX.utils.book_new();
 
       const ws1 = XLSX.utils.json_to_sheet(dailyRows);
-      ws1['!cols'] = Object.keys(dailyRows[0] || {}).map(k => ({ wch: Math.max(12, k.length + 2) }));
+      if (dailyRows.length > 0) ws1['!cols'] = Object.keys(dailyRows[0]).map(k => ({ wch: Math.max(12, k.length + 2) }));
       XLSX.utils.book_append_sheet(wb, ws1, 'Daily');
 
       const ws2 = XLSX.utils.json_to_sheet(migRows);
@@ -2383,9 +2760,13 @@
       if (medRows.length > 0) ws3['!cols'] = Object.keys(medRows[0]).map(k => ({ wch: Math.max(12, k.length + 2) }));
       XLSX.utils.book_append_sheet(wb, ws3, 'Medicatie');
 
-      const ws4 = XLSX.utils.json_to_sheet(trainRows);
-      if (trainRows.length > 0) ws4['!cols'] = Object.keys(trainRows[0]).map(k => ({ wch: Math.max(12, k.length + 2) }));
-      XLSX.utils.book_append_sheet(wb, ws4, 'Training');
+      const ws4 = XLSX.utils.json_to_sheet(cafRows);
+      if (cafRows.length > 0) ws4['!cols'] = Object.keys(cafRows[0]).map(k => ({ wch: Math.max(12, k.length + 2) }));
+      XLSX.utils.book_append_sheet(wb, ws4, 'Cafeine');
+
+      const ws5 = XLSX.utils.json_to_sheet(trainRows);
+      if (trainRows.length > 0) ws5['!cols'] = Object.keys(trainRows[0]).map(k => ({ wch: Math.max(12, k.length + 2) }));
+      XLSX.utils.book_append_sheet(wb, ws5, 'Training');
 
       const stamp = new Date().toISOString().split('T')[0];
       XLSX.writeFile(wb, `lifestyle-export-${stamp}.xlsx`);
@@ -2396,21 +2777,27 @@
   }
 
   // ============================================================
-  // EXPOSE FUNCTIES
+  // EXPOSE FUNCTIES OP WINDOW
   // ============================================================
   window.switchTab = switchTab;
   window.adjW = adjW;
   window.updSleep = updSleep;
   window.adjCaf = adjCaf;
+  window.updCafTime = updCafTime;
+  window.delCaf = delCaf;
   window.tgCreat = tgCreat;
   window.updR = updR;
   window.goToTraining = goToTraining;
-  window.tgAv = tgAv;
+  window.onSchemaTap = onSchemaTap;
   window.selD = selD;
   window.tgEx = tgEx;
   window.tgSet = tgSet;
   window.adjEW = adjEW;
   window.saveSess = saveSess;
+  window.openReplaceExercise = openReplaceExercise;
+  window.closeReplace = closeReplace;
+  window.confirmReplace = confirmReplace;
+  window.resetReplace = resetReplace;
   window.svDay = svDay;
   window.tgMl = tgMl;
   window.tgCup = tgCup;
