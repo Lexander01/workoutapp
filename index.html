@@ -268,17 +268,23 @@
     /* === GENERIC LOG ROW (medication / caffeine) === */
     .log-row {
       display: grid;
-      grid-template-columns: 1fr auto auto;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 110px) 32px;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       padding: 10px 0;
       border-bottom: 1px solid var(--border-soft);
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
+    .log-row > * { min-width: 0; }
     .log-row:last-child { border-bottom: none; }
-    .log-row-info { min-width: 0; }
+    .log-row-info { min-width: 0; overflow: hidden; }
+    .log-row-info > * { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .log-row-time-input {
       width: 100%;
-      max-width: 130px;
+      min-width: 0;
+      max-width: 100%;
       height: 36px;
       padding: 0 6px;
       border: 1px solid var(--border);
@@ -287,6 +293,9 @@
       font-size: 12.5px;
       background: var(--bg-soft);
       box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
+      color: var(--text-1);
     }
     .log-row-del {
       width: 32px; height: 32px;
@@ -296,16 +305,28 @@
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
+      padding: 0;
     }
     .log-row-del:active { background: var(--bg-soft); }
 
     /* === TIME INPUTS GENERIC === */
-    .time-input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .time-input-group {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .time-input-group > * { min-width: 0; }
     .time-input-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .5px; font-weight: 600; margin-bottom: 6px; }
     .time-input {
+      display: block;
       width: 100%;
+      max-width: 100%;
+      min-width: 0;
       height: 48px;
-      padding: 0 12px;
+      padding: 0 10px;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       background: var(--bg-soft);
@@ -313,12 +334,25 @@
       font-size: 15px;
       color: var(--text-1);
       box-sizing: border-box;
-      min-width: 0;
+      -webkit-appearance: none;
+      appearance: none;
     }
     .time-input:focus { outline: none; border-color: var(--text-2); background: var(--bg-card); }
+    /* Force native time/date inputs not to overflow on iOS */
+    input[type="time"].time-input,
+    input[type="date"].time-input,
+    input[type="datetime-local"].time-input,
+    input[type="number"].time-input { max-width: 100%; min-width: 0; }
 
     /* === EDITOR (mobile-friendly bottom sheet) === */
-    .editor-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; display: flex; align-items: flex-end; justify-content: center; padding: 0; }
+    .editor-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 50;
+      display: flex; align-items: flex-end; justify-content: center;
+      padding: 0;
+      overflow: hidden;
+    }
     .editor-sheet {
       background: var(--bg-card);
       width: 100%;
@@ -327,9 +361,15 @@
       padding: 18px 14px calc(var(--safe-bottom) + 18px);
       max-height: 90vh;
       overflow-y: auto;
+      overflow-x: hidden;
       animation: slideUp .25s ease;
       box-sizing: border-box;
+      /* Prevent horizontal touch-scroll/drag on iOS */
+      touch-action: pan-y;
+      overscroll-behavior: contain;
     }
+    .editor-sheet * { max-width: 100%; }
+    .editor-sheet input, .editor-sheet textarea, .editor-sheet button { max-width: 100%; box-sizing: border-box; }
     .editor-handle { width: 40px; height: 5px; background: var(--border); border-radius: 3px; margin: 0 auto 16px; }
     .editor-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; gap: 8px; }
     .editor-close {
@@ -350,8 +390,11 @@
     .editor-textarea:focus { outline: none; border-color: var(--text-2); background: var(--bg-card); }
     .editor-meds-list {
       border: 1px solid var(--border); border-radius: 10px;
-      padding: 4px 12px; margin-bottom: 14px;
+      padding: 4px 10px; margin-bottom: 14px;
       background: var(--bg-soft);
+      box-sizing: border-box;
+      max-width: 100%;
+      overflow: hidden;
     }
     .editor-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
@@ -940,6 +983,31 @@
     } catch { return ''; }
   }
 
+  // Split helpers: ISO → "YYYY-MM-DD" en "HH:MM"
+  function isoToLocalDate(iso) {
+    if (!iso) return '';
+    try {
+      const d = new Date(iso);
+      const pad = n => String(n).padStart(2,'0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    } catch { return ''; }
+  }
+  function isoToLocalTime(iso) {
+    if (!iso) return '';
+    try {
+      const d = new Date(iso);
+      const pad = n => String(n).padStart(2,'0');
+      return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    } catch { return ''; }
+  }
+  // Combine "YYYY-MM-DD" + "HH:MM" → ISO (lokaal interpreted)
+  function dateAndTimeToISO(dateStr, timeStr) {
+    if (!dateStr || !timeStr) return null;
+    const d = new Date(`${dateStr}T${timeStr}`);
+    if (isNaN(d.getTime())) return null;
+    return d.toISOString();
+  }
+
   // Convert "YYYY-MM-DDTHH:MM" (local) → ISO string
   function localInputToISO(localStr) {
     if (!localStr) return null;
@@ -1352,9 +1420,11 @@
   function showMigraineEditor(idx) {
     const m = migraines[idx];
     if (!m) return;
-    // FIX: gebruik LOCALE tijd voor datetime-local input
-    const startLocal = isoToLocalInput(m.startTime);
-    const endLocal = isoToLocalInput(m.endTime);
+    // FIX: gebruik LOCALE tijd, gesplitst in date + time inputs (kleiner + iOS-vriendelijker)
+    const startDate = isoToLocalDate(m.startTime);
+    const startTime = isoToLocalTime(m.startTime);
+    const endDate = isoToLocalDate(m.endTime);
+    const endTime = isoToLocalTime(m.endTime);
     const overlay = document.createElement('div');
     overlay.id = 'mig-editor-overlay';
     overlay.className = 'editor-overlay';
@@ -1366,9 +1436,9 @@
           <div class="log-row">
             <div class="log-row-info">
               <div class="t3" style="font-weight:600;text-transform:capitalize">${med.type}</div>
-              <div class="t4">${fmtDateTime(med.time)}</div>
+              <div class="t4">${fmtTimeLocal(med.time)}</div>
             </div>
-            <input type="datetime-local" class="log-row-time-input" value="${isoToLocalInput(med.time)}" onchange="updateMedTime(${idx},${i},this.value)" />
+            <input type="time" class="log-row-time-input" value="${isoToLocalTime(med.time)}" onchange="updateMedTime(${idx},${i},this.value)" />
             <button class="log-row-del" onclick="delMed(${idx},${i})" aria-label="Verwijder"><i class="ti ti-trash"></i></button>
           </div>`).join('');
 
@@ -1381,11 +1451,17 @@
         </div>
         <div class="editor-field">
           <div class="time-input-label">Starttijd</div>
-          <input type="datetime-local" id="mig-start" value="${startLocal}" class="time-input" />
+          <div class="time-input-group">
+            <input type="date" id="mig-start-date" value="${startDate}" class="time-input" />
+            <input type="time" id="mig-start-time" value="${startTime}" class="time-input" />
+          </div>
         </div>
         <div class="editor-field">
           <div class="time-input-label">Eindtijd (leeg = nog actief)</div>
-          <input type="datetime-local" id="mig-end" value="${endLocal}" class="time-input" />
+          <div class="time-input-group">
+            <input type="date" id="mig-end-date" value="${endDate}" class="time-input" />
+            <input type="time" id="mig-end-time" value="${endTime}" class="time-input" />
+          </div>
         </div>
         <div class="editor-field">
           <div class="time-input-label">Ernst (1-10, optioneel)</div>
@@ -1419,12 +1495,20 @@
   function saveMigraineEdits(idx) {
     const m = migraines[idx];
     if (!m) return;
-    const start = document.getElementById('mig-start').value;
-    const end = document.getElementById('mig-end').value;
+    const startDate = document.getElementById('mig-start-date').value;
+    const startTime = document.getElementById('mig-start-time').value;
+    const endDate = document.getElementById('mig-end-date').value;
+    const endTime = document.getElementById('mig-end-time').value;
     const sev = document.getElementById('mig-sev').value;
     const notes = document.getElementById('mig-notes').value;
-    if (start) m.startTime = localInputToISO(start);
-    m.endTime = end ? localInputToISO(end) : null;
+    const startISO = dateAndTimeToISO(startDate, startTime);
+    if (startISO) m.startTime = startISO;
+    // Eindtijd alleen als beide ingevuld
+    if (endDate && endTime) {
+      m.endTime = dateAndTimeToISO(endDate, endTime);
+    } else {
+      m.endTime = null;
+    }
     m.severity = sev ? parseInt(sev) : null;
     m.notes = notes || '';
     closeEditor();
@@ -1450,7 +1534,10 @@
 
   function updateMedTime(migIdx, medIdx, val) {
     if (!val) return;
-    const iso = localInputToISO(val);
+    // val = "HH:MM" — combineer met bestaande datum van het log entry
+    const oldTime = migraines[migIdx].medicationLog[medIdx].time;
+    const dateStr = oldTime ? isoToLocalDate(oldTime) : isoToLocalDate(nowISO());
+    const iso = dateAndTimeToISO(dateStr, val);
     if (!iso) return;
     migraines[migIdx].medicationLog[medIdx].time = iso;
     sset('migraines', migraines);
