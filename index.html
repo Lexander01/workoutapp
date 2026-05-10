@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#f0f1f4">
   <title>Summer Body 2026</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
@@ -56,14 +56,14 @@
     .app{
       width:100%; max-width:680px;
       min-height:100vh; min-height:100dvh;
-      background:var(--bg-card);
+      background:var(--bg-page);
       box-shadow:0 0 40px rgba(17,24,39,0.06);
       display:flex; flex-direction:column; position:relative;
     }
 
     .top-strip {
       position: sticky; top: 0;
-      background: rgba(255,255,255,0.95);
+      background: rgba(240, 241, 244, 0.85);
       backdrop-filter: saturate(180%) blur(14px);
       -webkit-backdrop-filter: saturate(180%) blur(14px);
       padding: calc(var(--safe-top) + 14px) 20px 14px;
@@ -73,7 +73,7 @@
     }
     .top-strip.scrolled { border-bottom-color: var(--border-soft); }
     .top-strip-eyebrow { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .8px; font-weight: 600; margin-bottom: 2px; }
-    .top-strip-title { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em; line-height: 1.2; }
+    .top-strip-title { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em; line-height: 1.2; text-transform: capitalize; }
 
     .sec { display: none; flex: 1; padding: 16px 16px calc(var(--tabbar-h) + var(--safe-bottom) + 24px); animation: fadeIn .18s ease; }
     .sec.on { display: block; }
@@ -150,7 +150,7 @@
     .dbtn:active{transform:scale(0.95)}
     .dbtn.off{opacity:.4}
     .dbtn.tdy{border:2px solid var(--text-1);box-shadow:0 0 0 3px rgba(17,24,39,0.06)}
-    .dbtn.rest{background:var(--bg-soft);border-color:var(--border-soft);opacity:0.85}
+    .dbtn.rest{background:var(--bg-card);border-color:var(--border-soft);opacity:0.85}
     .dbtn.moved{background:#FEF8E1;border-color:#FCD34D}
 
     .srow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -167,10 +167,6 @@
     .ptrack{height:8px;background:var(--bg-soft);border-radius:4px;overflow:hidden;margin-top:12px}
     .pfill{height:100%;border-radius:4px;transition:width .3s ease}
 
-    .shbtn{ display:flex; align-items:center; gap:14px; padding:14px 0; border:none; border-bottom:1px solid var(--border-soft); background:none; width:100%; cursor:pointer; font-family:var(--font-sans); transition:opacity .15s ease; min-height:56px; }
-    .shbtn:last-child{border-bottom:none}
-    .shbtn:active{opacity:0.6}
-    .shbtn.dn{opacity:.45}
     .cb{ width:26px; height:26px; border-radius:7px; border:1.5px solid #cdd1d8; background:var(--bg-card); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .12s ease; }
     .cb.on{background:#E1F5EE;border-color:#5DCAA5;color:#085041}
 
@@ -181,15 +177,6 @@
 
     .tipbox{ background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px; font-size:13.5px; color:var(--text-2); margin:14px 0; line-height:1.5; display:flex; gap:10px; }
     .tipbox i{color:#EF9F27;flex-shrink:0;margin-top:2px;font-size:18px}
-
-    .mlacc{border-bottom:1px solid var(--border-soft)}
-    .mlacc:last-child{border-bottom:none}
-    .mlhdr{ display:flex; align-items:center; padding:16px 0; cursor:pointer; background:none; border:none; width:100%; font-family:var(--font-sans); gap:12px; text-align:left; min-height:64px; }
-    .mlhdr:active{opacity:0.7}
-
-    .mgrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:18px; }
-    .mbox{ text-align:center; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px 4px; box-shadow:var(--shadow-sm); }
-    .stepn{ width:26px; height:26px; border-radius:50%; background:var(--bg-card); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; color:var(--text-1); flex-shrink:0; margin-top:2px; }
 
     .savbtn{ width:100%; padding:18px; background:var(--text-1); border:none; border-radius:var(--radius-md); cursor:pointer; font-family:var(--font-sans); font-size:15px; font-weight:600; color:#fff; margin-top:16px; display:flex; align-items:center; justify-content:center; gap:8px; transition:all .12s ease; box-shadow:var(--shadow-md); min-height:56px; }
     .savbtn:active{transform:scale(0.98);box-shadow:var(--shadow-sm)}
@@ -207,7 +194,7 @@
     .streak-off{background:var(--bg-soft);color:var(--text-3)}
     .streak-today{outline:2px solid var(--text-1);outline-offset:1px}
 
-    .run-input{ width:100%; height:48px; padding:0 14px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-soft); font-family:var(--font-sans); font-size:16px; color:var(--text-1); transition:border-color .12s ease, background .12s ease; -webkit-appearance: none; appearance: none; box-sizing:border-box; }
+    .run-input{ width:100%; height:48px; padding:0 14px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg-soft); font-family:var(--font-sans); font-size:16px; color:var(--text-1); transition:border-color .12s ease, background .12s ease; -webkit-appearance: none; appearance: none; box-sizing:border-box; line-height: 48px; padding-top: 0; padding-bottom: 0; }
     .run-input:focus{outline:none;border-color:var(--text-2);background:var(--bg-card)}
     .run-input::-webkit-outer-spin-button, .run-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     .run-input[type=number] { -moz-appearance: textfield; }
@@ -215,21 +202,13 @@
     .toggle-card{ cursor:pointer; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px 18px; margin-bottom:12px; width:100%; text-align:left; font-family:var(--font-sans); box-shadow:var(--shadow-sm); min-height:64px; }
     .toggle-card.on{background:#E1F5EE;border-color:#5DCAA5}
 
-    .cup-card{ background:linear-gradient(135deg,#FBEAF0 0%,#FCEEF3 100%); border:1px solid #ED93B1; border-radius:var(--radius-md); padding:16px 18px; margin-bottom:12px; }
-    .cup-section{ padding:13px 14px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); margin-top:10px; }
-
     .accent-bar{ position:absolute; left:0; top:0; bottom:0; width:5px; }
 
     .pill-row{ display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:18px; -webkit-overflow-scrolling:touch; scrollbar-width:none; scroll-snap-type: x proximity; padding-left: 2px; padding-right: 2px; }
     .pill-row::-webkit-scrollbar{display:none}
     .pill-row .pill { scroll-snap-align: start; }
 
-    .macro-tag{ padding:5px 11px; border-radius:7px; font-size:12px; font-weight:600; }
-    .macro-e{background:#E6F1FB;border:1px solid #85B7EB;color:#0C447C}
-    .macro-c{background:#FAEEDA;border:1px solid #EF9F27;color:#633806}
-    .macro-v{background:#FBEAF0;border:1px solid #ED93B1;color:#72243E}
-
-    .train-progress { position: sticky; top: 0; z-index: 4; background: rgba(255,255,255,0.96); backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px); margin: -16px -16px 14px; padding: 12px 16px 12px; border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; gap: 12px; }
+    .train-progress { position: sticky; top: 0; z-index: 4; background: rgba(240, 241, 244, 0.90); backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px); margin: -16px -16px 14px; padding: 12px 16px 12px; border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; gap: 12px; }
     .train-progress-info { flex: 1; min-width: 0; }
     .train-progress-label { font-size: 12px; font-weight: 600; color: var(--text-2); margin-bottom: 4px; }
     .train-progress-bar { height: 6px; background: var(--bg-soft); border-radius: 3px; overflow: hidden; }
@@ -294,6 +273,8 @@
       -webkit-appearance: none;
       appearance: none;
       color: var(--text-1);
+      line-height: 36px;
+      padding-top: 0; padding-bottom: 0;
     }
     .log-row-del {
       width: 32px; height: 32px;
@@ -333,12 +314,18 @@
       box-sizing: border-box;
       -webkit-appearance: none;
       appearance: none;
+      line-height: 48px;
+      padding-top: 0; padding-bottom: 0;
     }
     .time-input:focus { outline: none; border-color: var(--text-2); background: var(--bg-card); }
     input[type="time"].time-input,
     input[type="date"].time-input,
     input[type="datetime-local"].time-input,
-    input[type="number"].time-input { max-width: 100%; min-width: 0; }
+    input[type="number"].time-input,
+    input[type="time"].log-row-time-input { 
+      max-width: 100%; min-width: 0; 
+      line-height: normal; /* Fallback */
+    }
 
     .editor-overlay {
       position: fixed; inset: 0;
@@ -715,7 +702,6 @@
   }
 
   computeTD();
-
   rerenderActive('vandaag');
 
   if (useFirebase) {
@@ -768,7 +754,6 @@
 
   async function loadCloud() {
     try {
-      // Removed 'shop' from cloud load
       const [a, w, l, d, m, ovr, sh] = await Promise.all([
         cloudGet('avail'), cloudGet('weights'), cloudGet('logs'),
         cloudGet('daily'), cloudGet('migraines'),
@@ -852,7 +837,7 @@
   function isTrainDay(d) { return !!TD.find(td => td.date === d && isAv(td.date)); }
   function getTrainType(d) { const td = TD.find(t => t.date === d && isAv(t.date)); return td ? td.type : null; }
   function waterTarget(d) { return isTrainDay(d) ? 3500 : 3000; }
-  function getDay(d) { return daily[d] || {water:0, sleep:0, creat:false, runKm:0, runMin:0, caffeine_log:[], bedTime:'', wakeTime:''}; }
+  function getDay(d) { return daily[d] || {water:0, sleep:0, creat:false, runKm:0, runMin:0, runLogTime:null, caffeine_log:[], bedTime:'', wakeTime:''}; }
 
   function calcSleepHours(bedTime, wakeTime) {
     if (!bedTime || !wakeTime) return 0;
@@ -968,7 +953,7 @@
 
   function ensureDay(t) {
     if (!daily[t]) {
-      daily[t] = {water:0, sleep:0, creat:false, runKm:0, runMin:0, caffeine_log:[], bedTime:'', wakeTime:''};
+      daily[t] = {water:0, sleep:0, creat:false, runKm:0, runMin:0, runLogTime:null, caffeine_log:[], bedTime:'', wakeTime:''};
     } else {
       if (daily[t].caffeine_log === undefined) daily[t].caffeine_log = [];
       if (daily[t].bedTime === undefined) daily[t].bedTime = '';
@@ -1195,7 +1180,7 @@
 
     el.innerHTML = `
       <div class="top-strip">
-        <div class="top-strip-eyebrow">${dnL(t).toLowerCase()}</div>
+        <div class="top-strip-eyebrow">${t === TODAY ? 'VANDAAG' : 'OVERZICHT'}</div>
         <div class="top-strip-title">${fdate(t)}</div>
       </div>
       <div style="padding-top:16px">
@@ -1279,7 +1264,15 @@
   }
   function updR(field, val){
     const t = TODAY; ensureDay(t);
+    const oldMin = daily[t].runMin || 0;
     daily[t][field] = parseFloat(val) || 0;
+
+    if ((daily[t].runMin > 0 || daily[t].runKm > 0) && (!daily[t].runLogTime || oldMin === 0)) {
+       daily[t].runLogTime = nowISO();
+    } else if (daily[t].runMin === 0 && daily[t].runKm === 0) {
+       daily[t].runLogTime = null;
+    }
+
     safe(rVandaag); sset('daily', daily);
   }
 
@@ -1450,11 +1443,6 @@
     sset('migraines', migraines);
   }
 
-  function goToTraining(d){
-    selDate = d; sLog = {}; expEx = null; ssSaved = false;
-    switchTab('training');
-  }
-
   function rSchema(){
     const el = document.getElementById('schema');
     if (!isAppLoaded) return;
@@ -1565,21 +1553,57 @@
     }
   }
 
+  function goToTraining(d){
+    selDate = d; sLog = {}; expEx = null; ssSaved = false;
+    switchTab('training');
+  }
+
   function rTraining(){
     const el = document.getElementById('training');
     if (!isAppLoaded) return;
 
-    const avDays = TD.filter(d => isAv(d.date));
-    if (!selDate) selDate = avDays.find(d => d.date >= TODAY)?.date || avDays[0]?.date;
+    const allDatesInSchedule = [];
+    const s = new Date(SCHEDULE_START);
+    const e = new Date(SCHEDULE_END);
+    for(let dt = new Date(s); dt <= e; dt.setDate(dt.getDate()+1)){
+      allDatesInSchedule.push(dt.toISOString().split('T')[0]);
+    }
+
+    if (!selDate || !allDatesInSchedule.includes(selDate)) {
+      if (TODAY >= SCHEDULE_START && TODAY <= SCHEDULE_END) selDate = TODAY;
+      else selDate = SCHEDULE_START;
+    }
+
     const day = TD.find(d => d.date === selDate);
 
-    const pillsH = `<div class="pill-row">
-      ${avDays.map(d => {const cfg = TCONF[d.type], ia = d.date === selDate, hl = logs[d.date] && Object.keys(logs[d.date]).length > 0;
-        return `<button class="pill${ia?' '+cfg.pill:''}" onclick="selD('${d.date}')">${dnum(d.date)}/${new Date(d.date).getMonth()+1} · ${cfg.label.slice(0,2)}${hl?' ✓':''}</button>`;}).join('')}
+    const pillsH = `<div class="pill-row" id="train-pills">
+      ${allDatesInSchedule.map(d => {
+        const td = TD.find(x => x.date === d && isAv(x.date));
+        const ia = d === selDate;
+        const hl = logs[d] && Object.keys(logs[d]).length > 0;
+        
+        if (td) {
+          const cfg = TCONF[td.type];
+          return `<button class="pill${ia?' '+cfg.pill:''}" onclick="selD('${d}')">${dnum(d)}/${new Date(d).getMonth()+1} · ${cfg.label.slice(0,2)}${hl?' ✓':''}</button>`;
+        } else {
+          return `<button class="pill${ia?' ac':''}" onclick="selD('${d}')">${dnum(d)}/${new Date(d).getMonth()+1} · Rust</button>`;
+        }
+      }).join('')}
     </div>`;
 
-    if (!day) {
-      el.innerHTML = pillsH + '<p class="t2">Selecteer een trainingssessie hierboven.</p>';
+    if (!day || !isAv(selDate)) {
+      el.innerHTML = pillsH + `
+        <div class="card-feature" style="margin-top:14px">
+          <div class="accent-bar" style="background:#AFA9EC"></div>
+          <span class="tag tr" style="margin-bottom:10px;display:inline-block">Rustdag</span>
+          <div class="t1">Vandaag geen krachttraining</div>
+          <div class="t4" style="margin-top:4px">Focus op herstel. Drink voldoende water, slaap goed en neem je eiwitten. Een lichte run is optioneel.</div>
+        </div>
+      `;
+      setTimeout(() => {
+        const activePill = document.querySelector('#train-pills .pill.ac') || document.querySelector('#train-pills .pill[class*=" a"]');
+        if (activePill) activePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }, 10);
       return;
     }
 
@@ -1689,6 +1713,11 @@
         <i class="ti ti-${ssSaved?'check':'device-floppy'}"></i>
         ${ssSaved?'Sessie opgeslagen':'Sessie opslaan + evalueren'}
       </button>${nwH}`;
+
+    setTimeout(() => {
+      const activePill = document.querySelector('#train-pills .pill[class*=" a"]');
+      if (activePill) activePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }, 10);
   }
 
   function selD(d){selDate=d;sLog={};expEx=null;ssSaved=false;safe(rTraining);window.scrollTo({top:0,behavior:'instant'})}
@@ -1905,17 +1934,30 @@
     const dayMigraines = migraines.filter(m => m.startTime && localDateStr(m.startTime) === date);
 
     let sleepBlocks = [];
-    if (d.bedTime && d.wakeTime) {
-      const [wh, wm] = d.wakeTime.split(':').map(Number);
+    let morningStart = 0;
+    if (d.bedTime) {
       const [bh, bm] = d.bedTime.split(':').map(Number);
+      if (!isNaN(bh) && bh < 12) {
+         morningStart = bh * 60 + bm;
+      }
+    }
+    if (d.wakeTime) {
+      const [wh, wm] = d.wakeTime.split(':').map(Number);
       const wakeMinutes = wh * 60 + wm;
-      const bedMinutes = bh * 60 + bm;
-      if (!isNaN(wakeMinutes) && wakeMinutes > 0) {
-        sleepBlocks.push({ startMin: 0, endMin: wakeMinutes });
+      if (!isNaN(wakeMinutes) && wakeMinutes > morningStart) {
+        sleepBlocks.push({ startMin: morningStart, endMin: wakeMinutes });
       }
-      if (!isNaN(bedMinutes) && bedMinutes >= 18 * 60) {
-        sleepBlocks.push({ startMin: bedMinutes, endMin: 24 * 60 });
-      }
+    }
+
+    const nextDateObj = new Date(date);
+    nextDateObj.setDate(nextDateObj.getDate() + 1);
+    const nextDate = nextDateObj.toISOString().split('T')[0];
+    const nextDayData = getDay(nextDate);
+    if (nextDayData.bedTime) {
+       const [nbh, nbm] = nextDayData.bedTime.split(':').map(Number);
+       if (!isNaN(nbh) && nbh >= 12) {
+          sleepBlocks.push({ startMin: nbh * 60 + nbm, endMin: 24 * 60 });
+       }
     }
 
     const cafLog = (d.caffeine_log || []).map(c => {
@@ -1955,6 +1997,9 @@
       const cfg = TCONF[trainType];
       tags.push(`<span class="tag ${cfg.cls}">${cfg.label}</span>`);
     }
+    if (d.runKm > 0 || d.runMin > 0) {
+      tags.push(`<span class="tag" style="background:#FAECE7;color:#993C1D;border:1px solid #F0997B"><i class="ti ti-run"></i> Run</span>`);
+    }
     if (dayMigraines.length > 0) {
       tags.push(`<span class="tag tmig"><i class="ti ti-alert-triangle"></i> ${dayMigraines.length}× migraine</span>`);
     }
@@ -1975,6 +2020,19 @@
       const w = ((trainingBracket.endMin - trainingBracket.startMin) / (24*60)) * 100;
       const lbl = trainType ? TCONF[trainType].label : 'Training';
       markers += `<div class="timeline-marker tl-train" style="left:${left}%;width:${w}%" title="${lbl}"></div>`;
+    }
+
+    if (d.runMin > 0 && d.runLogTime) {
+      try {
+        const logTime = new Date(d.runLogTime);
+        if (localDateStr(d.runLogTime) === date) {
+          const endMin = logTime.getHours() * 60 + logTime.getMinutes();
+          const startMin = Math.max(0, endMin - d.runMin);
+          const left = (startMin / (24*60)) * 100;
+          const w = ((endMin - startMin) / (24*60)) * 100;
+          markers += `<div class="timeline-marker" style="left:${left}%;width:${w}%;background:rgba(216,90,48,0.25);border-top:2px solid #D85A30;border-bottom:2px solid #D85A30;z-index:1" title="Hardlopen"></div>`;
+        }
+      } catch(e) {}
     }
 
     cafLog.forEach(t => {
@@ -2163,6 +2221,7 @@
       <div class="legend-item"><div class="legend-swatch" style="background:rgba(83, 74, 183, 0.18);border-top:2px solid #534AB7;border-bottom:2px solid #534AB7"></div> Slaap</div>
       <div class="legend-item"><div class="legend-swatch" style="background:#92400E;width:6px"></div> Cafeïne</div>
       <div class="legend-item"><div class="legend-swatch" style="background:rgba(180, 122, 224, 0.25);border-top:2px solid #B47AE0;border-bottom:2px solid #B47AE0"></div> Training</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(216,90,48,0.25);border-top:2px solid #D85A30;border-bottom:2px solid #D85A30"></div> Hardlopen</div>
     </div>`;
 
     const sortedMigs = [...migraines].sort((a,b) => new Date(b.startTime) - new Date(a.startTime));
@@ -2280,6 +2339,7 @@
           creatine_taken: d.creat ? 1 : 0,
           run_km: d.runKm || 0,
           run_min: d.runMin || 0,
+          run_log_time: d.runLogTime || '',
           training_type: trainType || '',
           training_sets_done: totalSets,
           migraine_active_bool: dayMigs.length > 0 ? 1 : 0,
