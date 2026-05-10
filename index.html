@@ -241,7 +241,6 @@
     .daypart-header:first-child { margin-top: 8px; }
     .daypart-header i { font-size:14px; }
 
-    /* === MIGRAINE TRACKER STYLES === */
     .panic-btn { width: 100%; padding: 22px 20px; background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%); border: none; border-radius: var(--radius-lg); color: white; font-family: var(--font-sans); font-size: 17px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 16px rgba(220, 38, 38, 0.25); display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 14px; transition: all .15s ease; letter-spacing: -0.01em; }
     .panic-btn:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3); }
     .panic-btn i { font-size: 24px; }
@@ -265,7 +264,6 @@
 
     .caf-bean { display: inline-block; width: 16px; height: 16px; background: var(--caffeine); border-radius: 50%; margin: 0 1px; }
 
-    /* === GENERIC LOG ROW (medication / caffeine) === */
     .log-row {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 110px) 32px;
@@ -309,7 +307,6 @@
     }
     .log-row-del:active { background: var(--bg-soft); }
 
-    /* === TIME INPUTS GENERIC === */
     .time-input-group {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -338,13 +335,11 @@
       appearance: none;
     }
     .time-input:focus { outline: none; border-color: var(--text-2); background: var(--bg-card); }
-    /* Force native time/date inputs not to overflow on iOS */
     input[type="time"].time-input,
     input[type="date"].time-input,
     input[type="datetime-local"].time-input,
     input[type="number"].time-input { max-width: 100%; min-width: 0; }
 
-    /* === EDITOR (mobile-friendly bottom sheet) === */
     .editor-overlay {
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.5);
@@ -364,7 +359,6 @@
       overflow-x: hidden;
       animation: slideUp .25s ease;
       box-sizing: border-box;
-      /* Prevent horizontal touch-scroll/drag on iOS */
       touch-action: pan-y;
       overscroll-behavior: contain;
     }
@@ -400,7 +394,6 @@
 
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-    /* === REST TIMER === */
     .rest-timer {
       position: fixed;
       top: calc(var(--safe-top) + 14px); right: 14px; z-index: 30;
@@ -421,7 +414,6 @@
     .rest-timer.fading { animation: timerSlideOut .25s ease forwards; }
     @keyframes timerSlideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
 
-    /* === EXERCISE EDIT (pencil button + replace list) === */
     .ex-edit-btn {
       width: 30px; height: 30px;
       border: 1px solid var(--border);
@@ -459,7 +451,6 @@
     .replace-item-info { flex: 1; min-width: 0; }
     .replace-item-meta { display: flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 12px; color: var(--text-3); font-weight: 500; }
 
-    /* === INSIGHTS / TIMELINE === */
     .timeline-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 14px; padding: 8px 4px; }
     .timeline-nav-btn { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-card); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--text-1); }
     .timeline-nav-btn:active { background: var(--bg-soft); }
@@ -511,7 +502,6 @@
       .ex-edit-btn:hover { border-color: #cdd1d8; }
     }
 
-    /* Smaller screens */
     @media (max-width: 380px) {
       .med-grid { grid-template-columns: 1fr 1fr; }
       .editor-sheet { padding-left: 12px; padding-right: 12px; }
@@ -546,16 +536,10 @@
   import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-  // ============================================================
-  // CONSTANTS / EXERCISE LIBRARY
-  // ============================================================
-  // BASIS-trainingsschema (origineel). Wordt gebruikt om TD te bouwen,
-  // maar 'avail[date] = false' en 'shifts' kunnen de schedule veranderen.
   const SCHEDULE_START = '2026-05-08';
   const SCHEDULE_END = '2026-06-25';
   const ORIGINAL_DOW_MAP = {1:'upper', 2:'lower', 4:'push', 5:'pull', 6:'legs'};
 
-  // Default sessie-data wordt dynamisch berekend in computeTD() (zie verder)
   const EX = {
     upper: [
       {id:'bench',n:'Bench Press',m:'Borst',w:60,sets:4,reps:8,c:1,u:'kg',tip:'Schouderbladen ingedrukt, voeten op vloer, stang gecontroleerd naar borst'},
@@ -564,7 +548,6 @@
       {id:'dbrow',n:'Single-arm DB Row',m:'Rug',w:22,sets:3,reps:10,c:1,u:'kg/hand',tip:'Knie op bank, rug horizontaal, elleboog hoog trekken'},
       {id:'bbcurl',n:'Barbell Curl',m:'Biceps',w:30,sets:3,reps:10,c:0,u:'kg',tip:'Geen slingeren, ellebogen gefixeerd, volle stretch en knijp'},
       {id:'tpd',n:'Tricep Pushdown',m:'Triceps',w:22.5,sets:3,reps:12,c:0,u:'kg',tip:'Ellebogen strak langs lichaam, volle extensie, squeeze'},
-      // Extra alternatieven voor upper
       {id:'incbench',n:'Incline Barbell Press',m:'Borst (boven)',w:50,sets:4,reps:8,c:1,u:'kg',tip:'Bank op 30°, gecontroleerd omlaag naar bovenborst.'},
       {id:'dbpress',n:'Flat DB Press',m:'Borst',w:24,sets:4,reps:10,c:1,u:'kg/hand',tip:'Goede vervanger van bench. Volledige range of motion.'},
       {id:'cablerow',n:'Cable Row',m:'Rug (midden)',w:55,sets:4,reps:10,c:1,u:'kg',tip:'Rechte rug, ellebogen langs lichaam.'},
@@ -631,9 +614,6 @@
     legs:  {label:'Legs',  muscles:'Quads · Hamstrings · Kuiten', cls:'tg', pill:'aa', col:'#EF9F27'},
   };
 
-  // ============================================================
-  // FIREBASE INIT
-  // ============================================================
   let useFirebase = false;
   let firebaseConfig = null;
 
@@ -657,36 +637,25 @@
   let isFirebaseReady = false;
   let isAppLoaded = false;
 
-  // ============================================================
-  // STATE
-  // ============================================================
-  let avail = {};        // {date: false} = vrij genomen
-  let weights = {};      // {exId: weight}
-  let logs = {};         // {date: {exId: {sets:[], weight, exerciseTimestamps:[ISO,...]}}}
-  let shopCk = {};
-  let daily = {};        // {date: {water, bedTime, wakeTime, creat, runKm, runMin, caffeine_log:[{time:ISO}]}}
+  let avail = {};
+  let weights = {};
+  let logs = {};
+  let daily = {};
   let migraines = [];
-  let exerciseOverrides = {}; // {date: {originalExId: replacementExId}} - per-sessie oefening swaps
-  let trainingShifts = {};    // {originalDate: shiftedDate} - verplaatste trainingen
-  // TD wordt dynamisch berekend op basis van shifts:
+  let exerciseOverrides = {};
+  let trainingShifts = {};
   let TD = [];
 
-  let selDate = null, vDay = 0, sLog = {}, expEx = null, ssSaved = false, expMeal = null, expCup = null;
-  let voedingSubTab = 'meals';
+  let selDate = null, sLog = {}, expEx = null, ssSaved = false;
   let timelineWeekOffset = 0;
 
-  // Rest timer
   const REST_DURATION = 90;
   let restTimerInterval = null;
   let restTimerEnd = null;
 
   const TODAY = (()=>{ try { return new Date().toISOString().split('T')[0]; } catch { return '2026-05-08'; } })();
 
-  // ============================================================
-  // SCHEDULE COMPUTATION (met shifts naar rustdagen)
-  // ============================================================
   function computeTD() {
-    // Stap 1: bouw "originele" trainingsdagen op basis van DOW
     const orig = [];
     const start = new Date(SCHEDULE_START);
     const end = new Date(SCHEDULE_END);
@@ -700,7 +669,6 @@
       }
     }
 
-    // Stap 2: pas shifts toe. Shift = trainingsdag wordt verplaatst naar een rustdag.
     const result = [];
     for (const t of orig) {
       const shiftedTo = trainingShifts[t.originalDate];
@@ -718,21 +686,18 @@
   }
 
   function getNextRestDate(fromDate) {
-    // Vind eerstvolgende rustdag NA fromDate (binnen schedule).
-    // Een dag is een rustdag als er geen training op gepland staat (na shifts toepassen).
-    const used = new Set(TD.map(t => t.date)); // all training dates incl. shifted
+    const used = new Set(TD.map(t => t.date));
     const start = new Date(fromDate);
     const end = new Date(SCHEDULE_END);
     for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
       const dStr = d.toISOString().split('T')[0];
-      if (dStr === fromDate) continue; // eerst skippen, we willen NA fromDate
+      if (dStr === fromDate) continue;
       if (!used.has(dStr)) return dStr;
     }
     return null;
   }
 
   function shiftTrainingFromDate(originalDate) {
-    // Verplaats de training met deze originalDate naar de eerste rustdag NA originalDate
     const target = getNextRestDate(originalDate);
     if (target) {
       trainingShifts[originalDate] = target;
@@ -744,13 +709,11 @@
   }
 
   function unshiftTraining(originalDate) {
-    // Herstel de training: terug naar originele dag
     delete trainingShifts[originalDate];
     computeTD();
     sset('shifts', trainingShifts);
   }
 
-  // Initial schedule build (zonder shifts) zodat UI direct iets kan tonen
   computeTD();
 
   rerenderActive('vandaag');
@@ -774,26 +737,15 @@
         }
         isAppLoaded = true;
 
-        // Set vandaag-dag in voeding tab op vandaag
-        initVoedingDayToToday();
-
         const active = document.querySelector('.tb.on')?.dataset.tab || 'vandaag';
         rerenderActive(active);
       } catch (e) {
         console.error('auth error', e);
         isAppLoaded = true;
-        initVoedingDayToToday();
         rerenderActive('vandaag');
       }
     };
     initAuth();
-  }
-
-  function initVoedingDayToToday() {
-    // Map JS getDay (0=zo..6=za) naar onze MEALS-array index (0=Ma..6=Zo)
-    const jsDay = new Date(TODAY).getDay();
-    const mealIdx = jsDay === 0 ? 6 : jsDay - 1; // zo=6, ma=0, di=1...
-    vDay = mealIdx;
   }
 
   async function cloudGet(key) {
@@ -816,21 +768,20 @@
 
   async function loadCloud() {
     try {
-      const [a, w, l, s, d, m, ovr, sh] = await Promise.all([
+      // Removed 'shop' from cloud load
+      const [a, w, l, d, m, ovr, sh] = await Promise.all([
         cloudGet('avail'), cloudGet('weights'), cloudGet('logs'),
-        cloudGet('shop'), cloudGet('daily'), cloudGet('migraines'),
+        cloudGet('daily'), cloudGet('migraines'),
         cloudGet('exerciseOverrides'), cloudGet('shifts')
       ]);
       avail = a || {};
       weights = w || {};
       logs = l || {};
-      shopCk = s || {};
       daily = d || {};
       migraines = m || [];
       exerciseOverrides = ovr || {};
       trainingShifts = sh || {};
 
-      // Migration: oude caffeine_units → caffeine_log met geschatte tijden
       Object.keys(daily).forEach(date => {
         const dd = daily[date];
         if (typeof dd === 'object' && dd !== null) {
@@ -838,7 +789,6 @@
           if (dd.wakeTime === undefined) dd.wakeTime = '';
           if (dd.caffeine_log === undefined) {
             dd.caffeine_log = [];
-            // Migratie van caffeine_units naar log: backfill met default tijden
             if (dd.caffeine_units && dd.caffeine_units > 0) {
               const defaults = ['08:00','11:00','14:00','17:00','20:00','09:30','13:00','15:30'];
               for (let i = 0; i < dd.caffeine_units && i < defaults.length; i++) {
@@ -851,7 +801,6 @@
         }
       });
 
-      // Update TD met geladen shifts
       computeTD();
     } catch(e) { console.error(e); }
   }
@@ -876,9 +825,6 @@
     if (tab==='insights') safe(rInsights);
   }
 
-  // ============================================================
-  // HELPERS
-  // ============================================================
   function gw(id) {
     if (weights[id] !== undefined) return weights[id];
     for (const k of Object.keys(EX)) {
@@ -903,21 +849,10 @@
   }
 
   function isAv(d) { return avail[d] !== false; }
-
-  function isTrainDay(d) {
-    return !!TD.find(td => td.date === d && isAv(td.date));
-  }
-
-  function getTrainType(d) {
-    const td = TD.find(t => t.date === d && isAv(t.date));
-    return td ? td.type : null;
-  }
-
+  function isTrainDay(d) { return !!TD.find(td => td.date === d && isAv(td.date)); }
+  function getTrainType(d) { const td = TD.find(t => t.date === d && isAv(t.date)); return td ? td.type : null; }
   function waterTarget(d) { return isTrainDay(d) ? 3500 : 3000; }
-
-  function getDay(d) {
-    return daily[d] || {water:0, sleep:0, creat:false, runKm:0, runMin:0, caffeine_log:[], bedTime:'', wakeTime:''};
-  }
+  function getDay(d) { return daily[d] || {water:0, sleep:0, creat:false, runKm:0, runMin:0, caffeine_log:[], bedTime:'', wakeTime:''}; }
 
   function calcSleepHours(bedTime, wakeTime) {
     if (!bedTime || !wakeTime) return 0;
@@ -942,7 +877,6 @@
 
   function nowISO() { return new Date().toISOString(); }
 
-  // FIX: gebruik LOCAL time, niet UTC, voor display van migraine tijden
   function fmtTimeLocal(iso) {
     if (!iso) return '—';
     try {
@@ -954,7 +888,6 @@
   }
 
   function localDateStr(iso) {
-    // YYYY-MM-DD in LOCAL tijdzone
     if (!iso) return '';
     try {
       const d = new Date(iso);
@@ -973,7 +906,6 @@
     } catch { return '—'; }
   }
 
-  // Convert ISO → "YYYY-MM-DDTHH:MM" in LOCAL tijd (voor datetime-local input)
   function isoToLocalInput(iso) {
     if (!iso) return '';
     try {
@@ -983,7 +915,6 @@
     } catch { return ''; }
   }
 
-  // Split helpers: ISO → "YYYY-MM-DD" en "HH:MM"
   function isoToLocalDate(iso) {
     if (!iso) return '';
     try {
@@ -1000,7 +931,6 @@
       return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
     } catch { return ''; }
   }
-  // Combine "YYYY-MM-DD" + "HH:MM" → ISO (lokaal interpreted)
   function dateAndTimeToISO(dateStr, timeStr) {
     if (!dateStr || !timeStr) return null;
     const d = new Date(`${dateStr}T${timeStr}`);
@@ -1008,10 +938,8 @@
     return d.toISOString();
   }
 
-  // Convert "YYYY-MM-DDTHH:MM" (local) → ISO string
   function localInputToISO(localStr) {
     if (!localStr) return null;
-    // new Date(localStr) interpreteert als local
     const d = new Date(localStr);
     if (isNaN(d.getTime())) return null;
     return d.toISOString();
@@ -1048,7 +976,6 @@
     }
   }
 
-  // Resolve welke oefening we moeten gebruiken (na overrides)
   function resolveEx(date, originalExId) {
     const ovr = exerciseOverrides[date];
     if (ovr && ovr[originalExId]) {
@@ -1059,9 +986,6 @@
     return getExDef(originalExId);
   }
 
-  // ============================================================
-  // TAB 1: VANDAAG
-  // ============================================================
   function rVandaag(){
     const el = document.getElementById('vandaag');
     if (!isAppLoaded) return;
@@ -1080,10 +1004,8 @@
     const sleepGood = sleepH >= 7 && sleepH <= 9;
     const cafCount = (d.caffeine_log || []).length;
 
-    // ===== MIGRAINE BLOCK =====
     let migBlock = '';
     if (activeMig) {
-      // Toon STARTTIJD lokaal — match met hoe gebruiker hem invulde
       const startStr = fmtDateTime(activeMig.startTime);
       const dur = Math.floor((Date.now() - new Date(activeMig.startTime).getTime()) / 60000);
       const durStr = dur < 60 ? `${dur} min` : `${Math.floor(dur/60)}u ${dur%60}m`;
@@ -1132,7 +1054,6 @@
       </button>`;
     }
 
-    // ===== TRAINING CARD =====
     let tdyCard = '';
     if (td) {
       const cfg = TCONF[td.type];
@@ -1156,7 +1077,6 @@
       </div>`;
     }
 
-    // ===== SLAAP =====
     const sleep = `<div class="card">
       <div class="bet" style="margin-bottom:14px">
         <div style="min-width:0"><div class="t1"><i class="ti ti-moon" style="color:#534AB7"></i> Slaap</div><div class="t4" style="margin-top:2px">Bedtijd & wakkertijd voor ritme-tracking</div></div>
@@ -1182,7 +1102,6 @@
       </div>
     </button>`;
 
-    // ===== WATER =====
     const water = `<div class="card">
       <div class="bet" style="margin-bottom:14px">
         <div><div class="t1"><i class="ti ti-droplet" style="color:#185FA5"></i> Water</div><div class="t4" style="margin-top:2px">Doel: ${wt/1000}L (${isTrainDay(t)?'trainingsdag':'rustdag'})</div></div>
@@ -1197,14 +1116,11 @@
       <p class="t4" style="margin-top:12px">+250ml per tap · creatine vraagt extra hydratatie</p>
     </div>`;
 
-    // ===== CAFEÏNE met TIJDSTEMPELS =====
-    // Sorteer log chronologisch
     const cafLog = [...(d.caffeine_log||[])].sort((a,b) => new Date(a.time) - new Date(b.time));
     const cafListHTML = cafLog.length === 0 ? '' : `
       <div style="margin-top:14px;border-top:1px solid var(--border-soft);padding-top:8px">
         <div class="time-input-label" style="margin-bottom:4px">Tijdstippen (pas aan indien terugwerkend)</div>
         ${cafLog.map((c, i) => {
-          // Index in originele array (voor delete/update)
           const origIdx = (d.caffeine_log||[]).indexOf(c);
           return `<div class="log-row">
             <div class="log-row-info">
@@ -1231,7 +1147,6 @@
       ${cafListHTML}
     </div>`;
 
-    // ===== HARDLOPEN =====
     const runDone = d.runKm > 0 || d.runMin > 0;
     const run = `<div class="card">
       <div class="bet" style="margin-bottom:14px">
@@ -1245,7 +1160,6 @@
       ${d.runKm>0&&d.runMin>0?`<p class="t4" style="margin-top:12px">Tempo: ${(d.runMin/d.runKm).toFixed(2)} min/km · ~${Math.round(d.runKm*70)} kcal</p>`:''}
     </div>`;
 
-    // ===== STREAKS =====
     const last7 = [];
     const tD = new Date(t);
     for (let i = 6; i >= 0; i--) {
@@ -1315,9 +1229,6 @@
     onScroll();
   }
 
-  // ============================================================
-  // VANDAAG ACTIONS
-  // ============================================================
   function adjW(delta){
     const t = TODAY; ensureDay(t);
     daily[t].water = Math.max(0, (daily[t].water||0) + delta);
@@ -1332,13 +1243,10 @@
   function adjCaf(delta) {
     const t = TODAY; ensureDay(t);
     if (delta > 0) {
-      // Voeg log-entry toe met huidige tijd
       daily[t].caffeine_log = daily[t].caffeine_log || [];
       daily[t].caffeine_log.push({ time: nowISO() });
     } else {
-      // Verwijder de meest recent toegevoegde
       if (daily[t].caffeine_log && daily[t].caffeine_log.length > 0) {
-        // Sorteer op tijd, verwijder laatste (chronologisch)
         const sorted = [...daily[t].caffeine_log].sort((a,b) => new Date(a.time) - new Date(b.time));
         const lastTime = sorted[sorted.length-1].time;
         const idx = daily[t].caffeine_log.findIndex(c => c.time === lastTime);
@@ -1351,10 +1259,8 @@
     const t = TODAY; ensureDay(t);
     if (!daily[t].caffeine_log || !daily[t].caffeine_log[idx]) return;
     if (!hhmm) return;
-    // hhmm is "HH:MM", combineer met TODAY's lokale datum
     const [h, m] = hhmm.split(':').map(Number);
     const d = new Date(); d.setHours(h, m, 0, 0);
-    // Forceer dat de datum vandaag is (lokaal)
     const tD = new Date(t);
     d.setFullYear(tD.getFullYear(), tD.getMonth(), tD.getDate());
     daily[t].caffeine_log[idx].time = d.toISOString();
@@ -1377,9 +1283,6 @@
     safe(rVandaag); sset('daily', daily);
   }
 
-  // ============================================================
-  // MIGRAINE
-  // ============================================================
   function startMigraine() {
     const newMig = {
       id: 'mig_' + Date.now(),
@@ -1420,7 +1323,6 @@
   function showMigraineEditor(idx) {
     const m = migraines[idx];
     if (!m) return;
-    // FIX: gebruik LOCALE tijd, gesplitst in date + time inputs (kleiner + iOS-vriendelijker)
     const startDate = isoToLocalDate(m.startTime);
     const startTime = isoToLocalTime(m.startTime);
     const endDate = isoToLocalDate(m.endTime);
@@ -1503,7 +1405,6 @@
     const notes = document.getElementById('mig-notes').value;
     const startISO = dateAndTimeToISO(startDate, startTime);
     if (startISO) m.startTime = startISO;
-    // Eindtijd alleen als beide ingevuld
     if (endDate && endTime) {
       m.endTime = dateAndTimeToISO(endDate, endTime);
     } else {
@@ -1534,7 +1435,6 @@
 
   function updateMedTime(migIdx, medIdx, val) {
     if (!val) return;
-    // val = "HH:MM" — combineer met bestaande datum van het log entry
     const oldTime = migraines[migIdx].medicationLog[medIdx].time;
     const dateStr = oldTime ? isoToLocalDate(oldTime) : isoToLocalDate(nowISO());
     const iso = dateAndTimeToISO(dateStr, val);
@@ -1555,9 +1455,6 @@
     switchTab('training');
   }
 
-  // ============================================================
-  // TAB 2: SCHEMA — toont nu OOK rustdagen, en verschuift trainingen
-  // ============================================================
   function rSchema(){
     const el = document.getElementById('schema');
     if (!isAppLoaded) return;
@@ -1565,7 +1462,6 @@
     const cnt = {upper:0, lower:0, push:0, pull:0, legs:0};
     TD.forEach(d => { if (isAv(d.date)) cnt[d.type]++; });
 
-    // Bouw alle dagen tussen start en end (inclusief rustdagen)
     function allDates(yearMonth) {
       const out = [];
       const [y, mo] = yearMonth.split('-').map(Number);
@@ -1584,18 +1480,14 @@
     function dayCell(date) {
       const td = TD.find(t => t.date === date);
       const isToday = date === TODAY;
-      const isVrij = avail[date] === false; // expliciet vrij genomen op originele trainingsdag
+      const isVrij = avail[date] === false;
       const hasLog = logs[date] && Object.keys(logs[date]).length > 0;
 
-      // Originele trainingsdag (zonder shifts) - check of er een trainingsdag was met deze date als ORIGINAL
       const origAtThisDate = (() => {
-        // Als deze date in trainingShifts als KEY staat (=ze was originele trainingsdag, nu verschoven)
         if (trainingShifts[date]) return true;
-        // Of als deze date een originele DOW-trainingsdag is en NIET geshift
         const dow = new Date(date).getDay();
         if (ORIGINAL_DOW_MAP[dow]) {
-          // Het is een originele trainingsdag tenzij hij verschoven is (dan staat hij in trainingShifts als key)
-          return !trainingShifts[date]; // = is het een actieve originele?
+          return !trainingShifts[date];
         }
         return false;
       })();
@@ -1611,9 +1503,8 @@
           ${movedTag}
         </button>`;
       } else {
-        // Rustdag (al dan niet originele rustdag of vrijgenomen training)
         const dow = new Date(date).getDay();
-        const wasOrigTraining = ORIGINAL_DOW_MAP[dow] && trainingShifts[date]; // verschoven van hier af
+        const wasOrigTraining = ORIGINAL_DOW_MAP[dow] && trainingShifts[date];
         return `<button class="dbtn rest${isToday?' tdy':''}" onclick="onSchemaTap('${date}','',false)">
           <span class="t4">${dn(date)}</span><br>
           <span style="font-size:18px;font-weight:600;color:var(--text-2);display:block;margin:2px 0">${dnum(date)}</span>
@@ -1657,35 +1548,23 @@
       </div>`;
   }
 
-  // Bij tap op een schema-cel:
-  // - Als trainingsdag (huidige date heeft TD entry): toggle 'vrij' → verschuif training naar volgende rustdag
-  // - Als rustdag: niets doen (of toon optie om eerder verschoven training terug te zetten)
   function onSchemaTap(date, originalDate, isTraining) {
     if (isTraining) {
-      // Trainingsdag → markeer originalDate als 'vrij' en verplaats
-      // Indien deze training al een verschoven training was, herstel terug
       if (trainingShifts[originalDate] === date) {
-        // Deze ‘date’ is dus een verschoven plek. Tappen = terugzetten naar originele dag.
         if (confirm(`Training terugzetten naar ${fdateShort(originalDate)}?`)) {
           unshiftTraining(originalDate);
           safe(rSchema);
         }
         return;
       }
-      // Anders: standaard trainingsdag (date === originalDate)
       if (confirm(`Training op ${fdateShort(date)} vrij nemen? De sessie schuift door naar de eerstvolgende rustdag.`)) {
         shiftTrainingFromDate(date);
         safe(rSchema);
       }
     } else {
-      // Rustdag aangetikt — doe niks (of: in toekomst training hierheen plaatsen)
-      // Als deze datum in trainingShifts als VALUE staat, is het een doelstelling van een shift; doe niks.
     }
   }
 
-  // ============================================================
-  // TAB 3: TRAINING — incl. exercise replace via potlood
-  // ============================================================
   function rTraining(){
     const el = document.getElementById('training');
     if (!isAppLoaded) return;
@@ -1705,26 +1584,21 @@
     }
 
     const cfg = TCONF[day.type];
-    // Bepaal lijst van originele exercise-IDs voor dit type
-    const origExs = EX[day.type].slice(0, 6); // eerste 6 zijn de originele
-    // Resolve naar feitelijke oefeningen op basis van overrides per datum
+    const origExs = EX[day.type].slice(0, 6);
     const exs = origExs.map(orig => {
       const resolved = resolveEx(selDate, orig.id);
-      // Bewaar ook de originele ID voor key-tracking in sLog
       return { ...resolved, _origId: orig.id };
     });
 
     if (!sLog._date || sLog._date !== selDate) {
       sLog = {_date: selDate};
       exs.forEach(ex => {
-        // Sla op onder originele ID zodat verschillende ex-ids in sLog naar hetzelfde slot wijzen
         const stored = logs[selDate]?.[ex._origId];
         sLog[ex._origId] = stored || {
           sets: Array(ex.sets).fill(false),
           weight: gw(ex.id),
           exerciseTimestamps: []
         };
-        // Adjust sets length if needed
         while (sLog[ex._origId].sets.length < ex.sets) sLog[ex._origId].sets.push(false);
         while (sLog[ex._origId].sets.length > ex.sets) sLog[ex._origId].sets.pop();
       });
@@ -1823,7 +1697,6 @@
   function tgSet(origId, si){
     const wasOff = !sLog[origId].sets[si];
     sLog[origId].sets[si] = !sLog[origId].sets[si];
-    // Log timestamp van afvinken (voor timeline-tracking in Insights)
     if (wasOff) {
       sLog[origId].exerciseTimestamps = sLog[origId].exerciseTimestamps || [];
       sLog[origId].exerciseTimestamps.push(nowISO());
@@ -1847,11 +1720,8 @@
     for (const orig of origExs) {
       const lg = sLog[orig.id];
       if (!lg) continue;
-      // Resolve: welke oefening was er feitelijk? (voor progressive overload op de juiste exercise-id)
       const resolved = resolveEx(selDate, orig.id);
       nL[selDate][orig.id] = lg;
-      // Update weight onder de FEITELIJKE oefening-id (resolved.id) zodat overload doorloopt
-      // ongeacht of je 'm hier of bij een andere sessie hebt gedaan.
       nW[resolved.id] = nxtW(lg.weight, lg.sets.filter(Boolean).length, resolved.sets, resolved.c);
     }
     logs = nL; weights = nW; ssSaved = true;
@@ -1859,13 +1729,12 @@
     await Promise.all([cloudSet('logs', logs), cloudSet('weights', weights)]);
   }
 
-  // ===== EXERCISE REPLACE =====
   function openReplaceExercise(origId) {
     const day = TD.find(d => d.date === selDate);
     if (!day) return;
     const trainType = day.type;
     const currentResolved = resolveEx(selDate, origId);
-    const candidates = EX[trainType]; // Zelfde type → alleen oefeningen voor deze dag
+    const candidates = EX[trainType];
 
     const overlay = document.createElement('div');
     overlay.id = 'replace-overlay';
@@ -1909,7 +1778,6 @@
 
   function confirmReplace(origId, newId) {
     if (!exerciseOverrides[selDate]) exerciseOverrides[selDate] = {};
-    // Vergelijk met origineel: als nieuw == oud (origineel), verwijder override
     if (newId === origId) {
       delete exerciseOverrides[selDate][origId];
       if (Object.keys(exerciseOverrides[selDate]).length === 0) {
@@ -1918,7 +1786,6 @@
     } else {
       exerciseOverrides[selDate][origId] = newId;
     }
-    // Reset sLog zodat we hertegenwoordigen met juiste weight
     sLog = {};
     closeReplace();
     safe(rTraining);
@@ -1938,9 +1805,6 @@
     sset('exerciseOverrides', exerciseOverrides);
   }
 
-  // ============================================================
-  // REST TIMER
-  // ============================================================
   function vibrate(pattern) {
     try { if (navigator.vibrate) navigator.vibrate(pattern); } catch(e) {}
   }
@@ -2003,321 +1867,23 @@
     timer.innerHTML = `<i class="ti ti-clock"></i><span>${display}</span>`;
   }
 
-  // ============================================================
-  // MEALS DATA
-  // ============================================================
-  const MEALS = [
-    {day:'Maandag',tot:{k:2400,p:188,c:253,f:60},m:[
-      {l:'Ontbijt',n:'Havermout powerbow',k:620,p:42,c:75,f:18,
-       ing:['80g havermout','200ml halfvolle melk','1 banaan','150g skyr 0%','20g walnoten','1 tl honing'],
-       steps:['Kook havermout met melk op middelhoog vuur (~3 min).','Giet in kom, laat iets afkoelen.','Lepel skyr erbij of roer door.','Top af met banaan, walnoten en honing.']},
-      {l:'Lunch',n:'Kip wrap',k:580,p:48,c:55,f:14,
-       ing:['150g kipfilet','2 volkoren wraps','50g hummus','½ paprika','½ komkommer','Handvol sla'],
-       steps:['Kruid kip met paprikapoeder, zout, peper.','Bak 5-6 min/kant op middelhoog vuur, laat rusten.','Snijd in reepjes.','Beleg wraps met hummus, groenten en kip.']},
-      {l:'Snack',n:'Kwark + appel + noten',k:310,p:26,c:28,f:10,cup:1,
-       ing:['250g magere kwark (in de cup)','1 appel in blokjes (in deksel)','15g mixed nuts (in deksel)'],
-       steps:['Kwark onderin de cup.','Appel + noten in het bovencompartiment.','Mix vlak voor het eten.']},
-      {l:'Avondeten',n:'Kip-rijst-broccoli',k:890,p:72,c:95,f:18,
-       ing:['200g kipfilet','150g zilvervlies rijst (droog)','250g broccoli','1 el olijfolie','1 teen knoflook'],
-       steps:['Kook rijst 25 min.','Stoom broccoli 8 min.','Bak kip met knoflook in olijfolie 6 min/kant.','Alles samenbrengen.']},
-    ]},
-    {day:'Dinsdag',tot:{k:2400,p:155,c:214,f:92},m:[
-      {l:'Ontbijt',n:'Eieren & avocado toast',k:520,p:36,c:42,f:22,
-       ing:['3 eieren','2 sneetjes volkorenbrood','½ avocado','100g spinazie','1 tl olijfolie'],
-       steps:['Bak spinazie in olijfolie 2 min.','Voeg eieren toe voor roerei, kruid af.','Toast brood.','Serveer met geprakte avocado.']},
-      {l:'Lunch',n:'Tonijn pasta salade',k:600,p:45,c:65,f:14,
-       ing:['150g volkoren pasta','1 blikje tonijn (160g)','½ komkommer, ½ paprika','50g maïs','2 el lichte mayo'],
-       steps:['Kook pasta al dente, spoel af met koud water.','Meng met tonijn, groenten, maïs en mayo.','Koud serveren.']},
-      {l:'Snack',n:'Griekse yoghurt + noten',k:340,p:22,c:22,f:18,cup:1,
-       ing:['200g Griekse yoghurt 2% + ½ banaan geprakt (in cup)','20g mixed nuts (in deksel)','1 tl honing'],
-       steps:['Yoghurt + banaan onderin cup.','Noten in compartiment.','Honing erover bij het eten.']},
-      {l:'Avondeten',n:'Zalm + zoete aardappel',k:940,p:52,c:85,f:38,
-       ing:['200g zalmfilet','300g zoete aardappel','200g sperziebonen','1 el olijfolie','Citroen, dille, knoflook'],
-       steps:['Oven 200°C. Zoete aardappel in blokjes met olie + zout, 25 min.','Zalm met dille + citroen, 12-15 min bakken.','Sperziebonen 5 min blancheren.']},
-    ]},
-    {day:'Woensdag',tot:{k:2400,p:172,c:245,f:72},m:[
-      {l:'Ontbijt',n:'Proteïne pannenkoekjes',k:560,p:38,c:70,f:14,
-       ing:['80g havermout (gemalen)','2 eieren','1 rijpe banaan','100ml melk','½ tl bakpoeder','1 tl kokosolie'],
-       steps:['Blend alle ingrediënten tot glad beslag.','Bak kleine pannenkoekjes in kokosolie, 2-3 min/kant.','Serveer met magere kwark.']},
-      {l:'Lunch',n:'Gehakt wrap',k:640,p:44,c:58,f:22,
-       ing:['150g mager rundergehakt','2 volkoren wraps','50g hummus','½ tomaat','Sla'],
-       steps:['Bak gehakt rul met komijn + paprikapoeder.','Beleg wraps met hummus, sla, tomaat en gehakt.','Oprollen.']},
-      {l:'Snack',n:'Cottage cheese + rijstwafels',k:280,p:28,c:32,f:4,cup:1,
-       ing:['200g hüttenkäse + peper, bieslook (in cup)','4 rijstwafels (apart, eventueel verkruimeld in deksel)'],
-       steps:['Hüttenkäse onderin cup.','Rijstwafels apart of in deksel.','Schep op rijstwafel of mix in cup.']},
-      {l:'Avondeten',n:'Gehaktballen + stamppot',k:920,p:62,c:85,f:32,
-       ing:['200g rundergehakt','300g aardappelen','200g broccoli + paprika','1 ei, 2 el paneermeel','1 el olijfolie'],
-       steps:['Kook aardappelen 20 min, stamp met melk + nootmuskaat.','Meng gehakt met ei, paneermeel, kruiden - vorm balletjes.','Bak gehaktballen 10-12 min.','Roerbak groenten.']},
-    ]},
-    {day:'Donderdag',tot:{k:2400,p:191,c:262,f:56},m:[
-      {l:'Ontbijt',n:'Skyr granola kom',k:540,p:38,c:72,f:10,cup:1,
-       ing:['200g skyr 0% + 1 tl honing (in cup)','40g granola + 10g lijnzaad (in deksel)','1 appel in blokjes (in deksel)'],
-       steps:['Skyr + honing onderin de cup.','Granola, lijnzaad en appel in het deksel-compartiment.','Mengen vlak voor het eten zodat granola knapperig blijft.']},
-      {l:'Lunch',n:'Kipfilet salade',k:520,p:48,c:38,f:18,
-       ing:['150g kipfilet','100g sla mix','50g kerstomaatjes','½ komkommer','½ avocado','2 el olijfolie + citroen'],
-       steps:['Kip kruiden en bakken 10-12 min.','Groenten in kom, dressing erbij.','Kip in plakjes erover.']},
-      {l:'Snack',n:'Proteïne shake + banaan',k:380,p:35,c:42,f:6,
-       ing:['30g proteïnepoeder','300ml halfvolle melk','1 banaan','5g creatine'],
-       steps:['Alles in shaker of blender, 30 sec mengen. Tip: meng creatine altijd door je shake.']},
-      {l:'Avondeten',n:'Kippensoep met rijst ★',k:960,p:70,c:110,f:22,
-       ing:['200g kipfilet','150g rijst (droog)','2 wortels, 2 selderij, 1 ui','1L kippenbouillon','Peterselie'],
-       steps:['Ui, wortel, selderij fruiten. Bouillon + kip erbij, 20 min koken.','Rijst toevoegen, nog 20 min.','Kip eruit, in stukken trekken, terug in soep.','★ Maak dubbele portie! Bewaar helft voor zondag.']},
-    ]},
-    {day:'Vrijdag',tot:{k:2400,p:171,c:260,f:58},m:[
-      {l:'Ontbijt',n:'Havermout met bessen',k:600,p:40,c:80,f:12,
-       ing:['80g havermout','200ml melk','150g magere kwark','100g bessen','15g amandelen'],
-       steps:['Kook havermout met melk.','Afkoelen, kwark doorroeren.','Bessen en amandelen erover.']},
-      {l:'Lunch',n:'Tonijn sandwich',k:560,p:44,c:55,f:14,
-       ing:['1 blikje tonijn (160g)','2 sneetjes volkorenbrood','½ avocado','½ tomaat','Sla, 1 tl mosterd'],
-       steps:['Meng tonijn met mosterd.','Brood besmeren met avocado.','Beleg met tonijn, tomaat en sla.']},
-      {l:'Snack',n:'Yoghurt parfait',k:320,p:25,c:30,f:10,cup:1,
-       ing:['200g Griekse yoghurt + ½ banaan (in cup)','20g granola (in deksel)','1 tl honing'],
-       steps:['Yoghurt + banaan onderin cup.','Granola in compartiment.','Honing erbij voor het eten.']},
-      {l:'Avondeten',n:'Pasta bolognese',k:920,p:62,c:95,f:22,
-       ing:['200g volkoren pasta','200g rundergehakt','1 blikje gepelde tomaten','½ ui, 1 teen knoflook','1 el olijfolie'],
-       steps:['Kook pasta al dente.','Ui + knoflook fruiten. Gehakt bruin bakken.','Tomaten erbij, 15 min sudderen.','Mengen met pasta.']},
-    ]},
-    {day:'Zaterdag',tot:{k:2400,p:179,c:227,f:76},m:[
-      {l:'Ontbijt',n:'Big breakfast',k:680,p:48,c:60,f:26,
-       ing:['3 eieren','100g gekookte bacon','2 sneetjes volkorenbrood','½ avocado','100g kerstomaatjes'],
-       steps:['Bak eieren naar voorkeur.','Bacon bakken of oven 180°C 12 min.','Serveer met avocado toast en tomaatjes.']},
-      {l:'Lunch',n:'Zalm wrap (post-run)',k:560,p:40,c:52,f:20,
-       ing:['150g gerookte zalm','2 volkoren wraps','100g hüttenkäse','½ komkommer','Spinazie','Citroenrasp'],
-       steps:['Wraps besmeren met hüttenkäse.','Zalm, komkommer, spinazie + citroenrasp erover.','Oprollen. Perfect na een ronde hardlopen.']},
-      {l:'Snack',n:'Kwark + rijstwafels + cashews',k:320,p:26,c:30,f:8,cup:1,
-       ing:['250g magere kwark + 1 tl honing (in cup)','15g cashewnoten (in deksel)','4 rijstwafels (apart erbij)'],
-       steps:['Kwark + honing onderin cup.','Cashews in compartiment.','Rijstwafels apart om te dippen of erbij te knabbelen.']},
-      {l:'Avondeten',n:'Kip couscous',k:840,p:65,c:85,f:22,
-       ing:['200g kipfilet','150g couscous (droog)','100g paprika + 100g courgette','1 el olijfolie','Marokkaanse kruiden'],
-       steps:['Couscous bereiden: kokend water + 5 min + losfrikken.','Kip marineren, 10-12 min bakken.','Groenten roerbakken 5 min.','Serveer over couscous.']},
-    ]},
-    {day:'Zondag',tot:{k:2400,p:171,c:269,f:62},m:[
-      {l:'Ontbijt',n:'Smoothie bowl',k:580,p:36,c:82,f:12,
-       ing:['200g skyr','1 bevroren banaan','100g diepvries fruit','100ml melk','20g granola','10g kokosvlokken','½ kiwi'],
-       steps:['Blend skyr, banaan, fruit + melk tot dikke smoothie.','In kom gieten.','Toppen met granola, kokos en kiwi.']},
-      {l:'Lunch',n:'Kippensoep (restjes donderdag)',k:480,p:42,c:50,f:8,
-       ing:['Helft kippensoep van donderdag','2 sneetjes volkorenbrood'],
-       steps:['Soep opwarmen. Serveer met brood. Zero waste!']},
-      {l:'Snack',n:'Proteïne shake + pindakaas',k:420,p:38,c:42,f:12,
-       ing:['30g proteïnepoeder','300ml melk','1 el pindakaas 100%','5g creatine'],
-       steps:['Blenden of goed shaken.']},
-      {l:'Avondeten',n:'Stamppot + gehaktballen',k:960,p:58,c:95,f:36,
-       ing:['200g rundergehakt','400g aardappelen','250g boerenkool','50ml melk, 1 el boter','Jus, nootmuskaat'],
-       steps:['Aardappelen 20 min koken.','Boerenkool 5 min blancheren.','Stamppot maken met melk, boter, nootmuskaat.','Gehaktballen bakken. Jus erbij.']},
-    ]},
-  ];
-
-  const CUP_RECIPES = [
-    {n:'Skyr berry power',k:340,p:28,c:42,f:6,onder:'200g skyr 0% + 1 tl honing',boven:'30g granola + 50g blauwe bessen',tip:'Beste budget-optie. Bessen kunnen vers of uit de diepvries (ontdooien onderweg).'},
-    {n:'Kwark crunch',k:380,p:32,c:38,f:12,onder:'250g magere kwark + 1 tl honing',boven:'30g muesli + 20g walnoten',tip:'Hoogste eiwit per cup (32g). Walnoten geven je omega-3 én extra crunch.'},
-    {n:'Hüttenkäse fresh',k:280,p:26,c:30,f:4,onder:'200g hüttenkäse + snufje peper',boven:'4 rijstwafels (gebroken) + 50g aardbeien',tip:'Lichtste optie, hartig met fruit. Top als post-workout snack op trainingsdagen.'},
-    {n:'Skyr proteïne plus',k:420,p:40,c:35,f:10,onder:'200g skyr + 15g proteïnepoeder (vanille) doorroeren',boven:'25g havermout + 1 banaan in plakjes',tip:'Bom van 40g eiwit. Mix de proteïne goed door de skyr de avond ervoor.'},
-  ];
-
-  const SHOP = {
-    'Vlees & Vis':[
-      {id:'kip',n:'AH Kipfilet vers',q:'2×1 kg',p:'€8,99/kg'},
-      {id:'gehakt',n:'AH Rundergehakt mager',q:'2×500g',p:'€4,49/500g'},
-      {id:'zalm',n:'AH Zalmfilet',q:'1×4-pak',p:'€7,99'},
-      {id:'tonijn',n:'AH Tonijn in water (blik)',q:'4×160g',p:'€1,49/blik'},
-      {id:'grooktz',n:'AH Gerookte Zalm',q:'1×100g',p:'€3,49'},
-      {id:'bacon',n:'AH Gekookte Bacon',q:'1×150g',p:'€2,49'},
-    ],
-    'Zuivel & Eieren':[
-      {id:'eieren',n:'AH Eieren L',q:'1×12 stuks',p:'€3,49'},
-      {id:'skyr',n:'AH Skyr 0%',q:'2×500g',p:'€2,99/stuk'},
-      {id:'kwark',n:'AH Magere Kwark',q:'2×500g',p:'€1,59/stuk'},
-      {id:'yoghurt',n:'AH Griekse Yoghurt 2%',q:'2×500g',p:'€1,79/stuk'},
-      {id:'hkase',n:'AH Hüttenkäse',q:'2×250g',p:'€1,29/stuk'},
-      {id:'melk',n:'AH Halfvolle Melk',q:'2×1L',p:'€1,09/L'},
-      {id:'parm',n:'AH Parmigiano geraspt',q:'1×60g',p:'€1,49'},
-    ],
-    'Groenten':[
-      {id:'broc',n:'AH Broccoli',q:'2 stuks',p:'€1,19/stuk'},
-      {id:'spin',n:'AH Verse Spinazie',q:'1×300g',p:'€1,99'},
-      {id:'paprika',n:'AH Paprika mix',q:'5 stuks',p:'€0,79/stuk'},
-      {id:'komk',n:'AH Komkommer',q:'2 stuks',p:'€0,79/stuk'},
-      {id:'tomaat',n:'AH Kerstomaatjes',q:'1×250g',p:'€1,79'},
-      {id:'sla',n:'AH Sla Mix',q:'1×100g',p:'€1,49'},
-      {id:'avoc',n:'AH Avocado',q:'4 stuks',p:'€1,29/stuk'},
-      {id:'aard',n:'AH Vastkokende Aardappelen',q:'1×1 kg',p:'€1,49'},
-      {id:'zoetaard',n:'AH Zoete Aardappel',q:'2 stuks',p:'€0,99/stuk'},
-      {id:'courgette',n:'AH Courgette',q:'1 stuk',p:'€0,99'},
-      {id:'sperzie',n:'AH Sperziebonen',q:'1×300g',p:'€1,59'},
-      {id:'boerk',n:'AH Boerenkool gesneden',q:'1×300g',p:'€1,29'},
-      {id:'wortel',n:'AH Wortels',q:'1×500g',p:'€0,89'},
-      {id:'seld',n:'AH Bleekselderij',q:'1 stuk',p:'€0,99'},
-    ],
-    'Fruit':[
-      {id:'banaan',n:'AH Bananen',q:'1 tros (~6 stuks)',p:'€1,49'},
-      {id:'appel',n:'AH Appels',q:'1×6 stuks',p:'€2,49'},
-      {id:'aardbei',n:'AH Aardbeien (vers, voor cups)',q:'1×400g',p:'€2,99'},
-      {id:'bessen',n:'AH Diepvries Bessen Mix (cup-vriendelijk)',q:'1×450g',p:'€2,49'},
-      {id:'mango',n:'AH Diepvries Mango',q:'1×450g',p:'€2,99'},
-      {id:'kiwi',n:'AH Kiwi',q:'1×4 stuks',p:'€1,59'},
-    ],
-    'Koolhydraten & Granen':[
-      {id:'haver',n:'AH Havermout',q:'1×500g',p:'€1,19'},
-      {id:'rijst',n:'AH Zilvervlies Rijst',q:'1×1 kg',p:'€2,19'},
-      {id:'pasta',n:'AH Volkoren Pasta',q:'2×500g',p:'€1,39/stuk'},
-      {id:'brood',n:'AH Volkorenbrood',q:'1 brood',p:'€2,29'},
-      {id:'wraps',n:'AH Volkoren Wraps',q:'2×6 stuks',p:'€1,99/pak'},
-      {id:'couscous',n:'AH Couscous',q:'1×500g',p:'€1,19'},
-      {id:'rwafels',n:'AH Rijstwafels naturel',q:'1×100g',p:'€0,89'},
-      {id:'granola',n:'AH Biologische Granola (cup-topping)',q:'1×375g',p:'€2,99'},
-      {id:'muesli',n:'AH Muesli (cup-topping)',q:'1×500g',p:'€2,49'},
-    ],
-    'Noten, Smeersels & Overig':[
-      {id:'nuts',n:'AH Mixed Nuts ongezouten',q:'1×200g',p:'€2,99'},
-      {id:'amand',n:'AH Amandelen',q:'1×150g',p:'€2,49'},
-      {id:'walnut',n:'AH Walnoten (cup-topping)',q:'1×150g',p:'€3,49'},
-      {id:'cashew',n:'AH Cashewnoten',q:'1×150g',p:'€2,99'},
-      {id:'lijnz',n:'AH Lijnzaad',q:'1×250g',p:'€1,29'},
-      {id:'hummus',n:'AH Hummus naturel',q:'2×200g',p:'€1,69/bakje'},
-      {id:'pindak',n:'AH Pindakaas 100%',q:'1×350g',p:'€2,29'},
-      {id:'kokos',n:'AH Kokosvlokken',q:'1×150g',p:'€1,29'},
-      {id:'honing',n:'AH Vloeibare Honing',q:'1×350g',p:'€2,49'},
-      {id:'olie',n:'AH Olijfolie extra vergine',q:'1×500ml',p:'€4,99'},
-      {id:'tblik',n:'AH Gepelde Tomaten (blik)',q:'2×400g',p:'€0,79/blik'},
-      {id:'bouillon',n:'AH Kippenbouillon blokjes',q:'1×6 stuks',p:'€0,69'},
-      {id:'mais',n:'AH Maïs blik',q:'1×285g',p:'€0,79'},
-      {id:'mayo',n:'AH Lichte Mayonaise',q:'1×250ml',p:'€1,49'},
-      {id:'paneerm',n:'AH Paneermeel',q:'1×200g',p:'€0,99'},
-      {id:'jus',n:'AH Juspoeder',q:'1 zakje',p:'€0,79'},
-      {id:'bakpdr',n:'AH Bakpoeder',q:'1×100g',p:'€0,79'},
-    ],
-    'Supplementen (online)':[
-      {id:'protpdr',n:'Whey/Caseïne Proteïne (Vanilla)',q:'1×1 kg',p:'~€20-25'},
-      {id:'creat',n:'Creatine Monohydraat (microniseerd)',q:'1×500g',p:'~€15-20'},
-      {id:'vitd',n:'Vitamine D3 (winter optie)',q:'1 potje',p:'~€8-12'},
-    ],
-  };
-
-  // ============================================================
-  // TAB 4: VOEDING
-  // ============================================================
   function rVoeding(){
     const el = document.getElementById('voeding');
     if (!isAppLoaded) return;
 
-    const subTabs = `<div class="pill-row" style="margin-bottom:14px">
-      <button class="pill ${voedingSubTab==='meals'?'ac':''}" onclick="setVoedingSub('meals')"><i class="ti ti-leaf"></i> Maaltijden</button>
-      <button class="pill ${voedingSubTab==='shop'?'ac':''}" onclick="setVoedingSub('shop')"><i class="ti ti-shopping-cart"></i> Boodschappen</button>
-    </div>`;
-
-    if (voedingSubTab === 'shop') {
-      el.innerHTML = `<p class="sec-header" style="margin-top:8px">Voeding & Boodschappen</p>${subTabs}` + renderShopContent();
-      return;
-    }
-
-    const day = MEALS[vDay];
-    const mc = [
-      {l:'Kcal',v:day.tot.k,c:'#1D9E75'},
-      {l:'Eiwit',v:day.tot.p+'g',c:'#185FA5'},
-      {l:'Koolh',v:day.tot.c+'g',c:'#854F0B'},
-      {l:'Vet',v:day.tot.f+'g',c:'#993556'}
-    ];
-
-    const mlH = day.m.map((ml, mi) => {
-      const key = `${vDay}-${mi}`;
-      const isE = expMeal === key;
-      const cupBadge = ml.cup ? `<span class="tag tcup" style="margin-left:8px"><i class="ti ti-cup"></i> Cup</span>` : '';
-      return `<div class="mlacc">
-        <button class="mlhdr" onclick="tgMl('${key}')">
-          <div style="flex:1;min-width:0"><div class="h-eyebrow" style="margin-bottom:4px">${ml.l}</div><div class="t1">${ml.n}${cupBadge}</div></div>
-          <div style="text-align:right;margin-right:10px;flex-shrink:0"><div class="t3" style="font-weight:600">${ml.k} kcal</div><div class="t4" style="margin-top:2px">${ml.p}g eiwit</div></div>
-          <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:18px;color:var(--text-3);flex-shrink:0"></i>
-        </button>
-        ${isE?`<div style="padding:0 0 18px">
-          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-            <span class="macro-tag macro-e">E: ${ml.p}g</span>
-            <span class="macro-tag macro-c">K: ${ml.c}g</span>
-            <span class="macro-tag macro-v">V: ${ml.f}g</span>
-          </div>
-          <p class="h-eyebrow" style="margin-bottom:8px">Ingrediënten</p>
-          ${ml.ing.map(i=>`<div style="font-size:13.5px;color:var(--text-2);padding:8px 0;border-bottom:1px solid var(--border-soft)"><span class="t4" style="margin-right:4px">·</span> ${i}</div>`).join('')}
-          <p class="h-eyebrow" style="margin:18px 0 8px">Bereiding</p>
-          ${ml.steps.map((s,si)=>`<div style="display:flex;gap:12px;padding:10px 0;font-size:13.5px;color:var(--text-2);line-height:1.5"><div class="stepn">${si+1}</div><span style="flex:1">${s}</span></div>`).join('')}
-        </div>`:''}
-      </div>`;
-    }).join('');
-
-    const cupH = CUP_RECIPES.map((r, i) => {
-      const isE = expCup === i;
-      return `<div class="mlacc">
-        <button class="mlhdr" onclick="tgCup(${i})">
-          <div style="flex:1;min-width:0"><div class="h-eyebrow" style="margin-bottom:4px"><i class="ti ti-cup" style="color:#993556"></i> Cup recept</div><div class="t1">${r.n}</div></div>
-          <div style="text-align:right;margin-right:10px;flex-shrink:0"><div class="t3" style="font-weight:600">${r.k} kcal</div><div class="t4" style="margin-top:2px">${r.p}g eiwit</div></div>
-          <i class="ti ti-chevron-${isE?'up':'down'}" style="font-size:18px;color:var(--text-3);flex-shrink:0"></i>
-        </button>
-        ${isE?`<div style="padding:0 0 18px">
-          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-            <span class="macro-tag macro-e">E: ${r.p}g</span>
-            <span class="macro-tag macro-c">K: ${r.c}g</span>
-            <span class="macro-tag macro-v">V: ${r.f}g</span>
-          </div>
-          <div class="cup-section"><div class="h-eyebrow" style="margin-bottom:6px">Onderin de cup</div><div class="t3" style="font-size:13.5px">${r.onder}</div></div>
-          <div class="cup-section"><div class="h-eyebrow" style="margin-bottom:6px">In het deksel-compartiment</div><div class="t3" style="font-size:13.5px">${r.boven}</div></div>
-          <div class="tipbox" style="margin-top:12px"><i class="ti ti-bulb"></i><span>${r.tip}</span></div>
-        </div>`:''}
-      </div>`;
-    }).join('');
-
     el.innerHTML = `
       <p class="sec-header" style="margin-top:8px">Voeding & Boodschappen</p>
-      ${subTabs}
-      <div class="pill-row">${MEALS.map((m,i)=>`<button class="pill${vDay===i?' ac':''}" onclick="svDay(${i})">${m.day.slice(0,2)}</button>`).join('')}</div>
-      <div class="mgrid">${mc.map(m=>`<div class="mbox"><div style="font-size:20px;font-weight:600;color:${m.c}">${m.v}</div><div class="t4" style="margin-top:2px">${m.l}</div></div>`).join('')}</div>
-      <div class="card" style="padding:0 18px">${mlH}</div>
-      <div class="cup-card" style="margin-top:8px">
-        <div class="bet" style="margin-bottom:10px">
-          <div class="t1"><i class="ti ti-cup" style="color:#993556"></i> Cup recepten</div>
-          <span class="tag tcup">4 opties</span>
-        </div>
-        <p class="t3" style="margin-bottom:8px;line-height:1.5">Voor je cup met apart deksel-compartiment. Werkwijze: <strong>zuivel onderin</strong>, <strong>droge topping in het deksel</strong>. Mix vlak voor het eten.</p>
-        <p class="t4" style="line-height:1.4">Tip: gebruik deze als snack-vervanger op werk-dagen.</p>
+      <div class="card" style="text-align: center; padding: 40px 20px; margin-top: 14px;">
+        <i class="ti ti-external-link" style="font-size: 48px; color: var(--text-3); margin-bottom: 16px; display: block;"></i>
+        <div class="t1" style="margin-bottom: 8px;">Voedingsschema Verplaatst</div>
+        <p class="t3" style="margin-bottom: 24px; line-height: 1.5;">Om de app sneller en lichter te maken, staan het voedingsschema en de boodschappenlijst nu in een extern Google Document.</p>
+        <a href="https://docs.google.com/document/d/1J8M71Qq6Z-MMg-Nio8BYHs73bL5ePSd6Su8Lk4S-jYE/edit?tab=t.0" target="_blank" class="savbtn" style="text-decoration: none; display: inline-flex; width: auto; padding: 14px 24px;">
+          <i class="ti ti-file-description"></i> Open Google Docs
+        </a>
       </div>
-      <div class="card" style="padding:0 18px">${cupH}</div>`;
-  }
-  function svDay(i){vDay=i;expMeal=null;safe(rVoeding);window.scrollTo({top:0,behavior:'instant'})}
-  function tgMl(k){expMeal=expMeal===k?null:k;safe(rVoeding)}
-  function tgCup(i){expCup=expCup===i?null:i;safe(rVoeding)}
-  function setVoedingSub(s){voedingSubTab=s;safe(rVoeding);window.scrollTo({top:0,behavior:'instant'})}
-
-  function renderShopContent() {
-    const all = Object.values(SHOP).flat();
-    const ck = all.filter(i => shopCk[i.id]).length;
-    const pct = Math.round(ck / all.length * 100);
-    const catH = Object.entries(SHOP).map(([cat, items]) => {
-      const cd = items.filter(i => shopCk[i.id]).length;
-      return `<div style="margin-bottom:20px">
-        <div class="bet" style="margin-bottom:10px;padding:0 4px"><p class="h-eyebrow" style="margin-bottom:0">${cat}</p><p class="t4" style="font-weight:500">${cd}/${items.length}</p></div>
-        <div class="card" style="padding:0 18px">
-          ${items.map(item => `<button class="shbtn${shopCk[item.id]?' dn':''}" onclick="tgSh('${item.id}')">
-            <div class="cb${shopCk[item.id]?' on':''}">${shopCk[item.id]?'<i class="ti ti-check" style="font-size:14px"></i>':''}</div>
-            <div style="flex:1;text-align:left;min-width:0"><div class="t3" style="font-size:13.5px;${shopCk[item.id]?'text-decoration:line-through':''}">${item.n}</div><div class="t4" style="margin-top:2px">${item.q}</div></div>
-            <div class="t4" style="white-space:nowrap;font-weight:500;flex-shrink:0">${item.p}</div>
-          </button>`).join('')}
-        </div>
-      </div>`;
-    }).join('');
-    return `
-      <div class="card">
-        <div class="bet" style="margin-bottom:10px"><p class="t1">Voortgang</p><p class="t3" style="color:#1D9E75;font-weight:600">${ck}/${all.length} items</p></div>
-        <div class="ptrack"><div class="pfill" style="width:${pct}%;background:#1D9E75"></div></div>
-        <p class="t4" style="margin-top:14px;line-height:1.5">Voeding (week, AH): ~€85-100 (incl. cup-toppings)<br>Supplementen 1× aankoop: ~€35-55 voor 1-2 maanden</p>
-      </div>
-      ${catH}`;
-  }
-  function tgSh(id){
-    shopCk[id] = !shopCk[id];
-    safe(rVoeding);
-    sset('shop', shopCk);
+    `;
   }
 
-  // ============================================================
-  // TAB 5: INSIGHTS — met ECHTE timestamps voor cafeïne + training
-  // ============================================================
   function getWeekDates(offset) {
     const today = new Date(TODAY);
     const dow = today.getDay();
@@ -2338,7 +1904,6 @@
     const trainType = getTrainType(date);
     const dayMigraines = migraines.filter(m => m.startTime && localDateStr(m.startTime) === date);
 
-    // ===== SLAAP-blokken =====
     let sleepBlocks = [];
     if (d.bedTime && d.wakeTime) {
       const [wh, wm] = d.wakeTime.split(':').map(Number);
@@ -2353,18 +1918,15 @@
       }
     }
 
-    // ===== CAFEÏNE: gebruik ECHTE timestamps uit caffeine_log =====
     const cafLog = (d.caffeine_log || []).map(c => {
       try {
         const dt = new Date(c.time);
-        // Filter op deze datum (lokaal)
         if (localDateStr(c.time) !== date) return null;
         return dt.getHours() * 60 + dt.getMinutes();
       } catch { return null; }
     }).filter(x => x !== null);
     const cafCount = cafLog.length;
 
-    // ===== TRAINING: gebruik ECHTE timestamps uit logs[date][exId].exerciseTimestamps =====
     let trainingBracket = null;
     if (logs[date]) {
       const allTimestamps = [];
@@ -2381,15 +1943,12 @@
       if (allTimestamps.length > 0) {
         const minT = Math.min(...allTimestamps);
         const maxT = Math.max(...allTimestamps);
-        // Maak een blok van min-15min tot max+5min, met minimum breedte
         const startMin = Math.max(0, minT - 15);
         const endMin = Math.min(24*60, Math.max(maxT + 5, minT + 30));
         trainingBracket = { startMin, endMin };
       }
     }
-    // Fallback: als er een trainingsdag is maar geen vinkjes gezet, geen blok tonen
 
-    // ===== TAGS =====
     const dayLabel = `${dn(date)} ${dnum(date)}`;
     const tags = [];
     if (trainType) {
@@ -2403,7 +1962,6 @@
       tags.push(`<span class="tag tcaf"><i class="ti ti-coffee"></i> ${cafCount}×</span>`);
     }
 
-    // ===== MARKERS =====
     let markers = '';
 
     sleepBlocks.forEach(b => {
@@ -2657,9 +2215,6 @@
     safe(rInsights);
   }
 
-  // ============================================================
-  // XLSX EXPORT
-  // ============================================================
   function exportXLSX() {
     try {
       const allDates = new Set();
@@ -2802,7 +2357,6 @@
       Object.entries(logs).forEach(([date, exMap]) => {
         const trainType = getTrainType(date);
         Object.entries(exMap).forEach(([exId, exLog]) => {
-          // Resolve voor weergave
           const resolved = resolveEx(date, exId);
           const exDef = resolved || getExDef(exId);
           const tsArr = exLog.exerciseTimestamps || [];
@@ -2863,9 +2417,6 @@
     }
   }
 
-  // ============================================================
-  // EXPOSE FUNCTIES OP WINDOW
-  // ============================================================
   window.switchTab = switchTab;
   window.adjW = adjW;
   window.updSleep = updSleep;
@@ -2885,11 +2436,6 @@
   window.closeReplace = closeReplace;
   window.confirmReplace = confirmReplace;
   window.resetReplace = resetReplace;
-  window.svDay = svDay;
-  window.tgMl = tgMl;
-  window.tgCup = tgCup;
-  window.setVoedingSub = setVoedingSub;
-  window.tgSh = tgSh;
   window.startMigraine = startMigraine;
   window.addMed = addMed;
   window.endMigraine = endMigraine;
